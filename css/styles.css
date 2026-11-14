@@ -817,16 +817,159 @@ input[type="range"] {
   color: #cbd5e1;
 }
 
+/* Official INANNA Brand Logo Treatments */
+.inanna-monogram img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 9px;
+}
+
+.inanna-footer-logo {
+  height: 46px;
+  width: auto;
+  border-radius: 6px;
+  border: 1px solid rgba(0, 184, 230, 0.35);
+  margin-bottom: 10px;
+  display: block;
+}
+
+/* Live Auto-Demo Jury Banner */
+.auto-demo-banner {
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  background: linear-gradient(90deg, rgba(0, 184, 230, 0.22), rgba(24, 144, 255, 0.16));
+  border: 1px solid var(--accent-cyan);
+  border-radius: var(--radius-md);
+  padding: 12px 18px;
+  box-shadow: 0 0 24px rgba(0, 184, 230, 0.25);
+  font-size: 0.86rem;
+  color: #ffffff;
+}
+
+/* 12-Month Phenology Calendar */
+.phenology-layout {
+  display: grid;
+  grid-template-columns: 1.45fr 1fr;
+  gap: 18px;
+  align-items: stretch;
+}
+
+.phenology-strip {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 8px;
+}
+
+.phen-cell {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 9px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.72rem;
+  transition: transform 0.15s ease, border-color 0.15s ease;
+}
+
+.phen-cell:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent-cyan);
+}
+
+.phen-cell.frost { border-color: rgba(56, 189, 248, 0.55); }
+.phen-cell.heat  { border-color: rgba(239, 68, 68, 0.55); }
+.phen-cell.drip  { border-color: rgba(16, 185, 129, 0.5); }
+
+.phen-month {
+  font-family: var(--font-mono);
+  font-weight: 800;
+  font-size: 0.8rem;
+  color: #ffffff;
+}
+
+.phen-stage {
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 2px 5px;
+  border-radius: 4px;
+  background: rgba(148, 163, 184, 0.14);
+  color: #cbd5e1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.stage-flo  { background: rgba(245, 158, 11, 0.2); color: #fcd34d; }
+.stage-fill { background: rgba(0, 184, 230, 0.18); color: #67e8f9; }
+.stage-sow, .stage-veg { background: rgba(16, 185, 129, 0.18); color: #6ee7b7; }
+.stage-harv { background: rgba(168, 85, 247, 0.2); color: #d8b4fe; }
+
+.phen-metrics {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-mono);
+  font-size: 0.67rem;
+  color: var(--text-secondary);
+}
+
+.phen-etc {
+  font-family: var(--font-mono);
+  font-size: 0.67rem;
+  color: var(--accent-cyan);
+}
+
+.phen-risk {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 700;
+}
+.phen-risk.frost { color: #7dd3fc; }
+.phen-risk.heat  { color: #fca5a5; }
+.phen-risk.drip  { color: #6ee7b7; }
+.phen-risk.ok    { color: #94a3b8; }
+
+/* Farm ROI, Water & VFD Energy Calculator */
+.roi-controls-bar {
+  background: rgba(8, 12, 18, 0.72);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  display: grid;
+  grid-template-columns: 1.6fr 1fr 1fr;
+  gap: 16px;
+  align-items: end;
+}
+
+.roi-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 12px;
+}
+
+.pid-blueprint-box {
+  margin-top: 6px;
+  background: #070b12;
+  border: 1px solid rgba(0, 184, 230, 0.32);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  overflow-x: auto;
+}
+
 /* Responsive */
 @media (max-width: 1200px) {
-  .kpi-grid { grid-template-columns: repeat(3, 1fr); }
-  .hero-banner, .grid-2col, .grid-equal, .footer-inner {
+  .kpi-grid, .roi-kpi-grid { grid-template-columns: repeat(3, 1fr); }
+  .hero-banner, .grid-2col, .grid-equal, .footer-inner, .phenology-layout, .roi-controls-bar {
     grid-template-columns: 1fr;
   }
 }
 
 @media (max-width: 680px) {
-  .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+  .kpi-grid, .roi-kpi-grid { grid-template-columns: repeat(2, 1fr); }
+  .phenology-strip { grid-template-columns: repeat(3, 1fr); }
   .elec-readouts, .nodes-grid, .control-row { grid-template-columns: 1fr; }
 }
 

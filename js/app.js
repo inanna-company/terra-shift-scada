@@ -116,7 +116,7 @@ const I18N = {
     footTeamTitle: 'Team INANNA COMPANY — 2026 NASA Space Apps Challenge',
     footEvent: '<strong>Local Event:</strong> Santa Rosa de Calamuchita, Córdoba, Argentina',
     footChallenge: '<strong>Challenge:</strong> Field Shift: Adapting Farms with NASA Data',
-    footRoster: '<strong>Engineering Roster:</strong> Fabio Maximiliano Medina Rojas (Lead / Mechatronics), Agustín Alejandro Debia, Iván David Coria.',
+    footRoster: '<strong>Engineering Roster:</strong> Fabio Maximiliano Medina Rojas (Founder & Lead Architect — Higher Technician in Mechatronics), Agustín Alejandro Debia, Iván David Coria.',
     footDataTitle: 'Official NASA & Space Agency Partner Data',
     footDataList: `
       <li>• <strong>NASA POWER API:</strong> Multi-decade Agroclimatology (T2M, PRECTOTCORR, GWETROOT, Solar)</li>
@@ -240,7 +240,7 @@ const I18N = {
     footTeamTitle: 'Equipo INANNA COMPANY — NASA Space Apps Challenge 2026',
     footEvent: '<strong>Sede Local:</strong> Santa Rosa de Calamuchita, Córdoba, Argentina',
     footChallenge: '<strong>Desafío:</strong> Field Shift: Adapting Farms with NASA Data',
-    footRoster: '<strong>Equipo de Ingeniería:</strong> Fabio Maximiliano Medina Rojas (Líder / Mecatrónica), Agustín Alejandro Debia, Iván David Coria.',
+    footRoster: '<strong>Equipo de Ingeniería:</strong> Fabio Maximiliano Medina Rojas (Fundador y Arquitecto Líder — Técnico Superior en Mecatrónica), Agustín Alejandro Debia, Iván David Coria.',
     footDataTitle: 'Datos Oficiales de la NASA y Agencias Espaciales Socias',
     footDataList: `
       <li>• <strong>NASA POWER API:</strong> Agroclimatología multidecadal (T2M, PRECTOTCORR, GWETROOT, Radiación Solar)</li>
@@ -364,7 +364,7 @@ const I18N = {
     footTeamTitle: 'Equipe INANNA COMPANY — NASA Space Apps Challenge 2026',
     footEvent: '<strong>Evento Local:</strong> Santa Rosa de Calamuchita, Córdoba, Argentina',
     footChallenge: '<strong>Desafio:</strong> Field Shift: Adapting Farms with NASA Data',
-    footRoster: '<strong>Equipe de Engenharia:</strong> Fabio Maximiliano Medina Rojas (Líder / Mecatrônica), Agustín Alejandro Debia, Iván David Coria.',
+    footRoster: '<strong>Equipe de Engenharia:</strong> Fabio Maximiliano Medina Rojas (Fundador e Arquiteto Líder — Técnico Superior em Mecatrônica), Agustín Alejandro Debia, Iván David Coria.',
     footDataTitle: 'Dados Oficiais da NASA e Agências Espaciais Parceiras',
     footDataList: `
       <li>• <strong>NASA POWER API:</strong> Agroclimatologia multidecadal (T2M, PRECTOTCORR, GWETROOT, Radiação Solar)</li>
@@ -398,6 +398,7 @@ const APP_STATE = {
   nasaData: null,
   activeGibsLayer: 'ndvi'
 };
+window.APP_STATE = APP_STATE;
 
 let mapInstance = null;
 let mapMarker = null;
@@ -560,6 +561,9 @@ function renderAll() {
   renderCharts(data, proj, crops);
   renderCropCards(crops);
   renderScadaPanel();
+  if (window.inannaProSuite) {
+    window.inannaProSuite.renderAllPro();
+  }
 }
 
 function renderCharts(data, proj, crops) {
@@ -745,7 +749,12 @@ function renderScadaPanel() {
     const txt = (a.msg && typeof a.msg === 'object') ? (a.msg[lang] || a.msg.en) : a.msg;
     return `<div style="color:${col};">[${a.ts}] <strong>${a.level}</strong> — ${txt}</div>`;
   }).join('');
+
+  if (window.inannaProSuite) {
+    window.inannaProSuite.renderPidBlueprint();
+  }
 }
+window.renderScadaPanel = renderScadaPanel;
 
 function applyTranslations() {
   const lang = APP_STATE.lang;
@@ -869,6 +878,9 @@ function setLanguage(lang) {
 
 document.addEventListener('DOMContentLoaded', async () => {
   initMap();
+  if (window.inannaProSuite) {
+    window.inannaProSuite.initControls();
+  }
 
   document.querySelectorAll('.lang-btn').forEach(btn => {
     btn.addEventListener('click', () => setLanguage(btn.dataset.lang));
@@ -927,12 +939,18 @@ document.addEventListener('DOMContentLoaded', async () => {
       const ma = parseFloat(btn.dataset.ma);
       slider.value = ma;
       window.inannaScada.setLoopCurrent(ma);
+      if (window.inannaProSuite) {
+        window.inannaProSuite.playTone((ma < 3.6 || ma > 20.5) ? 'alarm' : 'beep');
+      }
       renderScadaPanel();
     });
   });
 
   document.getElementById('btnAlarmAck').addEventListener('click', () => {
-    window.inannaScada.acknowledgeAlarm();
+    const ok = window.inannaScada.acknowledgeAlarm();
+    if (window.inannaProSuite) {
+      window.inannaProSuite.playTone(ok ? 'ok' : 'alarm');
+    }
     renderScadaPanel();
   });
 

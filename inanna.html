@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>INANNA COMPANY — Corporate Ecosystem, Hardware Lineup &amp; Jury Pitch Hub</title>
+  <link rel="icon" type="image/jpeg" href="assets/inanna-isotipo.jpg" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+  <style>
+    .hub-wrap {
+      max-width: 1380px;
+      margin: 0 auto;
+      padding: 26px 22px 68px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+    .corp-hero {
+      background:
+        radial-gradient(circle at 85% 20%, rgba(0, 184, 230, 0.18), transparent 42%),
+        linear-gradient(145deg, #0b111c 0%, #070b12 100%);
+      border: 1px solid rgba(0, 184, 230, 0.38);
+      border-radius: 16px;
+      padding: 32px;
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 32px;
+      align-items: center;
+      box-shadow: 0 16px 42px rgba(0, 0, 0, 0.55);
+    }
+    .corp-logo-box {
+      background: #05080d;
+      border: 1px solid rgba(0, 184, 230, 0.45);
+      border-radius: 14px;
+      padding: 14px;
+      box-shadow: 0 0 28px rgba(0, 184, 230, 0.2);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .corp-logo-box img {
+      width: 100%;
+      max-width: 230px;
+      height: auto;
+      border-radius: 8px;
+    }
+    .div-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+      gap: 12px;
+    }
+    .div-card {
+      background: #111927;
+      border: 1px solid rgba(148, 163, 184, 0.18);
+      border-radius: 10px;
+      padding: 14px;
+      transition: transform 0.16s ease, border-color 0.16s ease;
+    }
+    .div-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--accent-cyan);
+    }
+    .div-card.core {
+      border-color: rgba(0, 184, 230, 0.48);
+      background: linear-gradient(160deg, #132033 0%, #0e1624 100%);
+    }
+    .div-tag {
+      font-family: var(--font-mono);
+      font-size: 0.76rem;
+      font-weight: 800;
+      color: var(--accent-cyan);
+      letter-spacing: 0.04em;
+      margin-bottom: 5px;
+    }
+    .tier-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+    .tier-card {
+      background: #101724;
+      border: 1px solid rgba(0, 184, 230, 0.3);
+      border-radius: 12px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .tier-price {
+      font-family: var(--font-mono);
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: #6ee7b7;
+    }
+    .roster-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+    .member-card {
+      background: #111927;
+      border: 1px solid rgba(148, 163, 184, 0.22);
+      border-radius: 12px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .member-card.lead {
+      border-color: var(--accent-cyan);
+      box-shadow: inset 0 0 24px rgba(0, 184, 230, 0.08);
+    }
+    .pitch-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    .timer-bar {
+      height: 10px;
+      background: #070b12;
+      border-radius: 999px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      margin: 8px 0;
+    }
+    .timer-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #10b981, #00b8e6, #f59e0b);
+      transition: width 0.1s linear;
+    }
+    .script-step {
+      background: #0a1019;
+      border-left: 3px solid var(--accent-cyan);
+      padding: 10px 12px;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      color: #e2e8f0;
+      margin-bottom: 8px;
+    }
+    .qa-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+    .qa-card {
+      background: #0d1420;
+      border: 1px solid rgba(148, 163, 184, 0.2);
+      border-radius: 10px;
+      padding: 14px 16px;
+    }
+    @media (max-width: 980px) {
+      .corp-hero, .tier-grid, .roster-grid, .pitch-grid, .qa-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="main-header">
+    <div class="brand-block">
+      <a href="index.html" class="inanna-monogram" style="text-decoration:none;">
+        <img src="assets/inanna-isotipo.jpg" alt="INANNA Monogram" />
+      </a>
+      <div class="brand-titles">
+        <h1 id="hdrTitle">INANNA COMPANY — ECOSYSTEM &amp; PITCH HUB</h1>
+        <div id="hdrSub" class="brand-subtitle">Innovación • Tecnología • Soluciones — <strong>Santa Rosa de Calamuchita, Córdoba, AR</strong></div>
+      </div>
+    </div>
+
+    <div class="header-actions">
+      <a id="btnBackApp" href="index.html" class="nav-pill">← Live SCADA App</a>
+      <a id="btnGoManuals" href="manuals/index.html" class="nav-pill" style="color:#6ee7b7;">📚 Manuals (3)</a>
+      <a id="btnGoDeck" href="presentation/deck_7_slides.html" class="nav-pill" style="color:#00b8e6;">7-Slide Deck ↗</a>
+
+      <div class="lang-switcher" role="group" aria-label="Language Selector">
+        <button type="button" class="lang-btn active" data-lang="en">EN</button>
+        <button type="button" class="lang-btn" data-lang="es">ES</button>
+        <button type="button" class="lang-btn" data-lang="pt">PT</button>
+      </div>
+
+      <button type="button" onclick="window.print()" class="btn btn-primary" id="btnPrintHub">🖨️ Print Dossier</button>
+    </div>
+  </header>
+
+  <main class="hub-wrap" id="hubContent"></main>
+
+  <script>
+    const HUB_DATA = {
+      en: {
+        hdrTitle: 'INANNA COMPANY — ECOSYSTEM & PITCH HUB',
+        hdrSub: 'Innovation • Technology • Solutions — <strong>2026 NASA Space Apps Challenge • Calamuchita, AR</strong>',
+        backApp: '← Live SCADA App',
+        goManuals: '📚 Manuals (3)',
+        goDeck: '7-Slide Deck ↗',
+        printBtn: '🖨️ Print Corporate Dossier',
+        heroBadge: 'ARGENTINE MECHATRONICS & AEROSPACE-AGRO ENGINEERING',
+        heroTitle: 'INANNA COMPANY: Turning Planetary NASA Data into Industrial Field Reality',
+        heroDesc: 'Founded by Higher Technician in Mechatronics Fabio Maximiliano Medina Rojas, INANNA COMPANY develops rugged, sovereign industrial hardware, predictive maintenance SCADA systems, and routerless rural automation ready to scale across Córdoba, Latin America, and global semi-arid agricultural corridors.',
+        heroPills: ['✓ 4–20 mA NAMUR NE43 Standard', '✓ Routerless AES-128 ESP-NOW', '✓ Modbus TCP:502 & RS485 PLC Ready', '✓ Live NASA POWER + GIBS + CMIP6'],
+        divTitle: '11 Official Corporate Divisions of INANNA COMPANY',
+        divSub: 'Integrated engineering ecosystem backing the commercialization and field support of TERRA-SHIFT SCADA',
+        divisions: [
+          { tag: 'AUTOMATION INANNA', core: true, desc: 'Industrial 4–20 mA current loops, NAMUR NE43 fault diagnostics, PLC/Modbus RTU/TCP & VFD closed-loop control.' },
+          { tag: 'AI INANNA', core: true, desc: 'Orbital-to-ground sensor fusion, OLS decadal climate regression, CMIP6 crop shift scoring & predictive analytics.' },
+          { tag: 'INDUSTRIES INANNA', core: true, desc: 'Turnkey IP67 solar field nodes, DIN-rail control cabinets, surge protection & agro-industrial plant retrofits.' },
+          { tag: 'LABS INANNA', core: true, desc: 'R&D in long-range ESP-NOW mesh telemetry, ADS1115 precision analog front-ends & NASA/CONAE SAR validation.' },
+          { tag: 'SERVICE INANNA', core: true, desc: 'Preventive, Predictive (CBM), Corrective & Proactive electromechanical field maintenance with NVS horometers.' },
+          { tag: 'ROBOTICS INANNA', core: false, desc: 'Mechatronic actuation, automated manifold valves & autonomous field inspection platforms.' },
+          { tag: 'DESIGN INANNA', core: false, desc: 'PCB layout, 3D weatherproof enclosures, industrial SCADA HMI ergonomics & corporate visual identity.' },
+          { tag: 'ACADEMY INANNA', core: false, desc: 'Plug-and-play rural STEM training, agro-technical school labs & producer onboarding manuals.' },
+          { tag: 'SUPPLY INANNA', core: false, desc: 'Sourcing of 0.1% precision shunts, industrial pressure/moisture transmitters, MAX485 isolators & solar cells.' },
+          { tag: 'PROJECTS INANNA', core: false, desc: 'Turnkey engineering deployment for vineyards, olive groves, regional cooperatives & municipal water boards.' },
+          { tag: 'HOME INANNA', core: false, desc: 'Off-grid rural homestead energy management, solar micro-inverters & water cistern telemetry.' }
+        ],
+        tierTitle: 'Commercial Productization & Hardware Lineup',
+        tierSub: 'Accessible, repairable Argentine mechatronics designed for rapid farm ROI (< 8 months payback)',
+        tiers: [
+          {
+            badge: 'SMALLHOLDER & SPECIALTY',
+            name: 'TERRA-SHIFT Starter Plug & Play',
+            price: '~$720 USD Turnkey',
+            target: '1 – 25 ha (Calamuchita Vineyards, Olive, Lavender, Chickpea)',
+            items: [
+              '1× Pre-configured ESP32 Gateway (Local Wi-Fi AP + Web Dashboard)',
+              '2× Solar IP67 ESP-NOW Nodes + 24V DC 4–20 mA Root Probes',
+              'Built-in NAMUR NE43 rodent/cable-cut flood prevention',
+              'Zero cellular data or monthly cloud subscription required'
+            ]
+          },
+          {
+            badge: 'COMMERCIAL & COOPERATIVE',
+            name: 'TERRA-SHIFT Industrial SCADA Pro',
+            price: '~$1,850+ USD Modular',
+            target: '50 – 2,000+ ha (Pampas Core, Pivots, Export Orchards)',
+            items: [
+              'DIN-Rail Industrial Gateway with Galvanic RS485 + Modbus TCP:502',
+              '8 to 64 AES-128 ESP-NOW Star/Mesh Nodes (< 4 ms latency)',
+              'Direct VFD Centrifugal Pump speed control (34% kWh savings)',
+              'Direct integration with Siemens, Schneider, Delta PLCs & Ignition SCADA'
+            ]
+          },
+          {
+            badge: 'RURAL STEM & EXTENSION',
+            name: 'ACADEMY INANNA Agro-Lab Kit',
+            price: '~$490 USD Educational',
+            target: 'Agro-Technical High Schools, INTA Extension & Universities',
+            items: [
+              'Transparent didactic bench exposing the 165 Ω 0.1% Kirchhoff shunt',
+              'Physical fault switches to test <3.6 mA open wire & >20.5 mA shorts',
+              'Trilingual Scientific, User & Maintenance Manuals (EN / ES / PT)',
+              'Trains the next generation of rural mechatronic technicians'
+            ]
+          }
+        ],
+        rosterTitle: 'Engineering Roster — Team INANNA COMPANY',
+        rosterSub: 'Representing Santa Rosa de Calamuchita, Córdoba, Argentina at the 2026 NASA Space Apps Challenge',
+        members: [
+          {
+            lead: true,
+            role: 'FOUNDER & LEAD ARCHITECT',
+            name: 'Fabio Maximiliano Medina Rojas',
+            degree: 'Higher Technician in Mechatronics (Técnico Superior en Mecatrónica)',
+            bio: 'Designed the end-to-end Orbital-to-Root architecture, 24V DC 4–20 mA NAMUR NE43 analog front-end (165 Ω 0.1% shunt + ADS1115), AES-128 ESP-NOW mesh protocol, Modbus TCP/RS485 PLC register map, and industrial CBM maintenance framework.'
+          },
+          {
+            lead: false,
+            role: 'SYSTEMS & AGRO-CLIMATE ANALYTICS',
+            name: 'Agustín Alejandro Debia',
+            degree: 'Co-Developer — Team INANNA COMPANY',
+            bio: 'Co-developed the multi-decade NASA POWER & GIBS satellite data pipelines, CMIP6 2035–2050 agro-ecological crop suitability evaluation across 10 regional crops, and trilingual visual interface.'
+          },
+          {
+            lead: false,
+            role: 'FIELD OPERATIONS & VALIDATION',
+            name: 'Iván David Coria',
+            degree: 'Co-Developer — Team INANNA COMPANY',
+            bio: 'Focused on Córdoba & Calamuchita regional agricultural realities, rural connectivity constraints, smallholder Plug & Play workflow validation, and on-farm deployment strategy.'
+          }
+        ],
+        pitch30Title: '⏱️ Official 30-Second Global Video Script (Strict ≤ 30.0s NASA Limit)',
+        pitch30Btn: '▶ Start 30s Rehearsal Timer',
+        pitch30Steps: [
+          '<strong>[0:00 – 0:05] THE PROBLEM:</strong> "Climate shifts are redrawing farming across Argentina and the world—while 60% of rural farms lack cellular coverage."',
+          '<strong>[0:05 – 0:12] ORBITAL BRAIN:</strong> "Meet TERRA-SHIFT SCADA by INANNA COMPANY. Click any farm on Earth to pull 20 years of live NASA POWER, MODIS & SMAP satellite data and rank 2050 climate-resilient crops."',
+          '<strong>[0:12 – 0:21] MECHATRONIC GROUND TRUTH:</strong> "Satellites see 9-kilometer pixels, not broken pipes. Our solar ESP-NOW nodes fuse NASA soil wetness with industrial 4-to-20 milliamp probes—stopping runaway flooding in milliseconds if a field wire is cut."',
+          '<strong>[0:21 – 0:27] IMPACT:</strong> "38% less water, Modbus PLC ready, trilingual, with zero internet required."',
+          '<strong>[0:27 – 0:30] CLOSE:</strong> "TERRA-SHIFT by INANNA COMPANY: NASA vision in orbit, mechatronic precision at the root."'
+        ],
+        pitch3mTitle: '🎤 3-Minute Live Jury Stage Pitch (Santa Rosa de Calamuchita)',
+        pitch3mBtn: '▶ Start 3:00 Stage Timer',
+        pitch3mSteps: [
+          '<strong>0:00 – 0:35 | Hook & Local Reality:</strong> Start right here in Calamuchita and Río Cuarto. NASA POWER records show +0.4°C/decade warming and intensifying spring dry spells. Farmers face two blind spots: guessing which crops survive 2035–2050, and losing 40% of irrigation water to naive sensors where there is zero 4G signal.',
+          '<strong>0:35 – 1:20 | Live Orbital Demo:</strong> Show the live NASA GIBS MODIS/SMAP map, 10-crop transition matrix, 12-month phenology calendar, and Farm ROI calculator. Show how stressed rainfed Maize gives way to Sorghum, Chickpea, High-Altitude Malbec, Olive, and Pistachio.',
+          '<strong>1:20 – 2:15 | The Mechatronic Differentiator (Showstopper!):</strong> Click "Simulate Cut Wire (1.20 mA)". Explain as a Higher Technician in Mechatronics why cheap 0–5V hobby sensors read a rodent-cut wire as "0% dry" and flood the farm—whereas INANNA uses industrial 24V DC 4–20 mA loops (165Ω 0.1% Kirchhoff shunt + NAMUR NE43), locks the safety relay, transmits via routerless AES-128 ESP-NOW (<4 ms), and falls back to NASA SMAP orbital moisture!',
+          '<strong>2:15 – 3:00 | Complete Industrial Product & Close:</strong> Highlight the 3 official manuals (Scientific KaTeX, Plug & Play Farmer, Mechatronic CBM Maintenance), real ESP32 C++ firmware, Modbus TCP:502 table, and <8-month payback under INANNA COMPANY.'
+        ],
+        qaTitle: '🛡️ Jury Technical Q&A Cheat Sheet (Ready Answers)',
+        qas: [
+          {
+            q: '1. Why combine NASA satellites with ground sensors instead of using only one?',
+            a: 'NASA SMAP (9 km) and POWER give 20-year regional climate trends and free planetary coverage, while a 4–20 mA probe measures exact root-zone tension in a specific drip row. When both agree, irrigation is optimal; when they diverge (>24%), TERRA-SHIFT flags a clogged emitter; if a wire breaks (<3.6 mA), NASA orbital data acts as fail-safe backup.'
+          },
+          {
+            q: '2. How does it work on rural farms in Córdoba with zero internet or cellular signal?',
+            a: 'Field nodes communicate peer-to-peer via ESP-NOW (2.4 GHz MAC frames with AES-128 encryption, <4 ms latency, zero routers/SIM cards). The Gateway hosts an offline Local Wi-Fi Access Point + Progressive Web App (PWA) cached via Service Worker, syncing NASA data whenever intermittent connectivity is available.'
+          },
+          {
+            q: '3. Why 4–20 mA + 165 Ω shunt instead of I2C or 0–3.3V analog sensors?',
+            a: 'By Kirchhoff’s Current Law, current is identical along 500+ meters of twisted pair—immune to ohmic voltage drop and VFD motor electromagnetic noise. And NAMUR NE43 "Live Zero" (4 mA = 0%) guarantees immediate hardware distinction between dry soil (4.0 mA = 0.660 V) and a cut cable (0 mA = 0.000 V).'
+          },
+          {
+            q: '4. Can an existing agro-industry or cooperative connect this to their current PLCs?',
+            a: 'Yes, out of the box. Every variable (mA, soil %, NASA GWETROOT %, line bar, NAMUR fault code, NVS pump hours) is exposed in fixed-point Int16 (×100) over Modbus TCP Port 502 and galvanically isolated RS485 Modbus RTU.'
+          }
+        ]
+      },
+
+      es: {
+        hdrTitle: 'INANNA COMPANY — ECOSISTEMA CORPORATIVO Y PITCH',
+        hdrSub: 'Innovación • Tecnología • Soluciones — <strong>NASA Space Apps Challenge 2026 • Calamuchita, AR</strong>',
+        backApp: '← Volver al SCADA en Vivo',
+        goManuals: '📚 Manuales (3)',
+        goDeck: 'Presentación 7 Slides ↗',
+        printBtn: '🖨️ Imprimir Dossier Corporativo',
+        heroBadge: 'INGENIERÍA MECATRÓNICA ARGENTINA Y AGRO-TECNOLOGÍA ESPACIAL',
+        heroTitle: 'INANNA COMPANY: Transformando Datos Orbitales de la NASA en Automatización Industrial Real',
+        heroDesc: 'Fundada por el Técnico Superior en Mecatrónica Fabio Maximiliano Medina Rojas, INANNA COMPANY desarrolla hardware industrial robusto, sistemas SCADA de mantenimiento predictivo y automatización rural sin internet listos para escalar desde Córdoba hacia toda Latinoamérica y corredores semiáridos globales.',
+        heroPills: ['✓ Norma Industrial 4–20 mA NAMUR NE43', '✓ Red Rural ESP-NOW AES-128 Sin Router', '✓ Modbus TCP:502 y RS485 Listo para PLC', '✓ NASA POWER + GIBS + CMIP6 en Vivo'],
+        divTitle: 'Las 11 Divisiones Oficiales de INANNA COMPANY',
+        divSub: 'Ecosistema empresarial integrado que respalda la fabricación, soporte y escalado comercial de TERRA-SHIFT SCADA',
+        divisions: [
+          { tag: 'AUTOMATION INANNA', core: true, desc: 'Instrumentación industrial 4–20 mA, diagnóstico Cero Vivo NAMUR NE43, integración PLC/Modbus RTU/TCP y control VFD.' },
+          { tag: 'AI INANNA', core: true, desc: 'Fusión sensorial órbita-raíz, regresión climática OLS, modelos de reconversión CMIP6 y analítica predictiva.' },
+          { tag: 'INDUSTRIES INANNA', core: true, desc: 'Tableros eléctricos en riel DIN, gabinetes solares estancos IP67, protecciones TVS y retrofits en planta.' },
+          { tag: 'LABS INANNA', core: true, desc: 'I+D en mallas inalámbricas ESP-NOW de largo alcance, etapas diferenciales ADS1115 y validación NASA/CONAE SAOCOM.' },
+          { tag: 'SERVICE INANNA', core: true, desc: 'Mantenimiento Preventivo, Predictivo (CBM), Correctivo y Proactivo con horómetros en memoria no volátil NVS.' },
+          { tag: 'ROBOTICS INANNA', core: false, desc: 'Actuación mecatrónica, colectores de electroválvulas automatizados y plataformas de inspección.' },
+          { tag: 'DESIGN INANNA', core: false, desc: 'Diseño electrónico PCB, encapsulados industriales 3D, ergonomía HMI SCADA e identidad corporativa.' },
+          { tag: 'ACADEMY INANNA', core: false, desc: 'Capacitación técnica rural, bancos didácticos STEM para escuelas agrotécnicas y manuales Plug & Play.' },
+          { tag: 'SUPPLY INANNA', core: false, desc: 'Provisión de resistencias shunt 0.1%, transmisores industriales 4–20 mA, aisladores MAX485 y paneles solares.' },
+          { tag: 'PROJECTS INANNA', core: false, desc: 'Ingeniería llave en mano para bodegas serranas, olivares, cooperativas agrícolas y consorcios de riego.' },
+          { tag: 'HOME INANNA', core: false, desc: 'Gestión energética rural off-grid, monitoreo de cisternas y automatización sustentable.' }
+        ],
+        tierTitle: 'Línea Comercial de Productos y Escalabilidad Hardware',
+        tierSub: 'Mecatrónica nacional reparable y estandarizada con amortización rápida en campo (< 8 meses de ROI)',
+        tiers: [
+          {
+            badge: 'PRODUCTOR FAMILIAR Y ESPECIALIDADES',
+            name: 'TERRA-SHIFT Kit Plug & Play',
+            price: '~$720 USD Llave en Mano',
+            target: '1 – 25 ha (Viñedos Calamuchita, Olivo, Lavanda, Garbanzo)',
+            items: [
+              '1× Caja Central Gateway ESP32 (Wi-Fi Propio Local + Panel en Español)',
+              '2× Nodos Solares IP67 ESP-NOW + Sondas Industriales 24V DC 4–20 mA',
+              'Protección anti-inundación NAMUR NE43 ante cables mordidos o cortados',
+              'Cero abono mensual celular ni dependencia de internet rural'
+            ]
+          },
+          {
+            badge: 'ESTABLECIMIENTOS Y COOPERATIVAS',
+            name: 'TERRA-SHIFT Industrial SCADA Pro',
+            price: '~$1,850+ USD Modular',
+            target: '50 – 2,000+ ha (Zona Núcleo Córdoba, Pivotes, Frutales Exportación)',
+            items: [
+              'Gateway en Riel DIN con RS485 Aislado Galvánicamente + Modbus TCP:502',
+              '8 a 64 Nodos Satélite ESP-NOW AES-128 en Estrella/Malla (< 4 ms)',
+              'Modulación directa de Variadores de Frecuencia VFD (34% ahorro kWh)',
+              'Integración directa con PLCs Siemens, Schneider, Delta y SCADAs'
+            ]
+          },
+          {
+            badge: 'EDUCACIÓN AGROTÉCNICA Y EXTENSIÓN',
+            name: 'ACADEMY INANNA Banco STEM',
+            price: '~$490 USD Educativo',
+            target: 'Escuelas Agrotécnicas, INTA, Institutos Superiores de Mecatrónica',
+            items: [
+              'Tablero didáctico transparente con resistencia shunt 165 Ω (0.1%) visible',
+              'Llaves simuladoras de falla <3.6 mA (cable abierto) y >20.5 mA (corto)',
+              '3 Manuales Oficiales (Científico KaTeX, Usuario y Mantenimiento CBM)',
+              'Forma técnicos rurales en datos satelitales NASA + Industria 4.0'
+            ]
+          }
+        ],
+        rosterTitle: 'Equipo de Ingeniería — Team INANNA COMPANY',
+        rosterSub: 'Representando a Santa Rosa de Calamuchita, Córdoba, Argentina en NASA Space Apps Challenge 2026',
+        members: [
+          {
+            lead: true,
+            role: 'FUNDADOR Y ARQUITECTO LÍDER',
+            name: 'Fabio Maximiliano Medina Rojas',
+            degree: 'Técnico Superior en Mecatrónica',
+            bio: 'Diseñó la arquitectura integral Órbita-a-Raíz, la instrumentación industrial 24V DC 4–20 mA bajo norma NAMUR NE43 (shunt 165 Ω 0.1% + ADS1115), la malla rural ESP-NOW AES-128, el mapa de registros Modbus TCP/RS485 y el plan de mantenimiento industrial CBM.'
+          },
+          {
+            lead: false,
+            role: 'SISTEMAS Y ANALÍTICA AGROCLIMÁTICA',
+            name: 'Agustín Alejandro Debia',
+            degree: 'Co-Desarrollador — Team INANNA COMPANY',
+            bio: 'Co-desarrolló la integración multidecadal con NASA POWER y capas orbitales GIBS, el motor de aptitud al 2035–2050 sobre 10 cultivos regionales y alternativos, y la experiencia visual trilingüe.'
+          },
+          {
+            lead: false,
+            role: 'OPERACIONES DE CAMPO Y VALIDACIÓN',
+            name: 'Iván David Coria',
+            degree: 'Co-Desarrollador — Team INANNA COMPANY',
+            bio: 'Enfocado en la realidad productiva de Calamuchita y Córdoba, brechas de conectividad rural, validación operativa Plug & Play para productores y estrategia de despliegue territorial.'
+          }
+        ],
+        pitch30Title: '⏱️ Guion Oficial de Video Global de 30 Segundos (Límite Estricto NASA ≤ 30.0s)',
+        pitch30Btn: '▶ Iniciar Cronómetro 30s',
+        pitch30Steps: [
+          '<strong>[0:00 – 0:05] EL PROBLEMA:</strong> "El cambio climático está redibujando el mapa agrícola mundial, mientras el 60% del campo opera sin señal celular."',
+          '<strong>[0:05 – 0:12] CEREBRO ORBITAL:</strong> "Presentamos TERRA-SHIFT SCADA de INANNA COMPANY. Hacé clic en cualquier campo del planeta para consultar 20 años vivos de NASA POWER, MODIS y SMAP y descubrir qué cultivos prosperarán en 2050."',
+          '<strong>[0:12 – 0:21] MECATRÓNICA EN TIERRA:</strong> "Un satélite ve píxeles de 9 kilómetros, no una manguera rota. Nuestros nodos solares ESP-NOW fusionan datos NASA con lazos industriales de 4 a 20 miliamperios, bloqueando inundaciones en milisegundos si se corta un cable."',
+          '<strong>[0:21 – 0:27] IMPACTO:</strong> "38% menos agua, listo para PLC Modbus, trilingüe y sin depender de internet."',
+          '<strong>[0:27 – 0:30] CIERRE:</strong> "TERRA-SHIFT por INANNA COMPANY: visión NASA en órbita, precisión mecatrónica en la raíz."'
+        ],
+        pitch3mTitle: '🎤 Guion de Pitch Presencial de 3 Minutos (Jurado Santa Rosa de Calamuchita)',
+        pitch3mBtn: '▶ Iniciar Cronómetro 3:00',
+        pitch3mSteps: [
+          '<strong>0:00 – 0:35 | Apertura e Impacto Local:</strong> Arrancar con Calamuchita y Córdoba. Los últimos 20 años de NASA POWER muestran +0.4°C por década y primaveras más secas. El productor sufre dos puntos ciegos: no sabe a qué cultivo migrar hacia 2035–2050, y pierde casi 40% de agua usando sensores caseros donde no hay señal 4G.',
+          '<strong>0:35 – 1:20 | Demo Orbital en Vivo:</strong> Mostrar en pantalla el mapa satelital NASA GIBS (MODIS/SMAP), la matriz de 10 cultivos, el calendario fenológico de 12 meses y la calculadora de ROI por hectárea (viendo cómo Vid Serrana, Olivo, Garbanzo y Sorgo superan al Maíz estresado).',
+          '<strong>1:20 – 2:15 | El Golpe Maestro Mecatrónico:</strong> Hacer clic en "Simular Cable Cortado (1.20 mA)". Explicar como Técnico Superior en Mecatrónica por qué un sensor común de 0 a 5V confunde un cable mordido por un zorro o roedor con "0% suelo seco" e inunda el campo—mientras INANNA usa lazo industrial 4–20 mA (shunt Kirchhoff 165Ω 0.1% + NAMUR NE43), enclava el relé seguro, transmite por ESP-NOW sin router (<4 ms) y conmuta al respaldo satelital NASA SMAP.',
+          '<strong>2:15 – 3:00 | Solución Llave en Mano y Cierre:</strong> Mostrar los 3 manuales oficiales (Científico con fórmulas KaTeX, Usuario Plug & Play y Mantenimiento Mecatrónico CBM), el firmware real C++ para ESP32, la tabla Modbus TCP:502 y el retorno de inversión menor a 8 meses bajo el sello INANNA COMPANY.'
+        ],
+        qaTitle: '🛡️ Respuestas Ganadoras para Preguntas Difíciles del Jurado',
+        qas: [
+          {
+            q: '1. ¿Por qué combinar satélites de la NASA con sensores en tierra en vez de usar uno solo?',
+            a: 'NASA SMAP (9 km) y POWER brindan 20 años de historia climática gratuita en cualquier punto del planeta, mientras la sonda 4–20 mA mide la raíz exacta bajo el gotero. Cuando coinciden, el riego es óptimo; si divergen (>24%), TERRA-SHIFT detecta un gotero tapado; y si se corta el cable (<3.6 mA), el dato orbital NASA actúa como respaldo seguro.'
+          },
+          {
+            q: '2. ¿Cómo funciona en campos serranos de Córdoba donde no hay Wi-Fi ni 4G?',
+            a: 'Los nodos transmiten punto a punto mediante protocolo industrial ESP-NOW (tramas MAC 2.4 GHz cifradas AES-128 en <4 ms, sin router ni chip celular). El Gateway genera su propia red Wi-Fi AP local y la aplicación funciona offline como PWA, sincronizando datos NASA cuando hay conexión intermitente.'
+          },
+          {
+            q: '3. ¿Qué ventaja real tiene el lazo 4–20 mA con shunt de 165 Ω frente a sensores Arduino comunes?',
+            a: 'Por Ley de Corrientes de Kirchhoff, la corriente es idéntica a lo largo de más de 500 metros de cable par trenzado: no sufre caída de tensión óhmica ni interferencia electromagnética de variadores VFD. Además, el Cero Vivo NAMUR NE43 (4 mA = 0%) distingue instantáneamente suelo seco (0.660 V) de cable cortado (0.000 V).'
+          },
+          {
+            q: '4. ¿Una cooperativa o bodega puede integrarlo a un PLC industrial existente?',
+            a: 'Sí, de forma nativa. Todas las variables (mA, % humedad, % NASA GWETROOT, presión en bar, código NAMUR, horas de bomba NVS) se publican en enteros Int16 punto fijo (×100) sobre Modbus TCP Puerto 502 y Modbus RTU RS485 aislado galvánicamente.'
+          }
+        ]
+      },
+
+      pt: {
+        hdrTitle: 'INANNA COMPANY — ECOSSISTEMA CORPORATIVO E PITCH',
+        hdrSub: 'Inovação • Tecnologia • Soluções — <strong>NASA Space Apps Challenge 2026 • Calamuchita, AR</strong>',
+        backApp: '← Voltar ao SCADA ao Vivo',
+        goManuals: '📚 Manuais (3)',
+        goDeck: 'Apresentação 7 Slides ↗',
+        printBtn: '🖨️ Imprimir Dossiê Corporativo',
+        heroBadge: 'ENGENHARIA MECATRÔNICA E AGROTECNOLOGIA ESPACIAL',
+        heroTitle: 'INANNA COMPANY: Transformando Dados Orbitais da NASA em Automação Industrial no Campo',
+        heroDesc: 'Fundada pelo Técnico Superior em Mecatrônica Fabio Maximiliano Medina Rojas, a INANNA COMPANY desenvolve hardware industrial robusto, sistemas SCADA de manutenção preditiva e automação rural sem internet prontos para escalar na Argentina, Brasil, América Latina e regiões semiáridas globais.',
+        heroPills: ['✓ Padrão Industrial 4–20 mA NAMUR NE43', '✓ Rede Rural ESP-NOW AES-128 Sem Roteador', '✓ Modbus TCP:502 e RS485 Pronto para CLP', '✓ NASA POWER + GIBS + CMIP6 ao Vivo'],
+        divTitle: 'As 11 Divisões Oficiais da INANNA COMPANY',
+        divSub: 'Ecossistema integrado de engenharia que sustenta a fabricação, suporte e escala comercial do TERRA-SHIFT SCADA',
+        divisions: [
+          { tag: 'AUTOMATION INANNA', core: true, desc: 'Instrumentação industrial 4–20 mA, diagnóstico Zero Vivo NAMUR NE43, integração CLP/Modbus RTU/TCP e controle VFD.' },
+          { tag: 'AI INANNA', core: true, desc: 'Fusão sensorial órbita-raiz, regressão climática OLS, modelos CMIP6 de transição agrícola e análise preditiva.' },
+          { tag: 'INDUSTRIES INANNA', core: true, desc: 'Painéis em trilho DIN, gabinetes solares IP67, proteção contra surtos TVS e retrofits agroindustriais.' },
+          { tag: 'LABS INANNA', core: true, desc: 'P&D em redes sem fio ESP-NOW de longo alcance, condicionamento ADS1115 de 16 bits e validação NASA/CONAE.' },
+          { tag: 'SERVICE INANNA', core: true, desc: 'Manutenção Preventiva, Preditiva (CBM), Corretiva e Proativa com horímetros em memória não volátil NVS.' },
+          { tag: 'ROBOTICS INANNA', core: false, desc: 'Atuação mecatrônica, válvulas solenoides automatizadas e plataformas de inspeção.' },
+          { tag: 'DESIGN INANNA', core: false, desc: 'Layout de PCB, encapsulamento 3D resistente ao tempo, ergonomia HMI SCADA e identidade visual.' },
+          { tag: 'ACADEMY INANNA', core: false, desc: 'Capacitação técnica rural, bancadas didáticas STEM para escolas agrícolas e manuais Plug & Play.' },
+          { tag: 'SUPPLY INANNA', core: false, desc: 'Fornecimento de shunts 0.1%, transmissores 4–20 mA, isoladores MAX485 e módulos fotovoltaicos.' },
+          { tag: 'PROJECTS INANNA', core: false, desc: 'Implantação turnkey para vinícolas, olivais, cooperativas agrícolas e gestão hídrica.' },
+          { tag: 'HOME INANNA', core: false, desc: 'Gestão de energia rural off-grid, telemetria de reservatórios e automação sustentável.' }
+        ],
+        tierTitle: 'Linha Comercial de Produtos e Hardware',
+        tierSub: 'Mecatrônica padronizada e reparável com rápido retorno sobre o investimento no campo (Payback < 8 meses)',
+        tiers: [
+          {
+            badge: 'AGRICULTURA FAMILIAR E ESPECIALIDADES',
+            name: 'TERRA-SHIFT Kit Plug & Play',
+            price: '~$720 USD Turnkey',
+            target: '1 – 25 ha (Vinhedos Serranos, Oliveira, Lavanda, Grão-de-Bico)',
+            items: [
+              '1× Caixa Central Gateway ESP32 (Wi-Fi Próprio Local + Painel Web)',
+              '2× Nós Solares IP67 ESP-NOW + Sondas Industriais 24V DC 4–20 mA',
+              'Proteção anti-inundação NAMUR NE43 contra cabos rompidos',
+              'Zero mensalidade de chip celular ou dependência de internet rural'
+            ]
+          },
+          {
+            badge: 'FAZENDAS COMERCIAIS E COOPERATIVAS',
+            name: 'TERRA-SHIFT Industrial SCADA Pro',
+            price: '~$1,850+ USD Modular',
+            target: '50 – 2,000+ ha (Grãos, Pivôs Centrais, Fruticultura Irrigada)',
+            items: [
+              'Gateway Trilho DIN com RS485 Isolado Galvanicamente + Modbus TCP:502',
+              '8 a 64 Nós Satélite ESP-NOW AES-128 em Estrela/Malha (< 4 ms)',
+              'Controle direto de Inversores de Frequência VFD (34% economia kWh)',
+              'Integração nativa com CLPs Siemens, Schneider, Delta e sistemas SCADA'
+            ]
+          },
+          {
+            badge: 'EDUCAÇÃO TÉCNICA E EXTENSÃO RURAL',
+            name: 'ACADEMY INANNA Bancada STEM',
+            price: '~$490 USD Educacional',
+            target: 'Escolas Agrotécnicas, Institutos Federais/Técnicos e Universidades',
+            items: [
+              'Bancada transparente exibindo o resistor shunt Kirchhoff 165 Ω (0.1%)',
+              'Chaves físicas para simular falha <3.6 mA (cabo aberto) e >20.5 mA (curto)',
+              '3 Manuais Oficiais (Científico KaTeX, Usuário e Manutenção CBM)',
+              'Capacita novos técnicos em dados satelitais NASA + Indústria 4.0'
+            ]
+          }
+        ],
+        rosterTitle: 'Equipe de Engenharia — Team INANNA COMPANY',
+        rosterSub: 'Representando Santa Rosa de Calamuchita, Córdoba, Argentina no NASA Space Apps Challenge 2026',
+        members: [
+          {
+            lead: true,
+            role: 'FUNDADOR E ARQUITETO LÍDER',
+            name: 'Fabio Maximiliano Medina Rojas',
+            degree: 'Técnico Superior em Mecatrônica (Técnico Superior en Mecatrónica)',
+            bio: 'Projetou a arquitetura ponta a ponta Órbita-à-Raiz, a instrumentação industrial 24V DC 4–20 mA padrão NAMUR NE43 (shunt 165 Ω 0.1% + ADS1115), a rede rural ESP-NOW AES-128, o mapa Modbus TCP/RS485 e a engenharia de manutenção CBM.'
+          },
+          {
+            lead: false,
+            role: 'SISTEMAS E ANÁLISE AGROCLIMÁTICA',
+            name: 'Agustín Alejandro Debia',
+            degree: 'Co-Desenvolvedor — Team INANNA COMPANY',
+            bio: 'Co-desenvolveu a integração multidecadal NASA POWER e camadas satelitais GIBS, a modelagem CMIP6 2035–2050 para 10 culturas regionais e a interface trilíngue.'
+          },
+          {
+            lead: false,
+            role: 'OPERAÇÕES DE CAMPO E VALIDAÇÃO',
+            name: 'Iván David Coria',
+            degree: 'Co-Desenvolvedor — Team INANNA COMPANY',
+            bio: 'Focado na realidade produtiva regional, desafios de conectividade rural, validação de uso Plug & Play com produtores e estratégia de implantação em campo.'
+          }
+        ],
+        pitch30Title: '⏱️ Roteiro Oficial de Vídeo Global de 30 Segundos (Limite Estrito NASA ≤ 30.0s)',
+        pitch30Btn: '▶ Iniciar Cronômetro 30s',
+        pitch30Steps: [
+          '<strong>[0:00 – 0:05] O PROBLEMA:</strong> "A mudança climática está redesenhando a agricultura mundial, enquanto 60% das fazendas operam sem sinal celular."',
+          '<strong>[0:05 – 0:12] CÉREBRO ORBITAL:</strong> "Conheça o TERRA-SHIFT SCADA da INANNA COMPANY. Clique em qualquer fazenda na Terra para consultar 20 anos ao vivo de dados NASA POWER, MODIS e SMAP e descobrir as culturas resilientes para 2050."',
+          '<strong>[0:12 – 0:21] MECATRÔNICA EM CAMPO:</strong> "Satélites enxergam pixels de 9 quilômetros, não tubos rompidos. Nossos nós solares ESP-NOW fundem dados da NASA com sondas industriais de 4 a 20 miliamperes, travando inundações em milissegundos se um cabo se romper."',
+          '<strong>[0:21 – 0:27] IMPACTO:</strong> "38% menos água, pronto para CLP Modbus, trilíngue e sem depender de internet."',
+          '<strong>[0:27 – 0:30] FECHAMENTO:</strong> "TERRA-SHIFT pela INANNA COMPANY: visão da NASA em órbita, precisão mecatrônica na raiz."'
+        ],
+        pitch3mTitle: '🎤 Roteiro de Pitch de Palco de 3 Minutos (Júri Local)',
+        pitch3mBtn: '▶ Iniciar Cronômetro 3:00',
+        pitch3mSteps: [
+          '<strong>0:00 – 0:35 | Gancho e Realidade Local:</strong> Começar pelos dados reais da NASA POWER em Calamuchita (+0.4°C/década e estiagens mais severas). O produtor enfrenta dois pontos cegos: qual cultura plantar rumo a 2035–2050 e o desperdício de 40% de água com sensores frágeis onde não há 4G.',
+          '<strong>0:35 – 1:20 | Demo Orbital ao Vivo:</strong> Mostrar o mapa NASA GIBS (MODIS/SMAP), a matriz de 10 culturas, o calendário fenológico de 12 meses e a calculadora de ROI e água da fazenda.',
+          '<strong>1:20 – 2:15 | O Diferencial Mecatrônico:</strong> Clicar em "Simular Cabo Rompido (1.20 mA)". Explicar como Técnico Superior em Mecatrônica por que sensores comuns de 0–5V leem um cabo cortado como "0% seco" e inundam a lavoura, enquanto a INANNA usa laço 4–20 mA (shunt Kirchhoff 165Ω 0.1% + NAMUR NE43), trava o relé seguro via ESP-NOW (<4 ms) e assume o backup orbital NASA SMAP.',
+          '<strong>2:15 – 3:00 | Produto Completo e Fechamento:</strong> Destacar os 3 manuais oficiais (Científico KaTeX, Usuário Plug & Play e Manutenção CBM), firmware C++ ESP32, tabela Modbus TCP:502 e payback inferior a 8 meses sob a marca INANNA COMPANY.'
+        ],
+        qaTitle: '🛡️ Guia Rápido de Respostas Técnicas para o Júri',
+        qas: [
+          {
+            q: '1. Por que combinar satélites da NASA com sensores de solo em vez de apenas um?',
+            a: 'O NASA SMAP (9 km) e o POWER entregam 20 anos de histórico climático gratuito em qualquer coordenada, enquanto a sonda 4–20 mA mede a raiz exata sob o gotejador. Juntos, detectam entupimentos locais (>24% divergência) e garantem continuidade orbital caso um cabo de campo se rompa (<3.6 mA).'
+          },
+          {
+            q: '2. Como funciona em fazendas sem Wi-Fi ou sinal de celular?',
+            a: 'Os nós comunicam-se ponto a ponto via protocolo ESP-NOW (quadros MAC 2.4 GHz com criptografia AES-128 em <4 ms, sem roteador nem SIM card). O Gateway cria uma rede Wi-Fi AP local própria e o app opera offline como PWA.'
+          },
+          {
+            q: '3. Por que laço 4–20 mA + shunt 165 Ω em vez de sensores analógicos 0–3.3V?',
+            a: 'Pela Lei das Correntes de Kirchhoff, a corrente não sofre queda ôhmica em cabos de 500+ metros e é imune ao ruído eletromagnético de inversores VFD. E o Zero Vivo NAMUR NE43 (4 mA = 0%) separa instantaneamente solo seco (0.660 V) de cabo cortado (0.000 V).'
+          },
+          {
+            q: '4. Uma cooperativa já equipada com CLPs industriais consegue integrar o sistema?',
+            a: 'Sim, imediatamente. Todos os registradores (mA, % umidade, % NASA GWETROOT, pressão em bar, status NAMUR, horímetro NVS) são publicados em Int16 ponto fixo (×100) via Modbus TCP Porta 502 e RS485 Modbus RTU isolado.'
+          }
+        ]
+      }
+    };
+
+    const params = new URLSearchParams(window.location.search);
+    const qLang = (params.get('lang') || '').toLowerCase();
+    let currentLang = ['en', 'es', 'pt'].includes(qLang)
+      ? qLang
+      : (localStorage.getItem('inanna_lang') || 'en');
+
+    let timer30 = null;
+    let timer3m = null;
+
+    function startCountdown(totalSec, dispId, barId) {
+      let elapsed = 0;
+      const step = 0.1;
+      return setInterval(() => {
+        elapsed += step;
+        const rem = Math.max(0, totalSec - elapsed);
+        const pct = Math.min(100, (elapsed / totalSec) * 100);
+        const dEl = document.getElementById(dispId);
+        const bEl = document.getElementById(barId);
+        if (dEl) dEl.textContent = `${rem.toFixed(1)} s`;
+        if (bEl) {
+          bEl.style.width = `${pct}%`;
+          if (pct > 85) bEl.style.background = '#ef4444';
+        }
+        if (rem <= 0) clearInterval(totalSec <= 35 ? timer30 : timer3m);
+      }, 100);
+    }
+
+    window.toggle30Timer = function() {
+      if (timer30) { clearInterval(timer30); timer30 = null; }
+      const bEl = document.getElementById('bar30');
+      if (bEl) { bEl.style.width = '0%'; bEl.style.background = 'linear-gradient(90deg, #10b981, #00b8e6, #f59e0b)'; }
+      timer30 = startCountdown(30.0, 'disp30', 'bar30');
+    };
+
+    window.toggle3mTimer = function() {
+      if (timer3m) { clearInterval(timer3m); timer3m = null; }
+      const bEl = document.getElementById('bar3m');
+      if (bEl) { bEl.style.width = '0%'; bEl.style.background = 'linear-gradient(90deg, #10b981, #00b8e6, #f59e0b)'; }
+      timer3m = startCountdown(180.0, 'disp3m', 'bar3m');
+    };
+
+    function renderHub() {
+      const d = HUB_DATA[currentLang] || HUB_DATA.en;
+      document.documentElement.lang = currentLang;
+
+      document.querySelectorAll('.lang-btn').forEach(b => {
+        b.classList.toggle('active', b.dataset.lang === currentLang);
+      });
+
+      document.getElementById('hdrTitle').textContent = d.hdrTitle;
+      document.getElementById('hdrSub').innerHTML = d.hdrSub;
+      document.getElementById('btnBackApp').textContent = d.backApp;
+      document.getElementById('btnBackApp').href = `index.html?lang=${currentLang}`;
+      document.getElementById('btnGoManuals').textContent = d.goManuals;
+      document.getElementById('btnGoManuals').href = `manuals/index.html?lang=${currentLang}`;
+      document.getElementById('btnGoDeck').textContent = d.goDeck;
+      document.getElementById('btnGoDeck').href = `presentation/deck_7_slides.html?lang=${currentLang}`;
+      document.getElementById('btnPrintHub').textContent = d.printBtn;
+
+      document.getElementById('hubContent').innerHTML = `
+        <!-- Corporate Brand Hero -->
+        <section class="corp-hero">
+          <div class="corp-logo-box">
+            <img src="assets/inanna-logo-full.jpg" alt="INANNA COMPANY Official Logo" />
+          </div>
+          <div>
+            <span class="badge badge-cyan">${d.heroBadge}</span>
+            <h2 style="font-size:1.72rem;font-weight:800;color:#fff;margin:8px 0 10px;">${d.heroTitle}</h2>
+            <p style="color:#cbd5e1;font-size:0.96rem;line-height:1.62;margin-bottom:14px;">${d.heroDesc}</p>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;">
+              ${d.heroPills.map(p => `<span class="badge badge-green" style="padding:5px 11px;font-size:0.75rem;">${p}</span>`).join('')}
+            </div>
+          </div>
+        </section>
+
+        <!-- 11 Corporate Divisions -->
+        <section class="panel">
+          <div class="panel-header">
+            <div>
+              <div class="panel-title">${d.divTitle}</div>
+              <div class="panel-subtitle">${d.divSub}</div>
+            </div>
+            <span class="badge badge-purple">INNOVACIÓN • TECNOLOGÍA • SOLUCIONES</span>
+          </div>
+          <div class="div-grid">
+            ${d.divisions.map(v => `
+              <div class="div-card ${v.core ? 'core' : ''}">
+                <div class="div-tag">${v.tag}</div>
+                <p style="font-size:0.8rem;color:#cbd5e1;line-height:1.45;">${v.desc}</p>
+              </div>
+            `).join('')}
+          </div>
+        </section>
+
+        <!-- Commercial Turnkey Hardware Lineup -->
+        <section class="panel">
+          <div class="panel-header">
+            <div>
+              <div class="panel-title">${d.tierTitle}</div>
+              <div class="panel-subtitle">${d.tierSub}</div>
+            </div>
+            <span class="badge badge-green">INDUSTRY 4.0 AGRO-SCADA</span>
+          </div>
+          <div class="tier-grid">
+            ${d.tiers.map(t => `
+              <div class="tier-card">
+                <span class="badge badge-cyan" style="align-self:flex-start;">${t.badge}</span>
+                <h3 style="font-size:1.08rem;color:#fff;">${t.name}</h3>
+                <div class="tier-price">${t.price}</div>
+                <div style="font-size:0.78rem;color:#38bdf8;font-family:var(--font-mono);">${t.target}</div>
+                <ul style="list-style:none;display:flex;flex-direction:column;gap:6px;font-size:0.82rem;color:#cbd5e1;margin-top:4px;">
+                  ${t.items.map(it => `<li>• ${it}</li>`).join('')}
+                </ul>
+              </div>
+            `).join('')}
+          </div>
+        </section>
+
+        <!-- Engineering Leadership Roster -->
+        <section class="panel">
+          <div class="panel-header">
+            <div>
+              <div class="panel-title">${d.rosterTitle}</div>
+              <div class="panel-subtitle">${d.rosterSub}</div>
+            </div>
+            <span class="badge badge-cyan">SANTA ROSA DE CALAMUCHITA, CÓRDOBA</span>
+          </div>
+          <div class="roster-grid">
+            ${d.members.map(m => `
+              <div class="member-card ${m.lead ? 'lead' : ''}">
+                <span class="badge ${m.lead ? 'badge-green' : 'badge-cyan'}" style="align-self:flex-start;">${m.role}</span>
+                <h3 style="font-size:1.12rem;color:#fff;margin-top:2px;">${m.name}</h3>
+                <div style="font-size:0.8rem;font-weight:700;color:#00b8e6;">${m.degree}</div>
+                <p style="font-size:0.82rem;color:#cbd5e1;line-height:1.52;margin-top:4px;">${m.bio}</p>
+              </div>
+            `).join('')}
+          </div>
+        </section>
+
+        <!-- Live Jury Pitch Teleprompter & Timers -->
+        <section class="pitch-grid">
+          <div class="panel">
+            <div class="panel-header">
+              <div class="panel-title">${d.pitch30Title}</div>
+              <div style="display:flex;align-items:center;gap:10px;">
+                <strong id="disp30" style="font-family:var(--font-mono);color:#6ee7b7;font-size:1rem;">30.0 s</strong>
+                <button type="button" class="btn btn-primary" onclick="toggle30Timer()">${d.pitch30Btn}</button>
+              </div>
+            </div>
+            <div class="timer-bar"><div id="bar30" class="timer-fill"></div></div>
+            <div>
+              ${d.pitch30Steps.map(s => `<div class="script-step">${s}</div>`).join('')}
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-header">
+              <div class="panel-title">${d.pitch3mTitle}</div>
+              <div style="display:flex;align-items:center;gap:10px;">
+                <strong id="disp3m" style="font-family:var(--font-mono);color:#38bdf8;font-size:1rem;">180.0 s</strong>
+                <button type="button" class="btn btn-primary" onclick="toggle3mTimer()">${d.pitch3mBtn}</button>
+              </div>
+            </div>
+            <div class="timer-bar"><div id="bar3m" class="timer-fill"></div></div>
+            <div>
+              ${d.pitch3mSteps.map(s => `<div class="script-step">${s}</div>`).join('')}
+            </div>
+          </div>
+        </section>
+
+        <!-- Jury Q&A Cheat Sheet -->
+        <section class="panel">
+          <div class="panel-header">
+            <div class="panel-title">${d.qaTitle}</div>
+            <span class="badge badge-green">5 NASA JUDGING PILLARS READY</span>
+          </div>
+          <div class="qa-grid">
+            ${d.qas.map(item => `
+              <div class="qa-card">
+                <div style="font-weight:700;color:#ffffff;font-size:0.9rem;margin-bottom:6px;">${item.q}</div>
+                <div style="font-size:0.82rem;color:#cbd5e1;line-height:1.52;">${item.a}</div>
+              </div>
+            `).join('')}
+          </div>
+        </section>
+      `;
+    }
+
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        currentLang = btn.dataset.lang;
+        localStorage.setItem('inanna_lang', currentLang);
+        renderHub();
+      });
+    });
+
+    renderHub();
+  </script>
+</body>
+</html>
