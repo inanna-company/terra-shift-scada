@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TERRA-SHIFT SCADA — Official Manuals Suite | INANNA COMPANY</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet" />
+  <!-- KaTeX for Scientific & Mechatronic Equations -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" crossorigin="anonymous" />
+  <link rel="stylesheet" href="../css/styles.css" />
+  <style>
+    .manuals-wrap {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 24px 20px 64px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .manual-tabs {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+    .manual-tab-btn {
+      background: #101724;
+      border: 1px solid rgba(148, 163, 184, 0.22);
+      color: #cbd5e1;
+      padding: 13px 16px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 0.86rem;
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.18s ease;
+    }
+    .manual-tab-btn:hover {
+      border-color: var(--accent-cyan);
+      color: #fff;
+    }
+    .manual-tab-btn.active {
+      background: linear-gradient(135deg, rgba(24, 144, 255, 0.22), rgba(0, 184, 230, 0.18));
+      border-color: var(--accent-cyan);
+      color: #ffffff;
+      box-shadow: 0 6px 20px rgba(0, 184, 230, 0.18);
+    }
+    .doc-sheet {
+      background: #0d131e;
+      border: 1px solid rgba(0, 184, 230, 0.28);
+      border-radius: 14px;
+      padding: 34px 40px;
+      box-shadow: 0 14px 40px rgba(0, 0, 0, 0.5);
+    }
+    .doc-letterhead {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 16px;
+      border-bottom: 2px solid rgba(0, 184, 230, 0.35);
+      padding-bottom: 18px;
+      margin-bottom: 24px;
+    }
+    .doc-meta-grid {
+      display: grid;
+      grid-template-columns: repeat(2, auto);
+      gap: 6px 18px;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      background: #080c12;
+      border: 1px solid rgba(148, 163, 184, 0.2);
+      padding: 10px 14px;
+      border-radius: 8px;
+    }
+    .doc-body h2 {
+      font-size: 1.28rem;
+      color: #ffffff;
+      margin: 26px 0 10px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.14);
+    }
+    .doc-body h2:first-child { margin-top: 0; }
+    .doc-body h3 {
+      font-size: 1.02rem;
+      color: var(--accent-cyan);
+      margin: 18px 0 8px;
+    }
+    .doc-body p, .doc-body li {
+      color: #cbd5e1;
+      font-size: 0.94rem;
+      line-height: 1.65;
+      margin-bottom: 10px;
+    }
+    .doc-body ul, .doc-body ol {
+      padding-left: 22px;
+      margin-bottom: 14px;
+    }
+    .math-block {
+      background: #070b11;
+      border: 1px solid rgba(0, 184, 230, 0.25);
+      border-radius: 8px;
+      padding: 14px 18px;
+      margin: 14px 0;
+      overflow-x: auto;
+      text-align: center;
+    }
+    .callout-info, .callout-ok, .callout-warn {
+      padding: 14px 18px;
+      border-radius: 8px;
+      margin: 16px 0;
+      font-size: 0.91rem;
+      line-height: 1.55;
+    }
+    .callout-info { background: rgba(0, 184, 230, 0.1); border-left: 4px solid #00b8e6; color: #e2e8f0; }
+    .callout-ok   { background: rgba(16, 185, 129, 0.11); border-left: 4px solid #10b981; color: #e2e8f0; }
+    .callout-warn { background: rgba(245, 158, 11, 0.13); border-left: 4px solid #f59e0b; color: #fef3c7; }
+    .doc-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0;
+      font-size: 0.84rem;
+    }
+    .doc-table th, .doc-table td {
+      border: 1px solid rgba(148, 163, 184, 0.2);
+      padding: 10px 12px;
+      text-align: left;
+      vertical-align: top;
+    }
+    .doc-table th {
+      background: #090e17;
+      color: var(--accent-cyan);
+      font-weight: 700;
+    }
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin: 16px 0;
+    }
+    .step-card {
+      background: #131c2b;
+      border: 1px solid rgba(0, 184, 230, 0.3);
+      border-radius: 10px;
+      padding: 16px;
+    }
+    .step-num {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 800;
+      color: var(--accent-cyan);
+      margin-bottom: 6px;
+    }
+    .signature-box {
+      margin-top: 30px;
+      padding-top: 18px;
+      border-top: 1px solid rgba(148, 163, 184, 0.2);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+      font-size: 0.84rem;
+      color: #94a3b8;
+    }
+    @media (max-width: 900px) {
+      .manual-tabs, .steps-grid { grid-template-columns: 1fr; }
+      .doc-sheet { padding: 20px; }
+    }
+    @media print {
+      .main-header, .manual-tabs { display: none !important; }
+      body, .doc-sheet, .math-block, .step-card, .doc-meta-grid {
+        background: #ffffff !important;
+        color: #0f172a !important;
+        border-color: #cbd5e1 !important;
+        box-shadow: none !important;
+      }
+      .doc-body h2, .doc-body h3, .doc-body p, .doc-body li, .doc-table th, .doc-table td {
+        color: #0f172a !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="main-header">
+    <div class="brand-block">
+      <div class="inanna-monogram">
+        <svg width="30" height="30" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="3" y="7" width="4.5" height="22" rx="1.5" fill="#E2E8F0"/>
+          <path d="M12 29V7H16.2L26.5 21.8V7H31V29H26.8L16.5 14.2V29H12Z" fill="#00B8E6"/>
+        </svg>
+      </div>
+      <div class="brand-titles">
+        <h1>INANNA COMPANY — MANUALS</h1>
+        <div class="brand-subtitle">TERRA-SHIFT SCADA • <strong>MECHATRONICS &amp; EARTH SCIENCE SUITE</strong></div>
+      </div>
+    </div>
+
+    <div class="header-actions">
+      <a id="backBtn" href="../index.html" class="btn">← Back to Live SCADA</a>
+      <div class="lang-switcher" role="group" aria-label="Language Selector">
+        <button type="button" class="lang-btn active" data-lang="en">EN</button>
+        <button type="button" class="lang-btn" data-lang="es">ES</button>
+        <button type="button" class="lang-btn" data-lang="pt">PT</button>
+      </div>
+      <button id="printOneBtn" class="btn btn-primary" onclick="window.print()">⬇ Print Active Manual (PDF)</button>
+    </div>
+  </header>
+
+  <main class="manuals-wrap">
+    <div>
+      <span id="portalBadge" class="badge badge-cyan">INANNA COMPANY • OFFICIAL DOCUMENTATION</span>
+      <h2 id="portalTitle" style="font-size:1.6rem;font-weight:800;margin-top:8px;color:#fff;">TERRA-SHIFT SCADA — Complete Manuals Suite</h2>
+      <p id="portalSub" style="color:#94a3b8;font-size:0.9rem;margin-top:4px;"></p>
+    </div>
+
+    <div class="manual-tabs">
+      <button id="tabBtn1" class="manual-tab-btn active" data-manual="m1"></button>
+      <button id="tabBtn2" class="manual-tab-btn" data-manual="m2"></button>
+      <button id="tabBtn3" class="manual-tab-btn" data-manual="m3"></button>
+    </div>
+
+    <article class="doc-sheet">
+      <div class="doc-letterhead">
+        <div>
+          <div style="font-family:var(--font-mono);font-size:0.76rem;color:#00b8e6;font-weight:700;" id="docDiv"></div>
+          <h2 id="docHeaderTitle" style="font-size:1.35rem;color:#fff;margin-top:4px;"></h2>
+        </div>
+        <div class="doc-meta-grid">
+          <span id="lblDocCode" style="color:#94a3b8;">DOCUMENT ID:</span>
+          <strong id="valDocCode" style="color:#fff;"></strong>
+          <span id="lblRev" style="color:#94a3b8;">REVISION:</span>
+          <strong id="valRev" style="color:#00b8e6;"></strong>
+          <span id="lblAuthor" style="color:#94a3b8;">MECHATRONICS LEAD:</span>
+          <strong style="color:#fff;">F. M. Medina Rojas (T.S. Mecatrónica)</strong>
+        </div>
+      </div>
+
+      <div id="manualBody" class="doc-body"></div>
+
+      <div class="signature-box">
+        <div>
+          <strong style="color:#fff;">Fabio Maximiliano Medina Rojas — Técnico Superior en Mecatrónica</strong><br/>
+          <span>Engineering Team: Agustín Alejandro Debia • Iván David Coria | Santa Rosa de Calamuchita, Córdoba, AR</span>
+        </div>
+        <div style="font-family:var(--font-mono);color:#00b8e6;font-weight:700;">
+          INANNA COMPANY • INNOVACIÓN • TECNOLOGÍA • SOLUCIONES
+        </div>
+      </div>
+    </article>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+  <script src="manuals-data.js"></script>
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    let currentLang = ['en', 'es', 'pt'].includes(params.get('lang'))
+      ? params.get('lang')
+      : (localStorage.getItem('inanna_lang') || 'es');
+    if (!['en', 'es', 'pt'].includes(currentLang)) currentLang = 'en';
+
+    let currentManual = ['m1', 'm2', 'm3'].includes(params.get('doc')) ? params.get('doc') : 'm1';
+
+    function renderManualView() {
+      const ui = window.MANUALS_UI[currentLang];
+      const doc = window.MANUALS_CONTENT[currentManual];
+      document.documentElement.lang = currentLang;
+      localStorage.setItem('inanna_lang', currentLang);
+
+      document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.dataset.lang === currentLang));
+      document.querySelectorAll('.manual-tab-btn').forEach(b => b.classList.toggle('active', b.dataset.manual === currentManual));
+
+      document.getElementById('portalBadge').textContent = ui.portalBadge;
+      document.getElementById('portalTitle').textContent = ui.portalTitle;
+      document.getElementById('portalSub').textContent = ui.portalSub;
+      document.getElementById('backBtn').textContent = ui.backBtn;
+      document.getElementById('backBtn').href = `../index.html?lang=${currentLang}`;
+      document.getElementById('printOneBtn').textContent = ui.printOneBtn;
+
+      document.getElementById('tabBtn1').textContent = ui.tab1;
+      document.getElementById('tabBtn2').textContent = ui.tab2;
+      document.getElementById('tabBtn3').textContent = ui.tab3;
+
+      document.getElementById('docDiv').textContent = doc.division;
+      const activeTitle = currentManual === 'm1' ? ui.tab1 : (currentManual === 'm2' ? ui.tab2 : ui.tab3);
+      document.getElementById('docHeaderTitle').textContent = activeTitle;
+      document.getElementById('lblDocCode').textContent = ui.docCodeLbl + ':';
+      document.getElementById('valDocCode').textContent = doc.docId;
+      document.getElementById('lblRev').textContent = ui.revLbl + ':';
+      document.getElementById('valRev').textContent = doc.rev;
+      document.getElementById('lblAuthor').textContent = ui.authorLbl + ':';
+
+      const bodyEl = document.getElementById('manualBody');
+      bodyEl.innerHTML = doc[currentLang] || doc.en;
+
+      if (window.renderMathInElement) {
+        window.renderMathInElement(bodyEl, {
+          delimiters: [
+            { left: '$$', right: '$$', display: true },
+            { left: '$', right: '$', display: false }
+          ],
+          throwOnError: false
+        });
+      }
+    }
+
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        currentLang = btn.dataset.lang;
+        renderManualView();
+      });
+    });
+
+    document.querySelectorAll('.manual-tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        currentManual = btn.dataset.manual;
+        renderManualView();
+      });
+    });
+
+    document.addEventListener('DOMContentLoaded', renderManualView);
+  </script>
+</body>
+</html>

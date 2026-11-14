@@ -267,6 +267,40 @@ body {
   background: rgba(239, 68, 68, 0.28);
 }
 
+/* Language Switcher Group (EN | ES | PT) */
+.lang-switcher {
+  display: inline-flex;
+  align-items: center;
+  background: #090e16;
+  border: 1px solid rgba(0, 184, 230, 0.38);
+  border-radius: var(--radius-sm);
+  padding: 2px;
+  gap: 2px;
+}
+
+.lang-btn {
+  background: transparent;
+  color: var(--text-secondary);
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 0.76rem;
+  font-weight: 700;
+  font-family: var(--font-mono);
+  cursor: pointer;
+  transition: all 0.16s ease;
+}
+
+.lang-btn:hover {
+  color: #ffffff;
+}
+
+.lang-btn.active {
+  background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+  color: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 184, 230, 0.35);
+}
+
 /* Main Container */
 .container {
   max-width: 1520px;

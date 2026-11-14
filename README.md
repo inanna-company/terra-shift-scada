@@ -42,7 +42,12 @@ Climate change is rapidly shifting thermal envelopes, frost dates, and root-zone
 │   ├── scada-iiot.js                  # 4-20 mA NAMUR NE43 Simulator, Sensor Fusion, Modbus & WebSerial
 │   └── app.js                         # Leaflet GIBS Map, Chart.js Analytics & Bilingual UI Controller
 ├── presentation/
-│   └── deck_7_slides.html             # Official 7-Slide Widescreen Demo Deck (English, PDF-ready)
+│   └── deck_7_slides.html             # Official 7-Slide Widescreen Demo Deck (EN/ES/PT, PDF-ready)
+├── manuals/
+│   ├── index.html & manuals-data.js   # Interactive Trilingual Manuals Portal (EN/ES/PT + KaTeX Math)
+│   ├── MANUAL_01_INGENIERIA_CIENTIFICA.md     # Scientific, Agronomic & Mechatronic Formulas Manual
+│   ├── MANUAL_02_USUARIO_PLUG_AND_PLAY.md     # Zero-Knowledge Farmer & User Plug & Play Guide
+│   └── MANUAL_03_MANTENIMIENTO_MECATRONICO.md # Industrial Preventive/Predictive/Corrective Maintenance
 ├── firmware/
 │   ├── esp32_field_node_espnow_4_20ma/ # ESP32 + ADS1115 4-20mA NAMUR NE43 + AES-128 ESP-NOW Node
 │   └── esp32_gateway_scada_modbus/     # ESP32 Gateway: ESP-NOW -> Modbus RTU/TCP + NVS + Local AP
