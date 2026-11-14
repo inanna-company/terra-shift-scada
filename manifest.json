@@ -1,0 +1,10 @@
+{
+  "name": "TERRA-SHIFT SCADA — INANNA COMPANY",
+  "short_name": "TERRA-SHIFT",
+  "description": "Orbital-to-Root Agricultural Climate Adaptation & Routerless Rural IIoT SCADA powered by NASA Earth Observation Data.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#080c12",
+  "theme_color": "#00b8e6",
+  "icons": []
+}

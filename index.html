@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TERRA-SHIFT SCADA | INANNA COMPANY — 2026 NASA Space Apps Challenge</title>
+  <meta name="description" content="Orbital-to-Root Agricultural Climate Adaptation Decision Support & Routerless Rural IIoT SCADA powered by NASA Earth Observation Data (POWER, GIBS, MODIS, SMAP, CMIP6)." />
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#080c12" />
+
+  <!-- Fonts & Open-Source Mapping / Charting Libraries -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+  <!-- Top Live Orbital & Industrial Telemetry Ribbon -->
+  <div class="telemetry-ribbon">
+    <div class="ribbon-group">
+      <span><span class="live-dot"></span>ORBITAL TELEMETRY: NASA POWER + EOSDIS GIBS + NEX-GDDP-CMIP6</span>
+      <span id="apiStatusBadge" class="badge badge-green">INITIALIZING NASA API...</span>
+      <span class="badge badge-cyan">CONAE SAOCOM L-BAND SAR PARTNER REF</span>
+    </div>
+    <div class="ribbon-group">
+      <span>FIELD SCADA: ESP-NOW AES-128 (&lt;4 ms) • 4–20 mA NAMUR NE43 • MODBUS TCP:502 / RS485</span>
+      <span class="badge badge-purple">LOCAL EVENT: SANTA ROSA DE CALAMUCHITA, AR</span>
+    </div>
+  </div>
+
+  <!-- Main Sticky Header -->
+  <header class="main-header">
+    <div class="brand-block">
+      <!-- Custom Vector INANNA Monogram (Original Work, Zero Third-Party Trademarks) -->
+      <div class="inanna-monogram" aria-label="INANNA Monogram">
+        <svg width="32" height="32" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="3" y="7" width="4.5" height="22" rx="1.5" fill="url(#silverGrad)"/>
+          <path d="M12 29V7H16.2L26.5 21.8V7H31V29H26.8L16.5 14.2V29H12Z" fill="url(#cyanGrad)"/>
+          <defs>
+            <linearGradient id="silverGrad" x1="3" y1="7" x2="7.5" y2="29" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#FFFFFF"/>
+              <stop offset="1" stop-color="#94A3B8"/>
+            </linearGradient>
+            <linearGradient id="cyanGrad" x1="12" y1="7" x2="31" y2="29" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#1890FF"/>
+              <stop offset="1" stop-color="#00B8E6"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+      <div class="brand-titles">
+        <h1>TERRA-SHIFT SCADA</h1>
+        <div id="brandSubtitle" class="brand-subtitle">
+          Orbital-to-Root Agricultural Adaptation &amp; Rural IIoT SCADA • <strong>INANNA COMPANY</strong>
+        </div>
+      </div>
+    </div>
+
+    <div class="header-actions">
+      <nav class="nav-pills">
+        <a href="#sectionOrbital" id="navOrbital" class="nav-pill active">1. Orbital Telemetry</a>
+        <a href="#sectionShift" id="navShift" class="nav-pill">2. Crop Shift Matrix</a>
+        <a href="#sectionScada" id="navScada" class="nav-pill">3. Ground IIoT SCADA</a>
+        <a href="presentation/deck_7_slides.html" target="_blank" id="navSlides" class="nav-pill" style="border-color:rgba(0,184,230,0.45);color:#00b8e6;">7-Slide Demo Deck ↗</a>
+      </nav>
+      <button id="btnLangToggle" class="btn">🌐 ES / Español</button>
+      <button id="btnPrint" class="btn btn-primary">Export PDF Plan</button>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <!-- Executive Scenario Control Banner -->
+    <section class="hero-banner">
+      <div>
+        <span id="heroBadge" class="badge badge-cyan">2026 NASA SPACE APPS CHALLENGE • FIELD SHIFT</span>
+        <h2 id="heroTitle" class="hero-title">Bridging Planetary NASA Earth Observations with Routerless Rural Automation</h2>
+        <p id="heroDesc" class="hero-desc">
+          Click any farm coordinate on Earth or select a preset agro-zone. TERRA-SHIFT queries live 20-year NASA POWER &amp; GIBS satellite telemetry, projects 2035–2050 CMIP6 crop suitability shifts, and cross-validates orbital soil moisture against industrial 4–20 mA (NAMUR NE43) ESP-NOW field probes.
+        </p>
+      </div>
+
+      <div class="control-matrix">
+        <div class="control-row">
+          <div class="field-group">
+            <label id="lblPreset" for="selPreset">Agro-Ecological Preset</label>
+            <select id="selPreset">
+              <option value="calamuchita">Santa Rosa de Calamuchita, Córdoba (AR)</option>
+              <option value="riocuarto">Río Cuarto — Pampas Core, Córdoba (AR)</option>
+              <option value="traslasierra">Villa Dolores — Traslasierra Semi-Arid (AR)</option>
+              <option value="mendoza">Luján de Cuyo — Andean Oasis, Mendoza (AR)</option>
+              <option value="fresno">San Joaquin Valley, California (US Benchmark)</option>
+              <option value="custom">📍 Custom Map GPS Coordinate</option>
+            </select>
+          </div>
+          <div class="field-group">
+            <label id="lblHorizon" for="selHorizon">Projection Horizon</label>
+            <select id="selHorizon">
+              <option value="2026">2026 (Current Satellite State)</option>
+              <option value="2035">2035 (Near-Term Adaptation)</option>
+              <option value="2050" selected>2050 (Mid-Century Shift)</option>
+            </select>
+          </div>
+        </div>
+        <div class="control-row">
+          <div class="field-group">
+            <label id="lblScenario" for="selScenario">CMIP6 Climate Pathway</label>
+            <select id="selScenario">
+              <option value="ssp245" selected>SSP2-4.5 (Moderate Stabilization)</option>
+              <option value="ssp585">SSP5-8.5 (High Emissions / Severe Heat)</option>
+            </select>
+          </div>
+          <div class="field-group">
+            <label id="lblMgmt" for="selMgmt">On-Farm Water Strategy</label>
+            <select id="selMgmt">
+              <option value="rainfed">Rainfed (No Supplemental Irrigation)</option>
+              <option value="regenerative">Regenerative Cover Crops (+Infiltration)</option>
+              <option value="drip_iiot" selected>Precision Drip + INANNA 4–20 mA IIoT</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6 Core Agronomic & Orbital KPIs -->
+    <section class="kpi-grid">
+      <div class="kpi-card">
+        <div id="kpiTempLbl" class="kpi-label">Mean Temp (Projected)</div>
+        <div id="kpiTempVal" class="kpi-value">-- °C</div>
+        <div id="kpiTempDelta" class="kpi-delta">Loading NASA POWER...</div>
+      </div>
+      <div class="kpi-card warn">
+        <div id="kpiHeatLbl" class="kpi-label">Extreme Canopy Peak</div>
+        <div id="kpiHeatVal" class="kpi-value">-- °C</div>
+        <div id="kpiHeatDelta" class="kpi-delta">Frost Floor: -- °C</div>
+      </div>
+      <div class="kpi-card proj">
+        <div id="kpiPrecLbl" class="kpi-label">Annual Precipitation</div>
+        <div id="kpiPrecVal" class="kpi-value">-- mm/yr</div>
+        <div id="kpiPrecDelta" class="kpi-delta">PRECTOTCORR Trend</div>
+      </div>
+      <div class="kpi-card">
+        <div id="kpiGwetLbl" class="kpi-label">NASA Root-Zone Wetness</div>
+        <div id="kpiGwetVal" class="kpi-value">-- %</div>
+        <div id="kpiGwetDelta" class="kpi-delta">SMAP / GLDAS GWETROOT</div>
+      </div>
+      <div class="kpi-card ok">
+        <div id="kpiTopCropLbl" class="kpi-label">Top Resilient Crop</div>
+        <div id="kpiTopCropVal" class="kpi-value" style="font-size:1.12rem;">--</div>
+        <div id="kpiTopCropDelta" class="kpi-delta">Suitability Score</div>
+      </div>
+      <div class="kpi-card ok">
+        <div id="kpiWaterLbl" class="kpi-label">IIoT Drip Demand</div>
+        <div id="kpiWaterVal" class="kpi-value">-- m³/ha</div>
+        <div id="kpiWaterDelta" class="kpi-delta">Closed-loop 4–20 mA</div>
+      </div>
+    </section>
+
+    <!-- SECTION 1: Live NASA GIBS Map + Multi-Decade Analytics -->
+    <section id="sectionOrbital" class="grid-2col">
+      <div class="panel">
+        <div class="panel-header">
+          <div>
+            <div id="mapPanelTitle" class="panel-title">Live NASA GIBS Orbital Imagery &amp; GPS Inspector (Click Any Farm)</div>
+            <div class="panel-subtitle">Real-time WMTS tiles from NASA EOSDIS + Live REST telemetry from power.larc.nasa.gov</div>
+          </div>
+          <div class="map-layer-bar">
+            <button class="layer-btn active" data-layer="ndvi">MODIS NDVI</button>
+            <button class="layer-btn" data-layer="smap">SMAP Soil Moisture</button>
+            <button class="layer-btn" data-layer="lst">MODIS Surface Temp</button>
+            <button class="layer-btn" data-layer="viirs">VIIRS True Color</button>
+            <button class="layer-btn" data-layer="none">Base Dark</button>
+          </div>
+        </div>
+        <div class="map-wrapper">
+          <div id="orbitalMap"></div>
+          <div id="mapCoordsOverlay" class="map-overlay-coords">LAT -32.069° | LON -64.536°</div>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:20px;">
+        <div class="panel" style="flex:1;">
+          <div class="panel-header">
+            <div id="chartClimateTitle" class="panel-title">20-Year NASA POWER Historical Record &amp; CMIP6 Trajectory</div>
+          </div>
+          <div class="chart-box">
+            <canvas id="climateTrendChart"></canvas>
+          </div>
+        </div>
+
+        <div class="panel" style="flex:1;">
+          <div class="panel-header">
+            <div id="chartShiftTitle" class="panel-title">Crop Suitability Shift: 2005 Historical vs. Target Horizon (%)</div>
+          </div>
+          <div class="chart-box">
+            <canvas id="cropShiftChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 2: 10-Crop Suitability & Transition Roadmap -->
+    <section id="sectionShift" class="panel">
+      <div class="panel-header">
+        <div>
+          <div id="matrixTitle" class="panel-title">Agronomic Crop Suitability &amp; Transition Roadmap</div>
+          <div id="matrixSub" class="panel-subtitle">Ranked dynamically from NASA thermal, frost, radiation, and root-zone moisture envelopes</div>
+        </div>
+        <span class="badge badge-green">10 REGIONAL &amp; ALTERNATIVE CROPS MODELED</span>
+      </div>
+      <div id="cropMatrixGrid" class="crop-matrix-grid"></div>
+    </section>
+
+    <!-- SECTION 3: INANNA Industrial Ground-Truth & Irrigation SCADA -->
+    <section id="sectionScada" class="panel">
+      <div class="panel-header">
+        <div>
+          <div id="scadaTitle" class="panel-title">INANNA Industrial Ground-Truth &amp; Irrigation SCADA (Offline-First Rural Architecture)</div>
+          <div id="scadaSub" class="panel-subtitle">4–20 mA Current Loop (NAMUR NE43) + AES-128 ESP-NOW Rural Mesh + Modbus RTU/TCP Gateway</div>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <button id="btnWebSerial" class="btn">🔌 Link ESP32 USB (WebSerial)</button>
+          <button id="btnAlarmAck" class="btn btn-primary">✓ SCADA Alarm ACK</button>
+          <button id="btnResetHorometer" class="btn btn-danger">⟲ Service Reset NVS</button>
+        </div>
+      </div>
+
+      <div class="scada-banner">
+        <div>
+          <strong style="color:#fff;">Why Ground-Truth Hardware Matters:</strong>
+          <span style="color:#cbd5e1;font-size:0.84rem;">
+            Satellite pixels (9 km SMAP) cannot see a clogged drip line or a rodent-chewed sensor cable. INANNA fuses NASA orbital wetness with 24V DC 4–20 mA probes over routerless ESP-NOW.
+          </span>
+        </div>
+        <div style="display:flex;gap:10px;align-items:center;font-family:var(--font-mono);font-size:0.78rem;">
+          <span>NVS Horometer: <strong id="nvsHorometer" style="color:#00b8e6;">1428.4 h</strong></span>
+          <span>Cycles: <strong id="nvsCycles" style="color:#00b8e6;">319</strong></span>
+          <span id="relayStatusBadge" class="badge badge-cyan">ARMED / STANDBY</span>
+        </div>
+      </div>
+
+      <div class="grid-equal">
+        <!-- Left: 4-20 mA NAMUR NE43 Live Simulator & Orbital Sensor Fusion -->
+        <div class="loop-simulator">
+          <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
+            <strong style="font-size:0.9rem;">Interactive 4–20 mA Current Loop &amp; NAMUR NE43 Live-Zero Tester (NODE-01)</strong>
+            <span id="namurStatusBadge" class="badge badge-green">NAMUR NE43 OK</span>
+          </div>
+
+          <div class="slider-row">
+            <span style="font-family:var(--font-mono);font-size:0.78rem;">0.0 mA</span>
+            <input id="loopCurrentSlider" type="range" min="0" max="22" step="0.05" value="11.68" />
+            <span style="font-family:var(--font-mono);font-size:0.78rem;">22.0 mA</span>
+          </div>
+
+          <div style="display:flex;gap:6px;flex-wrap:wrap;">
+            <button class="btn scada-preset-btn" data-ma="1.20" style="font-size:0.73rem;">⚡ Simulate Cut Wire (1.20 mA)</button>
+            <button class="btn scada-preset-btn" data-ma="6.80" style="font-size:0.73rem;">🌵 Dry Root Zone (6.80 mA = 17.5%)</button>
+            <button class="btn scada-preset-btn" data-ma="12.00" style="font-size:0.73rem;">💧 Optimal 50% (12.00 mA)</button>
+            <button class="btn scada-preset-btn" data-ma="21.20" style="font-size:0.73rem;">🔥 Loop Short-Circuit (21.20 mA)</button>
+          </div>
+
+          <div class="namur-scale">
+            <div class="namur-zone-fault">&lt;3.6 mA WIRE FAULT</div>
+            <div class="namur-zone-ok">4.0 mA (0%) ──── LINEAR MEASUREMENT ──── 20.0 mA (100%)</div>
+            <div class="namur-zone-over">&gt;20.5 mA SHORT</div>
+          </div>
+
+          <div class="elec-readouts">
+            <div class="elec-box">
+              <span>Loop Current</span>
+              <strong id="valLoopMa">11.68 mA</strong>
+            </div>
+            <div class="elec-box">
+              <span>Shunt V (165Ω 0.1%)</span>
+              <strong id="valKirchhoffV">1.927 V</strong>
+            </div>
+            <div class="elec-box">
+              <span>ADS1115 (16-bit)</span>
+              <strong id="valAdsCounts">15418 cts</strong>
+            </div>
+            <div class="elec-box">
+              <span>Calibrated Moisture</span>
+              <strong id="valLoopPct">48.0 %</strong>
+            </div>
+          </div>
+
+          <div id="fusionDecisionBox" class="crop-advice" style="font-size:0.8rem;">
+            Evaluating Orbital + Ground Sensor Fusion...
+          </div>
+
+          <div style="font-size:0.76rem;font-weight:700;color:#cbd5e1;margin-top:4px;">ESP-NOW P2P Field Satellite Nodes (No Router / No Cellular Needed)</div>
+          <div id="espNowNodesGrid" class="nodes-grid"></div>
+        </div>
+
+        <!-- Right: Modbus TCP/RTU Register Map & Event Historian -->
+        <div class="loop-simulator">
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <strong style="font-size:0.9rem;">Live Modbus TCP (Port 502) &amp; RS485 RTU Register Map (Fixed-Point ×100)</strong>
+            <span class="badge badge-cyan">PLC / SCADA READY</span>
+          </div>
+
+          <div style="overflow-x:auto;">
+            <table class="modbus-table">
+              <thead>
+                <tr>
+                  <th>Register</th>
+                  <th>Type</th>
+                  <th>Tag Name</th>
+                  <th>Raw Int16</th>
+                  <th>Engineering Value</th>
+                </tr>
+              </thead>
+              <tbody id="modbusTableBody"></tbody>
+            </table>
+          </div>
+
+          <div style="font-size:0.76rem;font-weight:700;color:#cbd5e1;margin-top:4px;">Timestamped SCADA Alarm &amp; Event Historian</div>
+          <div id="alarmHistorian" class="alarm-log"></div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Official Team Credits, NASA Data Citations & Super Intelligence (SI) Disclosure -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>
+        <h4>Team INANNA COMPANY — 2026 NASA Space Apps Challenge</h4>
+        <p><strong>Local Event:</strong> Santa Rosa de Calamuchita, Córdoba, Argentina</p>
+        <p><strong>Challenge:</strong> Field Shift: Adapting Farms with NASA Data</p>
+        <p style="margin-top:6px;">
+          <strong>Engineering Roster:</strong> Fabio Maximiliano Medina Rojas (Lead / Mechatronics), Agustín Alejandro Debia, Iván David Coria.
+        </p>
+        <p style="margin-top:6px;color:#64748b;">
+          Divisions: AUTOMATION INANNA • AI INANNA • INDUSTRIES INANNA • LABS INANNA
+        </p>
+      </div>
+
+      <div>
+        <h4>Official NASA &amp; Space Agency Partner Data</h4>
+        <ul style="list-style:none;display:flex;flex-direction:column;gap:4px;">
+          <li>• <strong>NASA POWER API:</strong> Multi-decade Agroclimatology (T2M, PRECTOTCORR, GWETROOT, Solar)</li>
+          <li>• <strong>NASA EOSDIS GIBS:</strong> MODIS NDVI, MODIS LST, SMAP L4 Soil Moisture, VIIRS</li>
+          <li>• <strong>NASA NEX-GDDP-CMIP6:</strong> SSP2-4.5 &amp; SSP5-8.5 Climate Projections</li>
+          <li>• <strong>NASA Harvest &amp; ECOSTRESS:</strong> Crop Water Use Efficiency Frameworks</li>
+          <li>• <strong>CONAE (Argentina):</strong> SAOCOM 1A/1B L-Band SAR Regional Reference</li>
+        </ul>
+      </div>
+
+      <div>
+        <h4>Transparency &amp; Use of AI / Super Intelligence (SI) Disclosure</h4>
+        <div class="si-disclosure">
+          <strong>AI-Assisted Development Notice (Per 2026 NASA Space Apps Rules):</strong> Core system architecture, agronomic-mechatronic fusion concept, 4–20 mA NAMUR NE43 industrial design, and ESP-NOW/Modbus engineering were conceived by Team INANNA COMPANY. Generative AI coding/structuring assistance (Google Gemini / Antigravity) was used to accelerate UI scaffolding, bilingual translation, and code documentation. No NASA logos, insignias, or restricted mission identifiers are used or modified.
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+  <script src="js/nasa-api.js"></script>
+  <script src="js/crop-engine.js"></script>
+  <script src="js/scada-iiot.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
