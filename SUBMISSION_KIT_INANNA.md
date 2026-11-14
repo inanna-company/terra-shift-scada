@@ -25,18 +25,18 @@ Our platform queries live 20-year NASA POWER agroclimatology series and renders 
 
 ## SECCIÓN B — Project Links
 
-*(Apenas subamos esta carpeta a un repositorio público de **GitHub** con **GitHub Pages** activado —te dejo el comando exacto al final—, vas a tener los dos links `https://` públicos sin contraseña listos para pegar acá)*:
+*(URLs oficiales con tu cuenta `github.com/inanna-company` y repositorio público `terra-shift-scada` con GitHub Pages activo)*:
 
-### 1. `Project Demonstration *` *(Link público al Deck de 7 Slides o al PDF de 7 páginas en Google Drive / GitHub Pages)*
+### 1. `Project Demonstration *` *(Link público al Deck Oficial de 7 Slides en inglés)*
 ```text
-https://<TU_USUARIO_GITHUB>.github.io/terra-shift-scada/presentation/deck_7_slides.html
+https://inanna-company.github.io/terra-shift-scada/presentation/deck_7_slides.html
 ```
-*(También generamos `presentation/TERRA_SHIFT_INANNA_7_SLIDES.pdf` de exactamente 7 páginas en inglés por si además querés subirlo a Google Drive con acceso "Cualquier persona con el enlace" o al repo).*
 
-### 2. `Project *` *(Link público a la Web App en vivo / Repositorio GitHub)*
+### 2. `Project *` *(Link público a la Web App interactiva en vivo)*
 ```text
-https://<TU_USUARIO_GITHUB>.github.io/terra-shift-scada/
+https://inanna-company.github.io/terra-shift-scada/
 ```
+*(Y el código fuente completo + firmware ESP32 queda público en `https://github.com/inanna-company/terra-shift-scada`, que también podés sumar como link en NASA/Other Data).*
 
 ---
 
@@ -93,6 +93,7 @@ In Córdoba and Calamuchita, our analysis highlights rising summer heat stress a
 
 | Link Text | Link Url |
 | :--- | :--- |
+| `INANNA COMPANY — TERRA-SHIFT SCADA Open Repository & ESP32 Firmware` | `https://github.com/inanna-company/terra-shift-scada` |
 | `CONAE Argentina — SAOCOM 1A/1B L-Band SAR Soil Moisture Mission` | `https://www.argentina.gob.ar/ciencia/conae/misiones-espaciales/saocom` |
 | `Leaflet.js Open-Source Interactive Mapping Library` | `https://leafletjs.com/` |
 | `Chart.js Open-Source HTML5 Data Visualization Library` | `https://www.chartjs.org/` |
