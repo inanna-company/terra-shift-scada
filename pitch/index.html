@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>3-Min Jury Pitch Coach & Q&A Defense — TERRA-SHIFT SCADA</title>
+  <title>3-Min Jury Pitch Coach & 16-Question Q&A Defense — TERRA-SHIFT SCADA</title>
   <link rel="icon" type="image/jpeg" href="../assets/inanna-isotipo.jpg" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=JetBrains+Mono:wght@600;800&display=swap" rel="stylesheet" />
   <style>
@@ -45,17 +45,21 @@
     .lang-group { display: flex; background: #0d141d; border: 1px solid var(--border); border-radius: 7px; overflow: hidden; }
     .lang-btn { background: transparent; color: var(--muted); border: none; padding: 6px 10px; font-weight: 700; font-size: 0.74rem; cursor: pointer; }
     .lang-btn.active { background: var(--blue); color: #fff; }
+    .print-btn {
+      background: linear-gradient(135deg, #1890ff, #00b8e6); color: #fff; border: none;
+      padding: 7px 13px; border-radius: 7px; font-weight: 800; font-size: 0.76rem; cursor: pointer;
+    }
 
     .wrap {
-      max-width: 1460px;
+      max-width: 1520px;
       margin: 0 auto;
       padding: 16px;
       display: grid;
-      grid-template-columns: 390px 1fr;
+      grid-template-columns: 400px 1fr;
       gap: 16px;
       align-items: start;
     }
-    @media (max-width: 1040px) {
+    @media (max-width: 1080px) {
       .wrap { grid-template-columns: 1fr; }
     }
     .panel {
@@ -70,35 +74,51 @@
       background: #060a0f;
       border: 2px solid var(--cyan);
       border-radius: 14px;
-      padding: 18px;
+      padding: 16px;
       text-align: center;
-      margin: 12px 0;
+      margin: 10px 0;
     }
     .clock-digits {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 3.6rem;
+      font-size: 3.4rem;
       font-weight: 800;
       color: #4ade80;
       letter-spacing: 0.04em;
     }
-    .clock-sub { font-size: 0.78rem; color: var(--muted); margin-top: 4px; font-weight: 700; }
-    .prog-track { height: 10px; background: #17212e; border-radius: 999px; overflow: hidden; margin-top: 12px; }
+    .clock-sub { font-size: 0.75rem; color: var(--muted); margin-top: 4px; font-weight: 700; }
+    .prog-track { height: 10px; background: #17212e; border-radius: 999px; overflow: hidden; margin-top: 10px; }
     .prog-bar { height: 100%; width: 100%; background: linear-gradient(90deg, #22c55e, #00b8e6); transition: width 0.3s linear; }
 
-    .btn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px; }
+    .btn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px; }
     .t-btn {
-      padding: 10px 12px; border-radius: 9px; font-weight: 800; font-size: 0.8rem;
+      padding: 9px 11px; border-radius: 9px; font-weight: 800; font-size: 0.78rem;
       cursor: pointer; border: 1px solid var(--border); background: #172434; color: #fff;
     }
     .t-btn.go { background: linear-gradient(135deg, #059669, #10b981); border: none; }
     .t-btn.qa { background: linear-gradient(135deg, #d97706, #f59e0b); border: none; color: #080c12; }
 
+    .cheat-box {
+      margin-top: 12px;
+      border-top: 1px solid rgba(148,163,184,0.2);
+      padding-top: 10px;
+    }
+    .cheat-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 5px 0;
+      border-bottom: 1px dashed rgba(148,163,184,0.14);
+      font-size: 0.73rem;
+    }
+    .cheat-k { color: var(--muted); font-weight: 600; }
+    .cheat-v { color: #7dd3fc; font-family: 'JetBrains Mono', monospace; font-weight: 700; text-align: right; }
+
     .step-card {
       background: var(--dark);
       border: 1px solid #223246;
       border-radius: 11px;
-      padding: 13px 15px;
-      margin-bottom: 10px;
+      padding: 12px 14px;
+      margin-bottom: 9px;
       transition: all 0.2s ease;
     }
     .step-card.active-step {
@@ -106,31 +126,79 @@
       background: linear-gradient(145deg, #11263b 0%, #0b141f 100%);
       box-shadow: 0 0 20px rgba(0, 184, 230, 0.28);
     }
-    .step-head {
-      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 7px;
-    }
+    .step-head { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 6px; }
     .step-time {
-      font-family: 'JetBrains Mono', monospace; font-size: 0.76rem; font-weight: 800;
+      font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; font-weight: 800;
       padding: 3px 8px; border-radius: 6px; background: rgba(0,184,230,0.16); color: #7dd3fc;
     }
     .step-speaker {
-      font-size: 0.73rem; font-weight: 700; color: #fde68a;
+      font-size: 0.72rem; font-weight: 700; color: #fde68a;
       background: rgba(245,158,11,0.15); border: 1px solid rgba(245,158,11,0.4);
       padding: 3px 8px; border-radius: 6px;
     }
-    .step-script { font-size: 0.88rem; line-height: 1.52; color: #f8fafc; }
-    .step-action {
-      margin-top: 8px; font-size: 0.75rem; color: #86efac; font-family: 'JetBrains Mono', monospace;
-    }
+    .step-script { font-size: 0.86rem; line-height: 1.5; color: #f8fafc; }
+    .step-action { margin-top: 7px; font-size: 0.74rem; color: #86efac; font-family: 'JetBrains Mono', monospace; }
 
-    .qa-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 12px; }
-    @media (max-width: 780px) { .qa-grid { grid-template-columns: 1fr; } }
+    .qa-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 12px 0;
+      align-items: center;
+    }
+    .qa-search {
+      flex: 1;
+      min-width: 220px;
+      background: #080d14;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 12px;
+      color: #fff;
+      font-size: 0.82rem;
+    }
+    .cat-btn {
+      background: #0e1622;
+      color: #cbd5e1;
+      border: 1px solid #26384d;
+      padding: 6px 10px;
+      border-radius: 7px;
+      font-size: 0.73rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .cat-btn.active { background: var(--blue); border-color: var(--cyan); color: #fff; }
+
+    .qa-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    @media (max-width: 820px) { .qa-grid { grid-template-columns: 1fr; } }
     .qa-card {
-      background: var(--dark); border: 1px solid #243549; border-radius: 11px; padding: 12px 14px; cursor: pointer;
+      background: var(--dark);
+      border: 1px solid #243549;
+      border-radius: 11px;
+      padding: 13px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
     }
     .qa-card:hover { border-color: var(--cyan); }
-    .qa-q { font-size: 0.82rem; font-weight: 800; color: #38bdf8; margin-bottom: 6px; }
-    .qa-a { font-size: 0.78rem; line-height: 1.45; color: #cbd5e1; }
+    .qa-meta { display: flex; justify-content: space-between; align-items: center; gap: 6px; flex-wrap: wrap; }
+    .qa-badge {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; font-weight: 700;
+      padding: 2px 7px; border-radius: 5px; background: rgba(0,184,230,0.14); color: #7dd3fc;
+    }
+    .qa-who {
+      font-size: 0.68rem; font-weight: 700; color: #fde68a;
+    }
+    .qa-q { font-size: 0.85rem; font-weight: 800; color: #ffffff; line-height: 1.35; }
+    .qa-a { font-size: 0.79rem; line-height: 1.48; color: #cbd5e1; }
+    .qa-show { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: #86efac; margin-top: 2px; }
+
+    @media print {
+      body { background: #fff; color: #000; }
+      .topbar, .timer-card .btn-grid, #btnModeQa, .qa-toolbar { display: none !important; }
+      .wrap { grid-template-columns: 1fr; }
+      .panel, .step-card, .qa-card { background: #fff !important; color: #000 !important; border: 1px solid #ccc !important; box-shadow: none !important; break-inside: avoid; }
+      .qa-q, .step-script, .cheat-k, .cheat-v, .qa-a { color: #111 !important; }
+    }
   </style>
 </head>
 <body>
@@ -139,11 +207,12 @@
     <a href="../index.html" class="brand" id="brandHome">
       <img src="../assets/inanna-isotipo.jpg" alt="Team INANNA" />
       <div>
-        <div class="brand-t1" id="hdrTitle">ENTRENADOR DE DEFENSA 3:00 MIN + BANCO Q&amp;A JURADO</div>
-        <div class="brand-t2" id="hdrSub">Sede Santa Rosa de Calamuchita (15:30 hs) • 3 min Pitch + 2 min Preguntas</div>
+        <div class="brand-t1" id="hdrTitle">SALA DE DEFENSA ANTE EL JURADO: PITCH 3:00 + 16 RESPUESTAS Q&amp;A</div>
+        <div class="brand-t2" id="hdrSub">Sede Santa Rosa de Calamuchita (15:30 hs) • Buscador Instantáneo + Machete Técnico</div>
       </div>
     </a>
     <div class="ctrl-row">
+      <button class="print-btn" id="btnPrintQa" onclick="window.print()">🖨️ Imprimir Machete PDF</button>
       <div class="lang-group">
         <button class="lang-btn" data-lang="en">EN</button>
         <button class="lang-btn active" data-lang="es">ES</button>
@@ -153,12 +222,12 @@
   </header>
 
   <main class="wrap">
-    <!-- LEFT: OFFICIAL JURY STOPWATCH -->
+    <!-- LEFT: STOPWATCH + QUICK NUMBERS CHEAT SHEET -->
     <aside class="panel timer-card">
-      <div style="font-weight:800;font-size:0.9rem;color:#fff;" id="lblTimerHdr">⏱️ Cronómetro Oficial Santa Rosa (15:30 hs)</div>
-      <div class="clock-box" id="clockBox">
+      <div style="font-weight:800;font-size:0.88rem;color:#fff;" id="lblTimerHdr">⏱️ Cronómetro Oficial Jurado (3:00 + 2:00)</div>
+      <div class="clock-box">
         <div class="clock-digits" id="clockDigits">03:00</div>
-        <div class="clock-sub" id="clockModeLbl">MODO PRESENTACIÓN (180 SEGUNDOS)</div>
+        <div class="clock-sub" id="clockModeLbl">MODO PRESENTACIÓN (03:00 MIN)</div>
         <div class="prog-track"><div class="prog-bar" id="progBar"></div></div>
       </div>
 
@@ -166,20 +235,29 @@
         <button class="t-btn go" id="btnStartPause" onclick="toggleClock()">▶ Iniciar / Pausar</button>
         <button class="t-btn" id="btnReset" onclick="resetClock(180)">↺ Reiniciar 03:00</button>
       </div>
-      <button class="t-btn qa" style="width:100%;margin-bottom:12px;" id="btnModeQa" onclick="resetClock(120)">❓ Pasar a Rueda de Preguntas (02:00)</button>
+      <button class="t-btn qa" style="width:100%;margin-bottom:10px;" id="btnModeQa" onclick="resetClock(120)">❓ Activar Reloj Preguntas Q&amp;A (02:00)</button>
 
-      <div style="font-size:0.76rem;color:var(--muted);line-height:1.45;" id="tipsBox"></div>
+      <div style="font-size:0.74rem;color:var(--muted);line-height:1.42;" id="tipsBox"></div>
+
+      <div class="cheat-box">
+        <div style="font-size:0.8rem;font-weight:800;color:#fff;margin-bottom:6px;" id="cheatHdr">🔢 Machete Rápido de Cifras Exactas</div>
+        <div id="cheatList"></div>
+      </div>
     </aside>
 
-    <!-- RIGHT: TELEPROMPTER + KILLER Q&A -->
+    <!-- RIGHT: TELEPROMPTER + SEARCHABLE 16-QUESTION ARSENAL -->
     <section>
       <div class="panel" style="margin-bottom:16px;">
-        <div style="font-weight:800;font-size:0.95rem;color:#fff;margin-bottom:10px;" id="teleTitle">🎙️ Guion Sincronizado de 3:00 Minutos (Se ilumina en vivo con el reloj)</div>
+        <div style="font-weight:800;font-size:0.95rem;color:#fff;margin-bottom:10px;" id="teleTitle">🎙️ Guion Sincronizado de 3:00 Minutos (Maxi + Agustín + Iván)</div>
         <div id="stepsContainer"></div>
       </div>
 
       <div class="panel">
-        <div style="font-weight:800;font-size:0.95rem;color:#fff;" id="qaTitle">🛡️ Las 6 Preguntas Trampa del Jurado (2:00 min Q&amp;A) — Respuestas Nocaut</div>
+        <div style="font-weight:800;font-size:0.96rem;color:#fff;" id="qaTitle">🛡️ Banco Completo de 16 Preguntas del Jurado (Buscador Instantáneo en Vivo)</div>
+        <div class="qa-toolbar">
+          <input type="search" id="qaSearchInput" class="qa-search" placeholder="🔍 Escribí una palabra (ej: NAMUR, NASA, LoRa, Niño, válvula, PC, IA, silobolsa)..." oninput="renderQaOnly()" />
+          <div id="catFilters" style="display:flex;gap:6px;flex-wrap:wrap;"></div>
+        </div>
         <div class="qa-grid" id="qaContainer"></div>
       </div>
     </section>
@@ -188,167 +266,212 @@
   <script>
     const PITCH_I18N = {
       es: {
-        hdrTitle: 'ENTRENADOR DE DEFENSA 3:00 MIN + BANCO Q&A JURADO',
-        hdrSub: 'Sede Santa Rosa de Calamuchita (15:30 hs) • 3 min Pitch + 2 min Preguntas',
-        lblTimerHdr: '⏱️ Cronómetro Oficial Santa Rosa (15:30 hs)',
+        hdrTitle: 'SALA DE DEFENSA ANTE EL JURADO: PITCH 3:00 + 16 RESPUESTAS Q&A',
+        hdrSub: 'Sede Santa Rosa de Calamuchita (15:30 hs) • Buscador Instantáneo + Machete Técnico',
+        btnPrint: '🖨️ Imprimir Machete PDF',
+        lblTimerHdr: '⏱️ Cronómetro Oficial Jurado (3:00 + 2:00)',
         modePitch: 'MODO PRESENTACIÓN (03:00 MIN)',
-        modeQa: 'MODO PREGUNTAS DEL JURADO (02:00 MIN)',
+        modeQa: 'MODO PREGUNTAS DEL JURADO (02:00 MIN — 20s POR RESPUESTA)',
         btnStart: '▶ Iniciar / Pausar',
         btnReset: '↺ Reiniciar 03:00',
-        btnModeQa: '❓ Pasar a Rueda de Preguntas (02:00)',
-        teleTitle: '🎙️ Guion Sincronizado de 3:00 Minutos (Se ilumina automáticamente con el reloj)',
-        qaTitle: '🛡️ Las 6 Preguntas Clave del Jurado (2:00 min Q&A) — Respuestas Cortas y Contundentes',
-        tips: '<strong>Regla de Oro para las 15:30 hs:</strong> Compartí pantalla con 3 pestañas ya abiertas: 1) Consola SCADA (ES), 2) Emulador ESP32 (pestaña 6 Nodos LoRa), y 3) Simulador LoRa 30 km + Chata OLED.',
+        btnModeQa: '❓ Activar Reloj Preguntas Q&A (02:00)',
+        teleTitle: '🎙️ Guion Sincronizado de 3:00 Minutos (Se ilumina con el reloj)',
+        qaTitle: '🛡️ Las 16 Preguntas del Jurado (5 Criterios NASA) — Buscador Instantáneo',
+        searchPh: '🔍 Buscá al toque: NAMUR, NASA, píxel, Niño, Vórtice, válvula, LoRa, PC, PLC, IA, silobolsa...',
+        tips: '<strong>Reparto de Pelotas en Q&A:</strong> 🔧 <strong>Maxi:</strong> ESP32 / 4–20mA / Válvulas / Modbus • 🛰️ <strong>Agustín:</strong> NASA / Clima / Rotación / Modo PC • 📡 <strong>Iván:</strong> LoRa 30km / Calamuchita / Silobolsa.',
+        cheatHdr: '🔢 Cifras Exactas (En la punta de la lengua)',
+        cheats: [
+          ['Lazo 4–20 mA (24V)', '4mA=0% • 12mA=50% • 20mA=100%'],
+          ['Falla NAMUR NE43', '< 3.60 mA corte (<4 ms) | > 20.5 mA corto'],
+          ['Shunt Kirchhoff + ADC', '165.0 Ω (0.66–3.30 V) • ADS1115 16-bit'],
+          ['Electroválvula Latch', 'Pulso 50 ms (DRV8871) • Retención 0.00 mA'],
+          ['Autonomía Nodo Solar', 'Panel 5W + LiFePO₄ + Sueño 15 µA'],
+          ['Radio sin Señal 4G', 'ESP-NOW (<2.4ms) + LoRa 915MHz (15–30km)'],
+          ['Protocolo PLC / SCADA', 'Modbus TCP :502 + RS485 (×100 Int16)'],
+          ['Ahorro Agua y Energía', '28–42% Agua • 35–50% kWh (VFD P∝N³)']
+        ],
+        cats: [
+          { id: 'all', lbl: 'Todas (16)' },
+          { id: 'nasa', lbl: '🛰️ Ciencia NASA (4)' },
+          { id: 'hw', lbl: '⚙️ ESP32 y 4–20mA (4)' },
+          { id: 'lora', lbl: '📡 LoRa 30km y Campo (3)' },
+          { id: 'imp', lbl: '🌱 Inclusión e Impacto (3)' },
+          { id: 'si', lbl: '📋 Reglas, IA y Futuro (2)' }
+        ],
         steps: [
           {
             start: 0, end: 30, time: '0:00 – 0:30',
-            who: 'Orador 1 (Maxi — Apertura e Impacto Regional)',
-            text: '“Buenas tardes jurado de Santa Rosa de Calamuchita. Somos el equipo INANNA COMPANY, desde Río Cuarto: Fabio Medina Rojas, Agustín Debia e Iván Coria. En Córdoba enfrentamos dos realidades críticas: sequía y calor extremo que golpean al maíz y la soja en la llanura, y heladas tardías o falta total de señal celular en los valles de Calamuchita. Para el desafío Field Shift creamos TERRA-SHIFT SCADA: una plataforma abierta que une satélites de la NASA en vivo con mecatrónica rural autónoma.”',
-            act: '📺 Mostrar: Consola SCADA Principal (Mapa Satelital NASA GIBS sobre Córdoba)'
+            who: 'Orador 1 (Maxi — Apertura e Impacto Córdoba)',
+            text: '“Buenas tardes jurado de Santa Rosa de Calamuchita. Somos el equipo INANNA COMPANY, desde Río Cuarto: Fabio Medina Rojas, Agustín Debia e Iván Coria. En Córdoba enfrentamos sequía y olas de calor en la llanura, y heladas tardías con cero señal celular en los valles de Calamuchita. Para Field Shift creamos TERRA-SHIFT SCADA: una plataforma abierta que fusiona satélites de la NASA en vivo con mecatrónica rural autónoma.”',
+            act: '📺 Mostrar: Consola SCADA Principal (Mapa Satelital NASA GIBS)'
           },
           {
             start: 30, end: 75, time: '0:30 – 1:15',
-            who: 'Orador 2 (Agustín — Ciencia NASA + Productor con Solo una PC)',
-            text: '“Primero pensamos en la inclusión total: el pequeño productor familiar que solo tiene una PC y cero sensores hace clic en su lote y consulta 20 años de NASA POWER, humedad radicular SMAP y proyecciones CMIP6 2030-2050. El motor calcula al instante qué cultivo alternativo conviene rotar —como sorgo, garbanzo, olivo o vid—, su calendario de 12 meses de heladas y cuánta agua de acuífero ahorra.”',
-            act: '📺 Mostrar: Matriz de Rotación de Cultivos + Calendario Fenológico 12 Meses'
+            who: 'Orador 2 (Agustín — Ciencia NASA + Escalón 1 Solo PC)',
+            text: '“Primero, inclusión total: el pequeño productor familiar que solo tiene una PC y cero sensores hace clic en su lote y consulta gratis 20 años de NASA POWER, humedad radicular SMAP y proyecciones CMIP6 2030–2050. El motor calcula al instante a qué cultivo resiliente rotar —sorgo, garbanzo, olivo o vid—, su calendario de 12 meses y su plan PDF imprimible.”',
+            act: '📺 Mostrar: Matriz de Rotación de Cultivos + Calendario 12 Meses'
           },
           {
             start: 75, end: 125, time: '1:15 – 2:05',
-            who: 'Orador 1 (Maxi — Seguridad Industrial 4–20 mA NAMUR NE43)',
-            text: '“Pero en el campo real los sensores se cortan. Un sensor común de voltaje lee 0 voltios cuando un animal corta el cable, engañando al riego para que inunde el lote y queme la bomba. Nosotros compilamos firmware C++ real en ESP32 con lazo industrial 4 a 20 mA y norma NAMUR NE43: debajo de 3.6 mA detecta cable cortado en 4 milisegundos, enclava la bomba y conmuta automáticamente a la humedad satelital NASA SMAP como respaldo.”',
-            act: '📺 Mostrar: Emulador ESP32 (Apretar botón ✂️ Cable Cortado <3.6 mA en vivo)'
+            who: 'Orador 1 (Maxi — Seguridad 4–20 mA NAMUR NE43)',
+            text: '“En el campo real los cables se cortan. Un sensor común de voltaje lee cero voltios cuando un animal corta el cable, engañando a la bomba para que inunde el cultivo. Nosotros compilamos firmware C++ real en ESP32 con lazo industrial 4–20 mA y norma NAMUR NE43: debajo de 3.6 mA detecta cable cortado en 4 milisegundos, enclava la bomba y conmuta automáticamente a la humedad satelital NASA SMAP.”',
+            act: '📺 Mostrar: Emulador ESP32 (Apretar botón ✂️ Cable Cortado <3.6 mA)'
           },
           {
             start: 125, end: 160, time: '2:05 – 2:40',
-            who: 'Orador 3 (Iván — Ecosistema Solar + LoRa 30 km Sin Señal)',
-            text: '“Y para lotes sin luz ni 4G diseñamos una misma placa madre Solar + LiFePO4 + ESP32 + LoRa 915 MHz que alimenta 6 equipos modulares hasta 30 km: centinela de heladas en hondonadas serranas, electroválvulas biestables de consumo cero con corte por caño roto, sonda NPK RS485, nivel de tanque australiano, repetidora solar de cumbre con pantalla OLED 12V en la camioneta, y lanza de CO₂ para silobolsas en Río Cuarto.”',
-            act: '📺 Mostrar: Simulador LoRa 30 km + Pantalla OLED 12V de la Chata'
+            who: 'Orador 3 (Iván — 6 Nodos Solares LoRa 30 km Sin Señal)',
+            text: '“Y para lotes sin luz ni 4G, una misma placa Solar + LiFePO4 + ESP32 + LoRa 915 MHz alimenta 6 equipos modulares hasta 30 km: centinela de heladas en hondonadas, electroválvulas biestables de 0.00 mA con corte por caño roto, sonda NPK RS485, nivel de tanque australiano, repetidora de cumbre con pantalla OLED 12V en la chata, y lanza de CO₂ para silobolsas en Río Cuarto.”',
+            act: '📺 Mostrar: Simulador LoRa 30 km + Pantalla OLED 12V de Chata'
           },
           {
             start: 160, end: 180, time: '2:40 – 3:00',
-            who: 'Cierre Conjunto (Maxi — Entregables 100% Abiertos)',
-            text: '“Todo es 100% funcional hoy mismo en inglés, español y portugués: web app en vivo, binarios .bin compilados listos para flashear en ESP32 y 4 manuales técnicos. Con datos de la NASA desde el espacio y mecatrónica argentina en la raíz, ningún productor vuelve a sembrar ni regar a ciegas. ¡Muchas gracias!”',
-            act: '📺 Mostrar: Cierre con los 3 Escalones (Pequeño Productor → Cooperativa → Agroindustria)'
+            who: 'Cierre (Maxi — Entregables 100% Funcionales)',
+            text: '“Todo funciona hoy en vivo en inglés, español y portugués, con binarios .bin compilados listos para flashear en ESP32 y 4 manuales técnicos. Con la NASA en órbita y mecatrónica argentina en la raíz, ningún productor vuelve a sembrar ni regar a ciegas. ¡Muchas gracias!”',
+            act: '📺 Mostrar: Cierre con los 3 Escalones Inclusivos'
           }
         ],
         qa: [
-          {
-            q: '1. ¿Cómo se unen exactamente los datos de la NASA con el ESP32?',
-            a: 'En doble vía: NASA POWER (GWETROOT/T2M/PRECTOT) y MODIS NDVI fijan el balance hídrico macro y detectan manchones amarillos; el ESP32 ajusta en suelo real y, si se corta un sensor (<3.6 mA NAMUR NE43), usa el dato orbital NASA cacheado para no destruir ni inundar el cultivo.'
-          },
-          {
-            q: '2. ¿Cómo lo usa un pequeño productor familiar que NO puede comprar hardware?',
-            a: 'Con el Escalón 1 (Modo Solo PC, costo cero): entra desde cualquier computadora o celular, marca su coordenada rural, simula rotaciones de cultivo frente al cambio climático 2030/2050 e imprime su plan agronómico PDF sin comprar un solo sensor.'
-          },
-          {
-            q: '3. ¿Qué pasa en Calamuchita si hay un cerro en el medio y cero señal celular?',
-            a: 'No usamos 4G ni routers: los nodos transmiten en LoRa 915 MHz y la Posta Repetidora Solar #5 (cajita IP67 de 300 g con panel de 5W en una loma) salta los paquetes por arriba del cerro hasta 30 km directo al casco o a la pantalla OLED 12V de la chata.'
-          },
-          {
-            q: '4. ¿Una electroválvula en el medio del campo no agota la batería solar?',
-            a: 'Una válvula común sí; por eso usamos Electroválvulas Biestables (Latch): abren con un pulso de apenas 50 milisegundos (puente H DRV8871) y quedan abiertas horas retenidas por un imán permanente consumiendo 0.00 mA.'
-          },
-          {
-            q: '5. ¿El código del ESP32 es real o solo una simulación visual?',
-            a: '100% C++ real y compilado: en el repositorio están tanto el código fuente editable (.ino) para Gateway y Nodo Solar como los binarios precompilados (.merged.bin) verificados con arduino-cli listos para grabar por USB en 1 clic.'
-          },
-          {
-            q: '6. ¿La resolución espacial del satélite NASA alcanza para un lote chico?',
-            a: 'Justamente ahí brilla nuestra arquitectura híbrida: NASA POWER y GIBS (MODIS 250 m / SMAP 9 km) dan la tendencia climática multidecadal regional que ningún sensor local tiene, mientras que los lazos 4–20 mA y RS485 corrigen el microclima exacto de la hondonada o la raíz.'
-          },
-          {
-            q: '7. ¿Qué pasa ante eventos fortuitos extremos como un Súper El Niño o rupturas del Vórtice Polar?',
-            a: 'Los promedios CMIP6 guían la rotación a 20 años, pero los cisnes negros golpean en horas: ante un Súper El Niño (vigilado por NASA Sentinel-6 y GPM) los Nodos #3 (NPK/Salinidad) y #6 (CO₂ en Silobolsa) previenen lavado de suelo y fermentación de grano; y ante rupturas del Vórtice Polar Ártico (Hemisferio Norte, NASA MERRA-2) o del Vórtice Polar Austral/Antártico (heladas tardías en Calamuchita), el Nodo #1 PT100 activa solo el riego anti-helada.'
-          }
+          { cat: 'nasa', badge: 'VALIDEZ NASA', who: '🛰️ Agustín / 🔧 Maxi', q: '1. ¿Cómo se unen realmente los datos de la NASA con el ESP32?', a: 'En lazo cerrado bidireccional: NASA POWER (GWETROOT, T2M, lluvias) y MODIS NDVI fijan el balance hídrico macro y detectan manchones amarillos; el ESP32 ajusta al milímetro en suelo, y si se corta un cable (<3.6 mA NAMUR NE43), usa automáticamente la humedad orbital NASA SMAP guardada en caché.', show: '👉 Pestaña: Emulador ESP32 (Botón Cable Cortado)' },
+          { cat: 'nasa', badge: 'RESOLUCIÓN SATELITAL', who: '🛰️ Agustín', q: '2. Los píxeles de NASA POWER (50 km) o SMAP (9 km) son grandes. ¿Sirven para un lote chico?', a: 'Exactamente por eso nuestra arquitectura es híbrida Espacio-Tierra: ningún sensor enterrado predice el clima 2030–2050 —eso lo dan 20 años de NASA POWER + CMIP6 y MODIS NDVI a 250 m—, mientras que nuestros lazos 4–20 mA y RS485 corrigen el microclima exacto de cada hondonada o parcela.', show: '👉 Pestaña: Consola SCADA (Capas GIBS)' },
+          { cat: 'nasa', badge: 'API EN VIVO', who: '🛰️ Agustín', q: '3. ¿La plataforma consulta datos reales de la NASA en vivo o son números fijos?', a: '100% en vivo: al tocar cualquier coordenada mundial hace fetch directo a la API oficial power.larc.nasa.gov y descarga mosaicos satelitales reales de gibs.earthdata.nasa.gov, guardando respaldo en caché offline por si se corta internet en el campo.', show: '👉 Pestaña: Consola SCADA (Clic en el Mapa)' },
+          { cat: 'nasa', badge: 'CISNES NEGROS', who: '🛰️ Agustín / 📡 Iván', q: '4. ¿Cómo responde ante eventos fortuitos extremos como un Súper El Niño o ruptura del Vórtice Polar?', a: 'CMIP6 guía la rotación a 20 años, y nuestros nodos atajan extremos de pocas horas: ante el latigazo La Niña → Súper El Niño (NASA Sentinel-6, SWOT y GPM) los Nodos #3 (NPK/Salinidad) y #6 (CO₂ en Silobolsa) evitan lavado y fermentación; y ante rupturas del Vórtice Polar Ártico (Hemisferio Norte, NASA MERRA-2) o del Vórtice Polar Austral/Antártico (heladas tardías en Calamuchita), el Nodo #1 PT100 activa solo el riego anti-helada.', show: '👉 Pestaña: Simulador LoRa 30 km (Nodo #1 o #6)' },
+          { cat: 'hw', badge: 'NORMA INDUSTRIAL', who: '🔧 Maxi', q: '5. ¿Por qué usan lazo de corriente 4–20 mA y NAMUR NE43 en vez de sensores comunes de 0 a 5 V?', a: 'En cables largos rurales el voltaje cae y mete ruido de motores; por Ley de Kirchhoff la corriente 4–20 mA es inmune al ruido. Además tiene Cero Vivo: 0% son 4.00 mA. Si un animal corta el cable cae a 0.00 mA (<3.6 mA NAMUR NE43), el ESP32 detecta falla en 4 ms y bloquea la bomba sin inundar el lote.', show: '👉 Pestaña: Emulador ESP32 (Osciloscopio 4–20 mA)' },
+          { cat: 'hw', badge: 'ENERGÍA SOLAR', who: '🔧 Maxi', q: '6. ¿Una electroválvula en el campo no descarga la batería solar en pocas horas?', a: 'Una solenoide común sí; por eso el Nodo #2 usa Electroválvulas Biestables (Latch 9V/12V) con puente H DRV8871: abren con un pulso de apenas 50 milisegundos y quedan abiertas horas con un imán permanente gastando 0.00 mA. Y si el caudalímetro detecta el doble de caudal por caño roto, cierra sola esa rama.', show: '👉 Pestaña: Simulador LoRa 30 km (Nodo #2 Latch)' },
+          { cat: 'hw', badge: 'FIRMWARE REAL', who: '🔧 Maxi', q: '7. ¿El código del ESP32 es real y compilado o es solo una simulación visual?', a: '100% C++ industrial real y compilado: en la carpeta firmware/ están los códigos editables .ino y los binarios .merged.bin verificados con arduino-cli (ADS1115 16-bit sobre shunt de 165 Ω, NAMUR NE43, ESP-NOW, LoRa 915 MHz y Modbus TCP :502) listos para grabar por USB en 4 segundos.', show: '👉 Pestaña: Emulador ESP32 (Pestaña Red y .BIN)' },
+          { cat: 'hw', badge: 'PLC & SCADA', who: '🔧 Maxi', q: '8. ¿Se puede conectar a los PLCs Siemens o Schneider que ya tiene una gran agroindustria?', a: 'Directamente sin tocar su instalación: el ESP32 Gateway expone Modbus TCP en puerto 502 y Modbus RTU por RS485 aislado con registros enteros ×100 (30001+ y bobinas 00001+) listos para cualquier PLC o SCADA corporativo.', show: '👉 Pestaña: Consola SCADA (Tabla Modbus :502)' },
+          { cat: 'lora', badge: 'CALAMUCHITA SIN 4G', who: '📡 Iván', q: '9. En las sierras de Calamuchita hay cerros en el medio y cero señal celular. ¿Cómo pasa el dato?', a: 'Usamos radio libre LoRa 915 MHz sin pagar abonos celulares, y en zonas quebradas colocamos la Posta Repetidora Solar #5 (cajita IP67 de 300 g con panel de 5W en lo alto de un poste o loma) que salta los paquetes del valle oculto por arriba del cerro hasta 25–30 km.', show: '👉 Pestaña: Simulador LoRa 30 km (Perfil del Cerro)' },
+          { cat: 'lora', badge: 'CHATA / TRACTOR', who: '📡 Iván', q: '10. ¿Cómo se entera el productor si anda arriba del tractor o la chata sin internet?', a: 'Con el Monitor Portátil 12V de Cabina (parte del Nodo #5): un ESP32 + LoRa + pantalla OLED enchufado al encendedor 12V de la camioneta o tractor que va recibiendo en vivo las alertas y lecturas de todos los lotes, aguadas y válvulas a kilómetros a la redonda.', show: '👉 Pestaña: Simulador LoRa 30 km (Monitor OLED 12V)' },
+          { cat: 'lora', badge: 'SILOBOLSAS RÍO IV', who: '📡 Iván', q: '11. ¿Por qué sumaron una lanza de CO₂ para silobolsas (Nodo #6)?', a: 'En el sur de Córdoba (Río Cuarto) quedan cosechas enteras en lotes aislados sin luz ni señal. Si un peludo rompe la bolsa y entra agua, la actividad biológica de hongos e insectos dispara el CO₂ intergranular semanas antes de que el grano se caliente y se pudra, avisando a 14 km por LoRa.', show: '👉 Pestaña: Simulador LoRa 30 km (Nodo #6 Silobolsa)' },
+          { cat: 'imp', badge: 'INCLUSIÓN SOLO PC', who: '🛰️ Agustín', q: '12. ¿Cómo ayuda a un pequeño productor familiar que NO tiene dinero para sensores?', a: 'Con el Escalón 1 (Modo Solo PC, 100% gratuito y cero hardware): entra desde cualquier PC básica o celular (incluso offline tras cargarla en el pueblo o escuela rural), consulta 20 años de datos NASA de su parcela, ve a qué cultivo rotar y descarga su Plan PDF imprimible.', show: '👉 Pestaña: Manuales → Informe 04 (3 Escalones)' },
+          { cat: 'imp', badge: 'SALUD DEL SUELO', who: '🛰️ Agustín / 🔧 Maxi', q: '13. ¿Cómo protegen la salud del suelo durante la rotación de cultivos?', a: 'Combinando la recomendación de leguminosas/raíz profunda (garbanzo, sorgo) en la Matriz Agronómica con el Nodo Solar #3 RS485 (NPK + pH + Conductividad EC): cuando MODIS NDVI ve amarilleo desde el espacio, confirma abajo si falta nitrógeno o si hay salinización por agua de pozo dura.', show: '👉 Pestaña: Simulador LoRa 30 km (Nodo #3 NPK RS485)' },
+          { cat: 'imp', badge: 'AGUA Y ENERGÍA', who: '📡 Iván', q: '14. ¿Cuánto ahorro real de agua y electricidad logra el sistema?', a: 'Entre 28% y 42% menos extracción de agua subterránea gracias al riego por umbral radicular real + pronóstico NASA, y entre 35% y 50% de ahorro eléctrico en bombeo modulando variadores de frecuencia VFD por leyes de afinidad cúbica (P ∝ N³) en lugar de estrangular válvulas.', show: '👉 Pestaña: Consola SCADA (Simulador Impacto Hídrico)' },
+          { cat: 'si', badge: 'TRANSPARENCIA IA', who: '🔧 Maxi', q: '15. ¿Usaron IA para el desarrollo? ¿Cómo cumplen la política de Super Intelligence (SI) de NASA?', a: 'Con transparencia total declarada en la web y en Space Apps: el diseño mecatrónico 4–20 mA NAMUR NE43, la arquitectura Solar LoRa/ESP-NOW y la fusión agronómica Córdoba son autoría original del equipo INANNA; usamos IA generativa (Gemini/Antigravity) para acelerar interfaz, documentación y traducción pura EN/ES/PT.', show: '👉 Pestaña: Pie de página Consola SCADA' },
+          { cat: 'si', badge: 'PRÓXIMO PASO REAL', who: '🔧 Maxi / Todos', q: '16. Si ganan hoy en Santa Rosa de Calamuchita, ¿cuál es el siguiente paso concreto?', a: 'Desplegar de inmediato dos pilotos de campo reales en Córdoba: un lote serrano con el Centinela de Heladas #1 y Repetidora #5 en Calamuchita (vid/olivo), y un lote extensivo con monitoreo de pozo #4 y silobolsa #6 en Río Cuarto junto a productores y escuelas agrotécnicas.', show: '👉 Cierre mirando a cámara con seguridad' }
         ]
       },
       en: {
-        hdrTitle: '3:00 MIN JURY PITCH COACH & 2:00 Q&A DEFENSE',
-        hdrSub: 'Santa Rosa de Calamuchita Finals (15:30 ART) • 3 min Pitch + 2 min Q&A',
+        hdrTitle: 'JURY DEFENSE WAR-ROOM: 3:00 PITCH + 16 Q&A KNOCKOUT ANSWERS',
+        hdrSub: 'Santa Rosa de Calamuchita Finals (15:30 ART) • Live Search + Technical Cheat Sheet',
+        btnPrint: '🖨️ Print PDF Cheat Sheet',
         lblTimerHdr: '⏱️ Official Jury Stopwatch (3:00 + 2:00)',
         modePitch: 'PRESENTATION MODE (03:00 MIN)',
-        modeQa: 'JURY Q&A MODE (02:00 MIN)',
+        modeQa: 'JURY Q&A MODE (02:00 MIN — 20s PER ANSWER)',
         btnStart: '▶ Start / Pause',
         btnReset: '↺ Reset 03:00',
         btnModeQa: '❓ Switch to 2:00 Q&A Timer',
-        teleTitle: '🎙️ Synchronized 3:00 Minute Script (Auto-highlights with stopwatch)',
-        qaTitle: '🛡️ Top 7 Jury Questions (2:00 min Q&A) — Concise Knockout Answers',
-        tips: '<strong>Golden Rule:</strong> Keep 3 tabs open when sharing screen: 1) Main SCADA Console, 2) ESP32 Emulator, and 3) 30 km Solar LoRa + 12V Cab OLED Simulator.',
+        teleTitle: '🎙️ Synchronized 3:00 Minute Team Script',
+        qaTitle: '🛡️ Complete 16-Question Jury Bank (Instant Search)',
+        searchPh: '🔍 Instant filter: NAMUR, NASA, pixel, El Niño, Vortex, valve, LoRa, PC, PLC, AI, silobag...',
+        tips: '<strong>Team Roles in Q&A:</strong> 🔧 <strong>Maxi:</strong> ESP32 / 4–20mA / Valves / Modbus • 🛰️ <strong>Agustín:</strong> NASA / Climate / PC-Only Tier • 📡 <strong>Iván:</strong> 30km LoRa / Calamuchita / Silobag.',
+        cheatHdr: '🔢 Exact Engineering Numbers',
+        cheats: [
+          ['4–20 mA Loop (24V)', '4mA=0% • 12mA=50% • 20mA=100%'],
+          ['NAMUR NE43 Faults', '< 3.60 mA cut (<4 ms) | > 20.5 mA short'],
+          ['Kirchhoff Shunt + ADC', '165.0 Ω (0.66–3.30 V) • ADS1115 16-bit'],
+          ['Bi-Stable Latch Valve', '50 ms Pulse (DRV8871) • 0.00 mA Hold'],
+          ['Solar Node Autonomy', '5W Panel + LiFePO₄ + 15 µA Deep Sleep'],
+          ['Zero-Cell RF Link', 'ESP-NOW (<2.4ms) + LoRa 915MHz (15–30km)'],
+          ['PLC / SCADA Protocol', 'Modbus TCP :502 + RS485 (×100 Int16)'],
+          ['Water & kWh Saved', '28–42% Water • 35–50% kWh (VFD P∝N³)']
+        ],
+        cats: [
+          { id: 'all', lbl: 'All (16)' },
+          { id: 'nasa', lbl: '🛰️ NASA Science (4)' },
+          { id: 'hw', lbl: '⚙️ ESP32 & 4–20mA (4)' },
+          { id: 'lora', lbl: '📡 30km LoRa & Field (3)' },
+          { id: 'imp', lbl: '🌱 Inclusion & Impact (3)' },
+          { id: 'si', lbl: '📋 Rules, AI & Next Steps (2)' }
+        ],
         steps: [
-          {
-            start: 0, end: 30, time: '0:00 – 0:30',
-            who: 'Speaker 1 (Maxi — Hook & Córdoba Problem)',
-            text: '“Good afternoon judges. We are Team INANNA COMPANY from Río Cuarto: Fabio Medina Rojas, Agustín Debia, and Iván Coria. Farmers across Córdoba face severe heatwaves and drought on the plains, plus sudden frost pockets and zero cell coverage in Calamuchita valleys. For Field Shift, we built TERRA-SHIFT SCADA: fusing live NASA satellites with rugged off-grid rural mechatronics.”',
-            act: '📺 Show: Main SCADA Console (NASA GIBS Satellite Map)'
-          },
-          {
-            start: 30, end: 75, time: '0:30 – 1:15',
-            who: 'Speaker 2 (Agustín — NASA Data & PC-Only Smallholder Tier)',
-            text: '“First, full inclusion: a family farmer with only a PC and zero sensors clicks any plot to pull 20-year NASA POWER climatology, SMAP root moisture, and CMIP6 2030–2050 projections, instantly ranking resilient crop shifts like sorghum, chickpea, olive, or vine plus a 12-month calendar.”',
-            act: '📺 Show: Crop Shift Matrix + 12-Month Phenology Calendar'
-          },
-          {
-            start: 75, end: 125, time: '1:15 – 2:05',
-            who: 'Speaker 1 (Maxi — 4–20 mA NAMUR NE43 Safety)',
-            text: '“Second, industrial reliability: cheap voltage sensors read zero when wildlife cuts a wire, tricking pumps into flooding fields. Our compiled ESP32 C++ firmware runs 4–20 mA loops with NAMUR NE43: below 3.6 mA it locks the pump in 4 ms and fails over to NASA SMAP orbital soil moisture.”',
-            act: '📺 Show: ESP32 Emulator (Click ✂️ Cut Wire <3.6 mA live)'
-          },
-          {
-            start: 125, end: 160, time: '2:05 – 2:40',
-            who: 'Speaker 3 (Iván — 6 Solar + LoRa 30 km Off-Grid Devices)',
-            text: '“Third, for zero-signal farms, one universal 5W Solar + LiFePO4 + ESP32 + LoRa 915 MHz board powers 6 modular nodes across 30 km: valley frost sentinel, zero-power bi-stable latch valves, RS485 NPK soil probe, tank guard, hilltop repeater with a 12V pickup cab OLED, and a CO₂ silobag spear.”',
-            act: '📺 Show: 30 km Solar LoRa + 12V Cab OLED Simulator'
-          },
-          {
-            start: 160, end: 180, time: '2:40 – 3:00',
-            who: 'All (Closing & Live Open-Source Proof)',
-            text: '“Everything is 100% live today in English, Spanish, and Portuguese—including compiled ESP32 .bin binaries and 4 engineering manuals. With NASA in orbit and mechatronics in the soil, no farmer ever irrigates or plants blind again. Thank you!”',
-            act: '📺 Show: 3 Inclusive Tiers & Team Closing'
-          }
+          { start: 0, end: 30, time: '0:00 – 0:30', who: 'Speaker 1 (Maxi — Hook)', text: '“Good afternoon judges. We are Team INANNA COMPANY from Río Cuarto: Fabio Medina Rojas, Agustín Debia, and Iván Coria. For Field Shift we built TERRA-SHIFT SCADA: uniting live NASA satellites with rugged off-grid rural mechatronics.”', act: '📺 Show: Main SCADA Console' },
+          { start: 30, end: 75, time: '0:30 – 1:15', who: 'Speaker 2 (Agustín — NASA + PC Tier)', text: '“A smallholder with only a PC clicks any plot to pull 20-year NASA POWER climatology, SMAP moisture, and CMIP6 2030–2050 projections—ranking resilient shifts like sorghum, chickpea, olive, and vine.”', act: '📺 Show: Crop Shift Matrix + 12-Mo Calendar' },
+          { start: 75, end: 125, time: '1:15 – 2:05', who: 'Speaker 1 (Maxi — NAMUR NE43)', text: '“Our compiled ESP32 C++ firmware runs industrial 4–20 mA loops with NAMUR NE43: below 3.6 mA it detects wire cuts in 4 ms, locks the pump, and fails over to NASA SMAP soil moisture.”', act: '📺 Show: ESP32 Emulator (Cut Wire <3.6 mA)' },
+          { start: 125, end: 160, time: '2:05 – 2:40', who: 'Speaker 3 (Iván — 6 Solar LoRa Nodes)', text: '“For zero-signal farms, one universal Solar + LiFePO4 + ESP32 + LoRa 915 MHz board powers 6 nodes across 30 km: valley frost sentinel, 0.00 mA latch valves, RS485 NPK probe, tank guard, hilltop repeater with 12V cab OLED, and silobag CO₂ spear.”', act: '📺 Show: 30 km LoRa + 12V Cab OLED Simulator' },
+          { start: 160, end: 180, time: '2:40 – 3:00', who: 'Closing', text: '“100% live today in EN, ES, and PT with compiled ESP32 .bin binaries and 4 manuals. With NASA in orbit and mechatronics in the root zone, no farmer irrigates or plants blind again!”', act: '📺 Show: 3 Inclusive Adoption Tiers' }
         ],
         qa: [
-          { q: '1. How do NASA data and ESP32 hardware actually fuse?', a: 'NASA POWER & MODIS NDVI provide macro climate projections and canopy anomaly alerts, while ground 4–20 mA / RS485 loops refine microclimate control—and if a cable snaps (<3.6 mA), the gateway automatically falls back to cached NASA GWETROOT.' },
-          { q: '2. Can a small farmer with zero budget for sensors use this?', a: 'Yes! Tier 1 runs 100% free on any PC or phone browser using NASA orbital APIs and PDF rotation plans with zero hardware required.' },
-          { q: '3. How does LoRa cross Calamuchita hills without cell towers?', a: 'Solar Hilltop Repeater #5 (a 300 g IP67 5W box on a ridge pole) relays 915 MHz AES-128 packets over mountain crests up to 30 km to the farmhouse and 12V pickup cab OLED.' },
-          { q: '4. Won’t irrigation valves drain small solar batteries?', a: 'We use 9V/12V bi-stable latching solenoids driven by a 50 ms H-bridge pulse (DRV8871), holding open magnetically at 0.00 mA continuous draw.' },
-          { q: '5. Is the ESP32 code actually compiled?', a: 'Yes—both editable .ino C++ sketches and pre-compiled .merged.bin binaries verified with arduino-cli are included in our repository.' },
-          { q: '6. Why include a Silobag CO₂ spear?', a: 'In southern Córdoba (Río Cuarto), harvests sit in remote off-grid silobags; biological CO₂ spikes detect water ingress weeks before grain spoils.' },
-          { q: '7. How does it handle sudden anomalies like Super El Niño or Polar Vortex breakdowns?', a: 'CMIP6 guides 20-year crop shifts, while our LoRa nodes catch hourly black-swan extremes: Super El Niño storms (NASA Sentinel-6/GPM) via Nodes #3 NPK & #6 Silobag CO₂, and Arctic (NH, NASA MERRA-2) or Austral/Antarctic Polar Vortex spring frost surges in Calamuchita via Node #1 dual PT100.' }
+          { cat: 'nasa', badge: 'NASA FUSION', who: '🛰️ Agustín / 🔧 Maxi', q: '1. How do NASA data and ESP32 hardware fuse in closed loop?', a: 'NASA POWER (GWETROOT/T2M) & MODIS NDVI set macro water budgets and spot canopy stress; ground 4–20 mA / RS485 loops refine root control, and if a wire snaps (<3.6 mA), the gateway fails over to cached NASA SMAP moisture.', show: '👉 Tab: ESP32 Emulator' },
+          { cat: 'nasa', badge: 'SPATIAL SCALE', who: '🛰️ Agustín', q: '2. Are NASA POWER (50 km) and SMAP (9 km) pixels useful for small plots?', a: 'That is why our hybrid Space-Ground design matters: buried sensors cannot forecast 2035–2050 climate shifts (NASA POWER + CMIP6 + 250 m MODIS do), while our PT100 & RS485 nodes resolve exact hollow microclimates.', show: '👉 Tab: Main SCADA GIBS Map' },
+          { cat: 'nasa', badge: 'LIVE API', who: '🛰️ Agustín', q: '3. Does the app fetch live NASA APIs or static mock data?', a: 'Live HTTPS requests hit power.larc.nasa.gov and gibs.earthdata.nasa.gov for any clicked global coordinate, with automatic offline caching when rural internet drops.', show: '👉 Tab: Main SCADA Console' },
+          { cat: 'nasa', badge: 'BLACK SWANS', who: '🛰️ Agustín / 📡 Iván', q: '4. How do you handle Super El Niño or Polar Vortex breakdowns?', a: 'CMIP6 guides 20-year crop shifts, while LoRa nodes catch hourly extremes: Super El Niño storms (NASA Sentinel-6/SWOT/GPM) via Nodes #3 NPK & #6 Silobag CO₂, and Arctic (NH, NASA MERRA-2) or Austral/Antarctic Polar Vortex spring frosts in Calamuchita via Node #1 dual PT100.', show: '👉 Tab: 30km LoRa Simulator' },
+          { cat: 'hw', badge: 'NAMUR NE43', who: '🔧 Maxi', q: '5. Why 4–20 mA current loops instead of 0–5 V hobbyist sensors?', a: 'Kirchhoff current loops ignore voltage drop and VFD motor noise over long cables, and Live-Zero (4 mA = 0%) means a severed wire drops to 0.00 mA (<3.6 mA), locking the pump in 4 ms instead of flooding the crop.', show: '👉 Tab: ESP32 Emulator' },
+          { cat: 'hw', badge: 'ZERO POWER VALVE', who: '🔧 Maxi', q: '6. Won’t irrigation valves drain small solar batteries?', a: 'Node #2 drives 9V/12V bi-stable latching solenoids via a 50 ms H-bridge pulse (DRV8871), staying open magnetically at 0.00 mA continuous draw, with auto-shutoff on 2× burst-pipe flow.', show: '👉 Tab: 30km LoRa (Node #2)' },
+          { cat: 'hw', badge: 'REAL C++ BINARIES', who: '🔧 Maxi', q: '7. Is the ESP32 firmware actually compiled?', a: 'Yes: full C++ .ino sources and pre-compiled .merged.bin binaries verified with arduino-cli are in firmware/, ready to flash via USB in 4 seconds.', show: '👉 Tab: ESP32 (AP & .BIN Tab)' },
+          { cat: 'hw', badge: 'INDUSTRIAL PLC', who: '🔧 Maxi', q: '8. Can large estates connect this to existing Siemens/Schneider PLCs?', a: 'Natively via Modbus TCP Port 502 and isolated RS485 RTU using documented ×100 Int16 registers (30001+ and coils 00001+).', show: '👉 Tab: SCADA Modbus Table' },
+          { cat: 'lora', badge: 'NO CELL SIGNAL', who: '📡 Iván', q: '9. How does telemetry cross Calamuchita mountains with zero 4G?', a: 'License-free 915 MHz LoRa plus Solar Hilltop Repeater #5 (300 g IP67 5W box on a ridge post) relays hidden valley packets 25–30 km over the crest.', show: '👉 Tab: 30km LoRa Ridge Canvas' },
+          { cat: 'lora', badge: '12V CAB OLED', who: '📡 Iván', q: '10. How does a farmer check plots while driving a tractor offline?', a: 'A 12V plug-in ESP32 + LoRa + OLED cab monitor receives live status from every plot, trough, and valve across kilometers with zero cell bars.', show: '👉 Tab: 30km LoRa 12V Cab OLED' },
+          { cat: 'lora', badge: 'SILOBAG CO2', who: '📡 Iván', q: '11. Why monitor CO₂ inside grain silobags (Node #6)?', a: 'In Río Cuarto, grain stored in remote field silobags emits biological CO₂ weeks before spoiling when wildlife tears let rainwater in.', show: '👉 Tab: 30km LoRa (Node #6)' },
+          { cat: 'imp', badge: 'PC-ONLY TIER', who: '🛰️ Agustín', q: '12. What about family farmers who cannot afford any hardware?', a: 'Tier 1 requires zero hardware—just a basic PC or phone (offline PWA capable) to get free NASA crop rotation plans and printable PDF calendars.', show: '👉 Tab: Manuals Report 04' },
+          { cat: 'imp', badge: 'SOIL HEALTH', who: '🛰️ Agustín / 🔧 Maxi', q: '13. How does it protect long-term soil health?', a: 'Pairs nitrogen-fixing/deep-root crop shifts with Node #3 RS485 (NPK + EC salinity + pH), distinguishing salt buildup from nutrient lack under MODIS NDVI yellowing.', show: '👉 Tab: 30km LoRa (Node #3)' },
+          { cat: 'imp', badge: 'WATER SAVED', who: '📡 Iván', q: '14. How much water and pump electricity are conserved?', a: '28–42% freshwater saved via closed-loop root thresholds and 35–50% pump kWh saved via VFD affinity laws (P ∝ N³).', show: '👉 Tab: SCADA Impact Simulator' },
+          { cat: 'si', badge: 'SI DISCLOSURE', who: '🔧 Maxi', q: '15. How did you comply with NASA’s 2026 Super Intelligence (SI) policy?', a: 'Full disclosure on site and submission: mechatronic 4–20 mA NAMUR NE43, Solar LoRa architecture, and agronomic logic are original Team INANNA work; generative AI accelerated UI scaffolding and EN/ES/PT localization.', show: '👉 Tab: SCADA Footer' },
+          { cat: 'si', badge: 'NEXT STEPS', who: '🔧 Maxi / All', q: '16. What is your immediate field pilot plan after today?', a: 'Deploy two Córdoba pilots: a Calamuchita vineyard/olive frost + repeater loop, and a Río Cuarto borehole + silobag monitoring plot with local growers and technical schools.', show: '👉 Confident camera close' }
         ]
       },
       pt: {
-        hdrTitle: 'TREINADOR DE PITCH 3:00 MIN + DEFESA Q&A JURADO',
-        hdrSub: 'Final Santa Rosa de Calamuchita (15:30 ART) • 3 min Pitch + 2 min Perguntas',
+        hdrTitle: 'SALA DE DEFESA DO JÚRI: PITCH 3:00 + 16 RESPOSTAS Q&A',
+        hdrSub: 'Final Santa Rosa de Calamuchita (15:30 ART) • Busca Instantânea + Cola Técnica',
+        btnPrint: '🖨️ Imprimir PDF Q&A',
         lblTimerHdr: '⏱️ Cronômetro Oficial do Júri (3:00 + 2:00)',
         modePitch: 'MODO APRESENTAÇÃO (03:00 MIN)',
-        modeQa: 'MODO PERGUNTAS DO JÚRI (02:00 MIN)',
+        modeQa: 'MODO PERGUNTAS Q&A (02:00 MIN — 20s POR RESPOSTA)',
         btnStart: '▶ Iniciar / Pausar',
         btnReset: '↺ Reiniciar 03:00',
-        btnModeQa: '❓ Mudar para Perguntas Q&A (02:00)',
-        teleTitle: '🎙️ Roteiro Sincronizado de 3:00 Minutos (Destaca ao vivo com o relógio)',
-        qaTitle: '🛡️ As 7 Perguntas do Júri (2:00 min Q&A) — Respostas Diretas',
-        tips: '<strong>Regra de Ouro:</strong> Deixe 3 abas abertas: 1) Console SCADA, 2) Emulador ESP32 e 3) Simulador LoRa 30 km + OLED 12V.',
+        btnModeQa: '❓ Ativar Relógio Q&A (02:00)',
+        teleTitle: '🎙️ Roteiro Sincronizado de 3:00 Minutos',
+        qaTitle: '🛡️ Banco Completo de 16 Perguntas do Júri (Busca ao Vivo)',
+        searchPh: '🔍 Filtrar: NAMUR, NASA, El Niño, Vórtice, válvula, LoRa, PC, CLP, IA, silobolsa...',
+        tips: '<strong>Divisão no Q&A:</strong> 🔧 <strong>Maxi:</strong> ESP32 / 4–20mA / Válvulas • 🛰️ <strong>Agustín:</strong> NASA / Clima / Modo PC • 📡 <strong>Iván:</strong> LoRa 30km / Silobolsa.',
+        cheatHdr: '🔢 Números Técnicos Exatos',
+        cheats: [
+          ['Laço 4–20 mA (24V)', '4mA=0% • 12mA=50% • 20mA=100%'],
+          ['Falha NAMUR NE43', '< 3.60 mA corte (<4 ms) | > 20.5 mA curto'],
+          ['Shunt Kirchhoff + ADC', '165.0 Ω (0.66–3.30 V) • ADS1115 16-bit'],
+          ['Válvula Latch', 'Pulso 50 ms (DRV8871) • Retenção 0.00 mA'],
+          ['Autonomia Nó Solar', 'Painel 5W + LiFePO₄ + Sleep 15 µA'],
+          ['Rádio Sem 4G', 'ESP-NOW (<2.4ms) + LoRa 915MHz (15–30km)'],
+          ['Protocolo CLP / SCADA', 'Modbus TCP :502 + RS485 (×100 Int16)'],
+          ['Economia Água e kWh', '28–42% Água • 35–50% kWh (VFD P∝N³)']
+        ],
+        cats: [
+          { id: 'all', lbl: 'Todas (16)' },
+          { id: 'nasa', lbl: '🛰️ Ciência NASA (4)' },
+          { id: 'hw', lbl: '⚙️ ESP32 e 4–20mA (4)' },
+          { id: 'lora', lbl: '📡 LoRa 30km e Campo (3)' },
+          { id: 'imp', lbl: '🌱 Inclusão e Impacto (3)' },
+          { id: 'si', lbl: '📋 Regras, IA e Futuro (2)' }
+        ],
         steps: [
-          { start: 0, end: 30, time: '0:00 – 0:30', who: 'Orador 1 (Maxi — Abertura)', text: '“Boa tarde jurados. Somos a Equipe INANNA COMPANY de Río Cuarto. Criamos o TERRA-SHIFT SCADA para unir satélites da NASA ao vivo com mecatrônica rural autônoma contra secas, geadas de baixada e falta de sinal no campo.”', act: '📺 Mostrar: Console SCADA Principal' },
-          { start: 30, end: 75, time: '0:30 – 1:15', who: 'Orador 2 (Agustín — Ciência NASA + Modo Só PC)', text: '“O pequeno produtor que tem apenas um PC consulta gratuitamente 20 anos de NASA POWER, umidade SMAP e projeções CMIP6 2030–2050 para planejar rotações resilientes como sorgo, grão-de-bico, oliveira e videira.”', act: '📺 Mostrar: Matriz de Rotação + Calendário 12 Meses' },
-          { start: 75, end: 125, time: '1:15 – 2:05', who: 'Orador 1 (Maxi — Laço 4–20 mA NAMUR NE43)', text: '“No campo real, compilamos firmware C++ em ESP32 com laço industrial 4–20 mA e norma NAMUR NE43: abaixo de 3.6 mA trava a bomba em 4 ms contra cabo rompido e assume o backup orbital NASA SMAP.”', act: '📺 Mostrar: Emulador ESP32 (Cabo Rompido <3.6 mA)' },
-          { start: 125, end: 160, time: '2:05 – 2:40', who: 'Orador 3 (Iván — 6 Nós Solares LoRa 30 km)', text: '“Para fazendas sem 4G, uma única placa Solar + LiFePO4 + ESP32 + LoRa 915 MHz alimenta 6 nós até 30 km: geada, válvula latch 0.00 mA, NPK RS485, reservatório, repetidora de topo com OLED 12V no trator e lança CO₂ para silobolsas.”', act: '📺 Mostrar: Simulador LoRa 30 km + OLED 12V' },
-          { start: 160, end: 180, time: '2:40 – 3:00', who: 'Encerramento', text: '“Tudo está 100% funcional em EN, ES e PT, com binários .bin compilados e 4 manuais técnicos. Com a NASA em órbita e mecatrônica na raiz, nenhum produtor planta ou irriga às cegas. Muito obrigado!”', act: '📺 Mostrar: 3 Níveis de Adoção Inclusiva' }
+          { start: 0, end: 30, time: '0:00 – 0:30', who: 'Orador 1 (Maxi)', text: '“Boa tarde jurados. Somos a Equipe INANNA COMPANY de Río Cuarto. Criamos o TERRA-SHIFT SCADA unindo satélites da NASA ao vivo com mecatrônica rural autônoma.”', act: '📺 Mostrar: Console SCADA' },
+          { start: 30, end: 75, time: '0:30 – 1:15', who: 'Orador 2 (Agustín)', text: '“O produtor familiar que possui apenas um PC consulta gratuitamente 20 anos de NASA POWER, SMAP e CMIP6 2030–2050 para planejar rotações resilientes.”', act: '📺 Mostrar: Matriz de Culturas' },
+          { start: 75, end: 125, time: '1:15 – 2:05', who: 'Orador 1 (Maxi)', text: '“Nosso firmware C++ compilado em ESP32 usa laço 4–20 mA NAMUR NE43: abaixo de 3.6 mA trava a bomba em 4 ms contra cabo rompido e assume o backup NASA SMAP.”', act: '📺 Mostrar: Emulador ESP32' },
+          { start: 125, end: 160, time: '2:05 – 2:40', who: 'Orador 3 (Iván)', text: '“Uma placa Solar + LiFePO4 + ESP32 + LoRa 915 MHz alimenta 6 nós até 30 km: geada, válvula latch 0.00 mA, NPK RS485, poço, repetidora de topo com OLED 12V e silobolsa CO₂.”', act: '📺 Mostrar: Simulador LoRa 30 km' },
+          { start: 160, end: 180, time: '2:40 – 3:00', who: 'Encerramento', text: '“Tudo funcional em EN, ES e PT com binários .bin compilados e 4 manuais. Muito obrigado!”', act: '📺 Mostrar: 3 Níveis Inclusivos' }
         ],
         qa: [
-          { q: '1. Como os dados da NASA se fundem ao ESP32?', a: 'NASA POWER e MODIS NDVI guiam o balanço hídrico macro e anomalias; os sensores 4–20 mA refinam o solo, e em caso de cabo rompido (<3.6 mA), o gateway usa o dado orbital NASA SMAP em cache.' },
-          { q: '2. E o pequeno agricultor sem recursos para sensores?', a: 'Usa o Nível 1 (Modo Só PC, custo zero): acessa dados orbitais da NASA, matriz de culturas e exporta o plano em PDF sem nenhum hardware.' },
-          { q: '3. Como o sinal vence os morros sem celular?', a: 'A Repetidora Solar de Topo #5 (5W IP67) salta pacotes LoRa 915 MHz por cima da serra até 30 km para a sede e o painel OLED 12V da caminhonete.' },
-          { q: '4. Válvulas não esgotam a bateria solar?', a: 'Usamos válvulas biestáveis (Latch) acionadas por pulso de 50 ms (DRV8871), mantendo-se abertas por ímã com consumo de 0.00 mA.' },
-          { q: '5. O firmware ESP32 é compilado de verdade?', a: 'Sim! Código C++ (.ino) e binários .merged.bin compilados via arduino-cli prontos para gravação USB.' },
-          { q: '6. Por que monitorar CO₂ em silobolsas?', a: 'Detecta infiltração e fermentação biológica semanas antes do apodrecimento de grãos em lotes isolados.' },
-          { q: '7. E diante de eventos súbitos como Super El Niño ou ruptura do Vórtice Polar?', a: 'O CMIP6 guia 20 anos, enquanto os nós LoRa atuam em minutos contra o Super El Niño (NASA Sentinel-6/GPM, Nós #3 e #6) e rupturas do Vórtice Polar Ártico (HN, NASA MERRA-2) ou Austral/Antártico nas geadas tardias de Calamuchita (Nó #1 PT100).' }
+          { cat: 'nasa', badge: 'FUSÃO NASA', who: '🛰️ Agustín / 🔧 Maxi', q: '1. Como os dados da NASA se unem ao ESP32?', a: 'NASA POWER e MODIS NDVI guiam o balanço hídrico macro; os sensores 4–20 mA ajustam na raiz e, se o cabo romper (<3.6 mA), o gateway usa a umidade orbital NASA SMAP em cache.', show: '👉 Aba: Emulador ESP32' },
+          { cat: 'nasa', badge: 'ESCALA SATELITAL', who: '🛰️ Agustín', q: '2. A resolução espacial da NASA serve para pequenos lotes?', a: 'Por isso unimos Espaço + Terra: satélites projetam 2030–2050 (CMIP6 + MODIS 250 m), enquanto sondas PT100 e RS485 resolvem o microclima da baixada.', show: '👉 Aba: Mapa SCADA GIBS' },
+          { cat: 'nasa', badge: 'API AO VIVO', who: '🛰️ Agustín', q: '3. Os dados da NASA são consultados ao vivo?', a: 'Sim, requisições HTTPS diretas para power.larc.nasa.gov e gibs.earthdata.nasa.gov com cache offline automático.', show: '👉 Aba: Console SCADA' },
+          { cat: 'nasa', badge: 'CISNES NEGROS', who: '🛰️ Agustín / 📡 Iván', q: '4. E diante do Super El Niño ou rupturas do Vórtice Polar?', a: 'Atua contra tempestades do Super El Niño (NASA Sentinel-6/GPM, Nós #3 e #6) e rupturas do Vórtice Polar Ártico (HN, MERRA-2) ou Austral/Antártico nas geadas tardias de Calamuchita (Nó #1 PT100).', show: '👉 Aba: Simulador LoRa 30km' },
+          { cat: 'hw', badge: 'NAMUR NE43', who: '🔧 Maxi', q: '5. Por que usar 4–20 mA em vez de sensores 0–5 V?', a: 'Imunidade total a ruído pela Lei de Kirchhoff e Zero Vivo (4 mA = 0%): cabo cortado cai a 0.00 mA (<3.6 mA) e trava a bomba em 4 ms.', show: '👉 Aba: Emulador ESP32' },
+          { cat: 'hw', badge: 'VÁLVULA 0.00 mA', who: '🔧 Maxi', q: '6. Eletroválvulas não drenam a bateria solar?', a: 'Usamos válvulas Latch biestáveis (pulso de 50 ms via DRV8871) retidas por ímã com 0.00 mA e fechamento automático se o tubo romper.', show: '👉 Aba: Simulador LoRa (Nó #2)' },
+          { cat: 'hw', badge: 'BINÁRIOS REAIS', who: '🔧 Maxi', q: '7. O código C++ do ESP32 foi compilado?', a: 'Sim! Fontes .ino e binários .merged.bin compilados com arduino-cli prontos para gravação USB em 4 segundos.', show: '👉 Aba: ESP32 (Rede e .BIN)' },
+          { cat: 'hw', badge: 'CLP INDUSTRIAL', who: '🔧 Maxi', q: '8. Conecta em CLPs Siemens ou Schneider?', a: 'Nativamente via Modbus TCP Porta 502 e RS485 isolado com registradores ×100 Int16.', show: '👉 Aba: Tabela Modbus' },
+          { cat: 'lora', badge: 'SEM SINAL 4G', who: '📡 Iván', q: '9. Como vence os morros de Calamuchita sem celular?', a: 'Rádio LoRa 915 MHz + Repetidora Solar de Topo #5 (300 g IP67 5W) saltando até 30 km por cima da serra.', show: '👉 Aba: Simulador LoRa 30km' },
+          { cat: 'lora', badge: 'OLED 12V TRATOR', who: '📡 Iván', q: '10. Como o produtor vê os alertas dirigindo no campo?', a: 'Monitor ESP32 + LoRa + OLED ligado no 12V da caminhonete ou trator.', show: '👉 Aba: OLED 12V' },
+          { cat: 'lora', badge: 'SILOBOLSA CO2', who: '📡 Iván', q: '11. Por que medir CO₂ em silobolsas (Nó #6)?', a: 'Detecta infiltração e fermentação biológica semanas antes da perda da safra em lotes isolados.', show: '👉 Aba: Nó #6 Silobolsa' },
+          { cat: 'imp', badge: 'MODO SÓ PC', who: '🛰️ Agustín', q: '12. E o agricultor familiar sem dinheiro para sensores?', a: 'Nível 1 gratuito (Só PC, zero hardware): usa dados NASA e exporta plano PDF offline.', show: '👉 Aba: Relatório 04' },
+          { cat: 'imp', badge: 'SAÚDE DO SOLO', who: '🛰️ Agustín / 🔧 Maxi', q: '13. Como protege a saúde do solo nas rotações?', a: 'Une rotação sustentável com o Nó #3 RS485 (NPK + salinidade EC + pH) validando anomalias MODIS NDVI.', show: '👉 Aba: Nó #3 NPK' },
+          { cat: 'imp', badge: 'ÁGUA E ENERGIA', who: '📡 Iván', q: '14. Qual a economia de água e energia?', a: '28–42% menos água extraída e 35–50% menos kWh com inversores VFD (P ∝ N³).', show: '👉 Aba: Impacto Hídrico' },
+          { cat: 'si', badge: 'TRANSPARÊNCIA IA', who: '🔧 Maxi', q: '15. Como cumprem as regras de Super Intelligence (SI) da NASA?', a: 'Arquitetura mecatrônica e agronômica original da Equipe INANNA, com transparência total sobre apoio de IA generativa na interface e tradução EN/ES/PT.', show: '👉 Aba: Rodapé SCADA' },
+          { cat: 'si', badge: 'PRÓXIMO PASSO', who: '🔧 Maxi / Todos', q: '16. Qual o próximo passo real após o hackathon?', a: 'Pilotos reais em vinhedo serrano de Calamuchita e lavoura/silobolsa em Río Cuarto.', show: '👉 Fechamento firme' }
         ]
       }
     };
 
     const qL = new URLSearchParams(window.location.search).get('lang') || localStorage.getItem('inanna_lang');
     let curLang = ['en', 'es', 'pt'].includes(qL) ? qL : 'es';
+    let curCat = 'all';
     let totalSec = 180;
     let remSec = 180;
     let timerId = null;
@@ -376,19 +499,10 @@
     }
 
     function toggleClock() {
-      if (timerId) {
-        clearInterval(timerId);
-        timerId = null;
-        return;
-      }
+      if (timerId) { clearInterval(timerId); timerId = null; return; }
       timerId = setInterval(() => {
-        if (remSec > 0) {
-          remSec--;
-          updateClockUI();
-        } else {
-          clearInterval(timerId);
-          timerId = null;
-        }
+        if (remSec > 0) { remSec--; updateClockUI(); }
+        else { clearInterval(timerId); timerId = null; }
       }, 1000);
     }
 
@@ -399,11 +513,43 @@
       renderAll();
     }
 
+    function setCat(catId) {
+      curCat = catId;
+      renderQaOnly();
+    }
+
+    function renderQaOnly() {
+      const t = PITCH_I18N[curLang];
+      const qStr = (document.getElementById('qaSearchInput').value || '').trim().toLowerCase();
+      document.getElementById('catFilters').innerHTML = t.cats.map(c =>
+        `<button type="button" class="cat-btn ${curCat === c.id ? 'active' : ''}" onclick="setCat('${c.id}')">${c.lbl}</button>`
+      ).join('');
+
+      const filtered = t.qa.filter(item => {
+        const matchCat = (curCat === 'all' || item.cat === curCat);
+        const matchTxt = !qStr || item.q.toLowerCase().includes(qStr) || item.a.toLowerCase().includes(qStr) || item.badge.toLowerCase().includes(qStr);
+        return matchCat && matchTxt;
+      });
+
+      document.getElementById('qaContainer').innerHTML = filtered.map(item => `
+        <div class="qa-card">
+          <div class="qa-meta">
+            <span class="qa-badge">${item.badge}</span>
+            <span class="qa-who">${item.who}</span>
+          </div>
+          <div class="qa-q">${item.q}</div>
+          <div class="qa-a">${item.a}</div>
+          <div class="qa-show">${item.show}</div>
+        </div>
+      `).join('');
+    }
+
     function renderAll() {
       const t = PITCH_I18N[curLang];
       document.documentElement.lang = curLang;
       document.getElementById('hdrTitle').textContent = t.hdrTitle;
       document.getElementById('hdrSub').textContent = t.hdrSub;
+      document.getElementById('btnPrintQa').textContent = t.btnPrint;
       document.getElementById('brandHome').href = `../index.html?lang=${curLang}`;
       document.getElementById('lblTimerHdr').textContent = t.lblTimerHdr;
       document.getElementById('clockModeLbl').textContent = totalSec === 180 ? t.modePitch : t.modeQa;
@@ -412,7 +558,13 @@
       document.getElementById('btnModeQa').textContent = t.btnModeQa;
       document.getElementById('teleTitle').textContent = t.teleTitle;
       document.getElementById('qaTitle').textContent = t.qaTitle;
+      document.getElementById('qaSearchInput').placeholder = t.searchPh;
       document.getElementById('tipsBox').innerHTML = t.tips;
+      document.getElementById('cheatHdr').textContent = t.cheatHdr;
+
+      document.getElementById('cheatList').innerHTML = t.cheats.map(r => `
+        <div class="cheat-row"><span class="cheat-k">${r[0]}</span><span class="cheat-v">${r[1]}</span></div>
+      `).join('');
 
       document.getElementById('stepsContainer').innerHTML = t.steps.map(s => `
         <div class="step-card">
@@ -425,14 +577,8 @@
         </div>
       `).join('');
 
-      document.getElementById('qaContainer').innerHTML = t.qa.map(item => `
-        <div class="qa-card">
-          <div class="qa-q">${item.q}</div>
-          <div class="qa-a">${item.a}</div>
-        </div>
-      `).join('');
-
       document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.dataset.lang === curLang));
+      renderQaOnly();
       updateClockUI();
     }
 
