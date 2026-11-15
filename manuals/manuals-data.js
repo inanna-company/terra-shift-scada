@@ -602,6 +602,13 @@ window.MANUALS_CONTENT.m4 = {
       <li><strong>What it solves:</strong> Across southern Córdoba, entire harvests of maize, soybean, sorghum, and chickpea are stored in field <strong>silobags</strong> with zero power or signal. If wildlife tears the plastic and water enters, grain ferments and <strong>releases CO₂</strong> weeks before spoiling.</li>
       <li><strong>Hardware stack:</strong> Spear probe with <strong>CO₂ + intergranular temperature/humidity sensor</strong> + Solar ESP32 + LoRa 915 MHz. If biological CO₂ rises or moisture spikes, it beams an instant alarm 10 km to the main barn.</li>
     </ul>
+
+    <h2>3. Non-Linear Climate Extremes &amp; Atmospheric Anomalies: Super El Niño (ENSO) &amp; Polar Vortex Disruptions</h2>
+    <p>Multi-decade climate averages (<strong>NASA POWER / CMIP6</strong>) guide strategic crop transitions over 10–25 years, yet real harvests are often wiped out in <strong>hours</strong> by sudden teleconnection anomalies ("climate black swans"). Combining orbital foresight with autonomous ground LoRa hardware protects farms against both:</p>
+    <ul>
+      <li><strong>🌊 Super El Niño &amp; Hydro-Climatic Whiplash (La Niña → Super El Niño):</strong> Monitored from orbit via <strong>NASA/CNES SWOT, Sentinel-6 Michael Freilich sea-surface height anomalies, and GPM IMERG precipitation</strong>. In central Argentina (Río Cuarto &amp; Calamuchita), multi-year <em>La Niña</em> megadroughts require shifting maize toward sorghum/chickpea and safeguarding borehole drawdown (<strong>Node #4</strong>), whereas abrupt transitions into a <strong>Super El Niño</strong> unleash extreme convective storms, nutrient leaching/salinity shifts (<strong>Node #3 RS485 NPK+EC</strong>), and moisture ingress / biological fermentation inside off-grid grain silobags (<strong>Node #6 CO₂ Lance</strong>).</li>
+      <li><strong>❄️ Polar Vortex Breakdowns &amp; Sudden Stratospheric Warming (Arctic &amp; Austral Hemispheres):</strong> Tracked globally by <strong>NASA MERRA-2 &amp; GEOS stratospheric reanalysis</strong>. Because TERRA-SHIFT operates across both hemispheres, it accounts for <strong>Arctic Polar Vortex disruptions</strong> (driving severe cold-air outbreaks across North American and Eurasian agricultural basins) as well as weakenings of the <strong>Austral / Antarctic Polar Vortex (Southern Annular Mode — SAM)</strong>, which propel late-spring Patagonian polar fronts into Córdoba right after warm days—pooling sub-zero air (-2 °C) inside Calamuchita hollows where <strong>Node #1 (Dual PT100 + 15 km LoRa)</strong> triggers autonomous anti-frost irrigation before blossoms freeze.</li>
+    </ul>
   `,
 
   es: `
@@ -666,6 +673,13 @@ window.MANUALS_CONTENT.m4 = {
       <li><strong>Qué resuelve:</strong> En todo el sur de Córdoba quedan cosechas enteras de maíz, soja, sorgo y garbanzo guardados en silobolsas en lotes aislados sin luz ni señal. Si entra agua por rotura de un peludo/chancho o sube la humedad, el grano fermenta y emite CO₂ semanas antes de echarse a perder.</li>
       <li><strong>Qué lleva:</strong> Una lanza con sensor CO₂ + temperatura/humedad + ESP32 Solar + LoRa 915 MHz. Si sube el CO₂ por actividad biológica o detecta desgarro, manda alarma directa al casco de la estancia a 10 km.</li>
     </ul>
+
+    <h2>3. Eventos Climáticos Fortuitos y Anomalías Atmosféricas Súbitas: Súper El Niño (ENSO) y Rupturas del Vórtice Polar</h2>
+    <p>Los promedios climáticos multidecadales (<strong>NASA POWER / CMIP6</strong>) permiten planificar qué cultivos rotar a 10–25 años, pero en la campaña real una cosecha puede perderse en <strong>pocas horas</strong> por teleconexiones y anomalías atmosféricas abruptas (<em>cisnes negros climáticos</em>). La fusión entre observación satelital y nuestra red autónoma de campo protege al productor frente a ambos extremos:</p>
+    <ul>
+      <li><strong>🌊 Fenómeno del Súper El Niño y el “Latigazo Hidroclimático” (La Niña → Súper El Niño):</strong> Monitoreado desde órbita por <strong>NASA Sentinel-6 Michael Freilich, SWOT y GPM IMERG</strong>. En Córdoba (Río Cuarto y Calamuchita), tras ciclos severos de <em>La Niña</em> (donde resultan vitales la transición a sorgo/garbanzo, el riego eficiente con válvulas biestables y la protección de nivel dinámico de pozo del <strong>Nodo #4</strong>), la irrupción de un <strong>Súper El Niño</strong> provoca tormentas convectivas violentas, lavado de nutrientes o cambios bruscos de conductividad en suelo (detectados al instante por el <strong>Nodo #3 RS485 NPK+EC</strong>) y exceso de humedad e infiltración en lotes aislados de acopio donde la <strong>Lanza Solar de CO₂ (Nodo #6)</strong> evita la pérdida de silobolsas enteros.</li>
+      <li><strong>❄️ Rupturas del Vórtice Polar (Ártico en Hemisferio Norte y Austral/Antártico en el Cono Sur):</strong> Vigiladas por los modelos estratosféricos <strong>NASA MERRA-2 y GEOS</strong>. Al ser una plataforma global para ambos hemisferios, <strong>TERRA-SHIFT SCADA</strong> contempla tanto las rupturas del <strong>Vórtice Polar Ártico</strong> (que desploman las temperaturas en cuencas agrícolas de Norteamérica y Eurasia tras calentamientos súbitos estratosféricos) como los debilitamientos del <strong>Vórtice Polar Austral / Antártico (Modo Anular del Sur — SAM)</strong>, responsables de inyectar frentes polares tardíos en plena primavera sobre las sierras de Córdoba luego de jornadas cálidas. Cuando esa masa polar se embolsa a -2 °C en las hondonadas sin señal de Calamuchita, el <strong>Nodo #1 (Doble PT100 + LoRa 15 km)</strong> detecta la inversión térmica al nivel de la flor y activa autónomamente el riego anti-helada.</li>
+    </ul>
   `,
 
   pt: `
@@ -726,6 +740,13 @@ window.MANUALS_CONTENT.m4 = {
     <ul>
       <li><strong>O que resolve:</strong> Protege safras inteiras de milho, soja, sorgo e grão-de-bico armazenadas em silobags no campo sem energia nem sinal. Se entrar água por rasgo de animais, o grão fermenta e emite CO₂ semanas antes de apodrecer.</li>
       <li><strong>O que leva:</strong> Lança com sensor CO₂ + temperatura/umidade + ESP32 Solar + LoRa 915 MHz enviando alarme imediato a 10 km até o galpão principal.</li>
+    </ul>
+
+    <h2>3. Eventos Climáticos Extremos e Anomalias Súbitas: Super El Niño (ENSO) e Rupturas do Vórtice Polar</h2>
+    <p>Médias climáticas multidecadais (<strong>NASA POWER / CMIP6</strong>) orientam a transição de culturas em 10–25 anos, mas anomalias atmosféricas abruptas podem comprometer uma safra em poucas horas:</p>
+    <ul>
+      <li><strong>🌊 Super El Niño e Chicote Hidroclimático (La Niña → Super El Niño):</strong> Monitorado em órbita por <strong>NASA Sentinel-6 Michael Freilich, SWOT e GPM IMERG</strong>. Após secas severas de <em>La Niña</em> (onde a rotação para sorgo/grão-de-bico e a proteção de poço do <strong>Nó #4</strong> são vitais), o <strong>Super El Niño</strong> traz tempestades intensas, lixiviação nutricional (detectada pelo <strong>Nó #3 RS485 NPK+EC</strong>) e risco de infiltração e fermentação em silobolsas isolados (<strong>Nó #6 Lança de CO₂</strong>).</li>
+      <li><strong>❄️ Rupturas do Vórtice Polar (Ártico no Hemisfério Norte e Austral/Antártico no Cone Sul):</strong> Monitoradas pela reanálise estratosférica <strong>NASA MERRA-2 e GEOS</strong>. Como plataforma global, o TERRA-SHIFT contempla tanto rupturas do <strong>Vórtice Polar Ártico</strong> nas bacias agrícolas do Hemisfério Norte quanto oscilações do <strong>Vórtice Polar Austral / Antártico (Modo Anular Sul — SAM)</strong>, que disparam geadas tardias de primavera nas baixadas de Calamuchita, onde o <strong>Nó #1 (Duplo PT100 + LoRa 15 km)</strong> aciona autonomamente a irrigação antigeada.</li>
     </ul>
   `
 };

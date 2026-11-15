@@ -255,6 +255,10 @@
           {
             q: '6. ¿La resolución espacial del satélite NASA alcanza para un lote chico?',
             a: 'Justamente ahí brilla nuestra arquitectura híbrida: NASA POWER y GIBS (MODIS 250 m / SMAP 9 km) dan la tendencia climática multidecadal regional que ningún sensor local tiene, mientras que los lazos 4–20 mA y RS485 corrigen el microclima exacto de la hondonada o la raíz.'
+          },
+          {
+            q: '7. ¿Qué pasa ante eventos fortuitos extremos como un Súper El Niño o rupturas del Vórtice Polar?',
+            a: 'Los promedios CMIP6 guían la rotación a 20 años, pero los cisnes negros golpean en horas: ante un Súper El Niño (vigilado por NASA Sentinel-6 y GPM) los Nodos #3 (NPK/Salinidad) y #6 (CO₂ en Silobolsa) previenen lavado de suelo y fermentación de grano; y ante rupturas del Vórtice Polar Ártico (Hemisferio Norte, NASA MERRA-2) o del Vórtice Polar Austral/Antártico (heladas tardías en Calamuchita), el Nodo #1 PT100 activa solo el riego anti-helada.'
           }
         ]
       },
@@ -268,7 +272,7 @@
         btnReset: '↺ Reset 03:00',
         btnModeQa: '❓ Switch to 2:00 Q&A Timer',
         teleTitle: '🎙️ Synchronized 3:00 Minute Script (Auto-highlights with stopwatch)',
-        qaTitle: '🛡️ Top 6 Jury Questions (2:00 min Q&A) — Concise Knockout Answers',
+        qaTitle: '🛡️ Top 7 Jury Questions (2:00 min Q&A) — Concise Knockout Answers',
         tips: '<strong>Golden Rule:</strong> Keep 3 tabs open when sharing screen: 1) Main SCADA Console, 2) ESP32 Emulator, and 3) 30 km Solar LoRa + 12V Cab OLED Simulator.',
         steps: [
           {
@@ -308,7 +312,8 @@
           { q: '3. How does LoRa cross Calamuchita hills without cell towers?', a: 'Solar Hilltop Repeater #5 (a 300 g IP67 5W box on a ridge pole) relays 915 MHz AES-128 packets over mountain crests up to 30 km to the farmhouse and 12V pickup cab OLED.' },
           { q: '4. Won’t irrigation valves drain small solar batteries?', a: 'We use 9V/12V bi-stable latching solenoids driven by a 50 ms H-bridge pulse (DRV8871), holding open magnetically at 0.00 mA continuous draw.' },
           { q: '5. Is the ESP32 code actually compiled?', a: 'Yes—both editable .ino C++ sketches and pre-compiled .merged.bin binaries verified with arduino-cli are included in our repository.' },
-          { q: '6. Why include a Silobag CO₂ spear?', a: 'In southern Córdoba (Río Cuarto), harvests sit in remote off-grid silobags; biological CO₂ spikes detect water ingress weeks before grain spoils.' }
+          { q: '6. Why include a Silobag CO₂ spear?', a: 'In southern Córdoba (Río Cuarto), harvests sit in remote off-grid silobags; biological CO₂ spikes detect water ingress weeks before grain spoils.' },
+          { q: '7. How does it handle sudden anomalies like Super El Niño or Polar Vortex breakdowns?', a: 'CMIP6 guides 20-year crop shifts, while our LoRa nodes catch hourly black-swan extremes: Super El Niño storms (NASA Sentinel-6/GPM) via Nodes #3 NPK & #6 Silobag CO₂, and Arctic (NH, NASA MERRA-2) or Austral/Antarctic Polar Vortex spring frost surges in Calamuchita via Node #1 dual PT100.' }
         ]
       },
       pt: {
@@ -321,7 +326,7 @@
         btnReset: '↺ Reiniciar 03:00',
         btnModeQa: '❓ Mudar para Perguntas Q&A (02:00)',
         teleTitle: '🎙️ Roteiro Sincronizado de 3:00 Minutos (Destaca ao vivo com o relógio)',
-        qaTitle: '🛡️ As 6 Perguntas do Júri (2:00 min Q&A) — Respostas Diretas',
+        qaTitle: '🛡️ As 7 Perguntas do Júri (2:00 min Q&A) — Respostas Diretas',
         tips: '<strong>Regra de Ouro:</strong> Deixe 3 abas abertas: 1) Console SCADA, 2) Emulador ESP32 e 3) Simulador LoRa 30 km + OLED 12V.',
         steps: [
           { start: 0, end: 30, time: '0:00 – 0:30', who: 'Orador 1 (Maxi — Abertura)', text: '“Boa tarde jurados. Somos a Equipe INANNA COMPANY de Río Cuarto. Criamos o TERRA-SHIFT SCADA para unir satélites da NASA ao vivo com mecatrônica rural autônoma contra secas, geadas de baixada e falta de sinal no campo.”', act: '📺 Mostrar: Console SCADA Principal' },
@@ -336,7 +341,8 @@
           { q: '3. Como o sinal vence os morros sem celular?', a: 'A Repetidora Solar de Topo #5 (5W IP67) salta pacotes LoRa 915 MHz por cima da serra até 30 km para a sede e o painel OLED 12V da caminhonete.' },
           { q: '4. Válvulas não esgotam a bateria solar?', a: 'Usamos válvulas biestáveis (Latch) acionadas por pulso de 50 ms (DRV8871), mantendo-se abertas por ímã com consumo de 0.00 mA.' },
           { q: '5. O firmware ESP32 é compilado de verdade?', a: 'Sim! Código C++ (.ino) e binários .merged.bin compilados via arduino-cli prontos para gravação USB.' },
-          { q: '6. Por que monitorar CO₂ em silobolsas?', a: 'Detecta infiltração e fermentação biológica semanas antes do apodrecimento de grãos em lotes isolados.' }
+          { q: '6. Por que monitorar CO₂ em silobolsas?', a: 'Detecta infiltração e fermentação biológica semanas antes do apodrecimento de grãos em lotes isolados.' },
+          { q: '7. E diante de eventos súbitos como Super El Niño ou ruptura do Vórtice Polar?', a: 'O CMIP6 guia 20 anos, enquanto os nós LoRa atuam em minutos contra o Super El Niño (NASA Sentinel-6/GPM, Nós #3 e #6) e rupturas do Vórtice Polar Ártico (HN, NASA MERRA-2) ou Austral/Antártico nas geadas tardias de Calamuchita (Nó #1 PT100).' }
         ]
       }
     };

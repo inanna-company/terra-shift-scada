@@ -69,3 +69,18 @@ Todos los dispositivos del ecosistema comparten **una única placa madre univers
 ### 6. 🌾 Lanza Solar Centinela de Silobolsa (`CO₂` + Humedad Intergranular — ¡100% Río Cuarto!)
 - **Qué resuelve:** En todo el sur de Córdoba quedan cosechas enteras de maíz, soja, sorgo y garbanzo guardadas en **silobolsas** en lotes aislados sin luz ni señal. Si entra agua por rotura de un peludo/chancho o sube la humedad, el grano fermenta y **emite `CO₂`** semanas antes de echarse a perder.
 - **Qué lleva:** Una lanza con sensor **`CO₂` + temperatura/humedad** + `ESP32 Solar + LoRa 915 MHz`. Si sube el `CO₂` por actividad biológica o detecta desgarro, manda alarma directa al casco de la estancia a 10 km.
+
+
+---
+
+## Eventos Climáticos Fortuitos y Anomalías Atmosféricas Súbitas (*Cisnes Negros Climáticos*)
+
+Los promedios climáticos históricos y proyecciones multidecadales (**NASA POWER / CMIP6**) guían qué cultivos sembrar a 10–25 años, pero en la campaña real una cosecha puede perderse en **pocas horas** por anomalías atmosféricas abruptas. La fusión entre satélites de la NASA y nuestra red autónoma **Solar + LoRa + ESP32** protege al productor frente a ambos fenómenos:
+
+1. **🌊 Súper El Niño y el “Latigazo Hidroclimático” (`La Niña → Súper El Niño`):**
+   - **Monitoreo Orbital NASA:** Vigilado desde el espacio mediante altimetría oceánica **NASA Sentinel-6 Michael Freilich**, **SWOT** y precipitación **GPM IMERG**.
+   - **Acción en Campo (Río Cuarto y Calamuchita):** Tras años secos de *La Niña* (donde brillan la rotación a sorgo/garbanzo, las válvulas Latch de consumo `0.00 mA` y la protección de pozo del **Nodo #4**), la transición brusca a un **Súper El Niño** dispara lluvias torrenciales, lavado de nutrientes o cambios de conductividad en suelo (medidos en vivo por el **Nodo #3 RS485 NPK+EC**) e infiltración de humedad en acopios rurales donde la **Lanza Solar de `CO₂` (Nodo #6)** salva silobolsas enteros antes de que el grano fermente.
+
+2. **❄️ Rupturas del Vórtice Polar (Ártico en Hemisferio Norte y Austral/Antártico en el Cono Sur):**
+   - **Monitoreo Orbital NASA:** Vigiladas mediante reanálisis estratosférico **NASA MERRA-2 y GEOS**.
+   - **Acción en Campo (Doble Hemisferio):** Al operar globalmente en ambos hemisferios, **TERRA-SHIFT SCADA** contempla tanto las rupturas del **Vórtice Polar Ártico** (que desploman la temperatura en cuencas agrícolas de Norteamérica y Eurasia tras calentamientos súbitos estratosféricos) como los debilitamientos del **Vórtice Polar Austral / Antártico (*Modo Anular del Sur — SAM*)**, responsables de inyectar irrupciones polares tardías en plena primavera sobre Córdoba tras días cálidos. Cuando ese aire helado (`-2 °C`) se embolsa en las hondonadas sin señal de Calamuchita, el **Nodo #1 (Doble PT100 + LoRa 15 km)** detecta la inversión térmica a `40 cm` del suelo y enciende autónomamente el riego anti-helada salvando la floración.
