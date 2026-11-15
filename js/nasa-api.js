@@ -1,6 +1,6 @@
 /**
  * TERRA-SHIFT SCADA — Live NASA Earth Observation & Climate Projection Client
- * Developed by INANNA COMPANY for 2026 NASA Space Apps Challenge
+ * Developed by Team INANNA (Río Cuarto, Córdoba, Argentina) for 2026 NASA Space Apps Challenge
  *
  * Official NASA Data Sources Integrated:
  * 1. NASA POWER Agroclimatology API (REST JSON, 2004–2025 monthly/annual series)

@@ -7,7 +7,8 @@
 - **Agustín Alejandro Debia** — *Co-Developer | Systems & Agro-Climate Analytics*  
 - **Iván David Coria** — *Co-Developer | Field Operations & Rural Validation*  
 
-**Local Event:** Santa Rosa de Calamuchita, Córdoba, Argentina  
+**Team Origin:** Río Cuarto, Córdoba, Argentina (*Heart of Southern Córdoba's Agro-Industrial Belt*)  
+**Official Local Event:** Santa Rosa de Calamuchita, Córdoba, Argentina  
 **2026 NASA Space Apps Challenge** — *Challenge: "Field Shift: Adapting Farms with NASA Data"*
 
 ---

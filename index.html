@@ -26,7 +26,7 @@
     </div>
     <div class="ribbon-group">
       <span id="ribField">FIELD SCADA: ESP-NOW AES-128 (&lt;4 ms) • 4–20 mA NAMUR NE43 • MODBUS TCP:502 / RS485</span>
-      <span id="ribEvent" class="badge badge-purple">LOCAL EVENT: SANTA ROSA DE CALAMUCHITA, AR</span>
+      <span id="ribEvent" class="badge badge-purple">ORIGIN: RÍO CUARTO, AR • EVENT: SANTA ROSA DE CALAMUCHITA</span>
     </div>
   </div>
 
@@ -102,8 +102,8 @@
           <div class="field-group">
             <label id="lblPreset" for="selPreset">Agro-Ecological Preset</label>
             <select id="selPreset">
-              <option id="optPresetCal" value="calamuchita">Santa Rosa de Calamuchita, Córdoba (AR)</option>
-              <option id="optPresetRio" value="riocuarto">Río Cuarto — Pampas Core, Córdoba (AR)</option>
+              <option id="optPresetRio" value="riocuarto" selected>🌾 Río Cuarto — Pampas Core, Córdoba (Team Origin)</option>
+              <option id="optPresetCal" value="calamuchita">🏔️ Santa Rosa de Calamuchita, Córdoba (Local Event)</option>
               <option id="optPresetTras" value="traslasierra">Villa Dolores — Traslasierra Semi-Arid (AR)</option>
               <option id="optPresetMen" value="mendoza">Luján de Cuyo — Andean Oasis, Mendoza (AR)</option>
               <option id="optPresetFre" value="fresno">San Joaquin Valley, California (US Benchmark)</option>
@@ -191,7 +191,7 @@
         </div>
         <div class="map-wrapper">
           <div id="orbitalMap"></div>
-          <div id="mapCoordsOverlay" class="map-overlay-coords">LAT -32.069° | LON -64.536°</div>
+          <div id="mapCoordsOverlay" class="map-overlay-coords">LAT -33.123° | LON -64.349°</div>
         </div>
       </div>
 
@@ -450,8 +450,8 @@
     <div class="footer-inner">
       <div>
         <img src="assets/inanna-logo-horizontal.jpg" alt="Team INANNA Logo" class="inanna-footer-logo" />
-        <h4 id="footTeamTitle">Team INANNA — 2026 NASA Space Apps Challenge</h4>
-        <p id="footEvent"><strong>Local Event:</strong> Santa Rosa de Calamuchita, Córdoba, Argentina</p>
+        <h4 id="footTeamTitle">Team INANNA (Río Cuarto, Córdoba) — 2026 NASA Space Apps Challenge</h4>
+        <p id="footEvent"><strong>Team Origin:</strong> Río Cuarto, Córdoba, AR • <strong>Local Event:</strong> Santa Rosa de Calamuchita, Córdoba, AR</p>
         <p id="footChallenge"><strong>Challenge:</strong> Field Shift: Adapting Farms with NASA Data</p>
         <p id="footRoster" style="margin-top:6px;">
           <strong>Contestant Team:</strong> Fabio Maximiliano Medina Rojas (Team Lead / Higher Technician in Mechatronics), Agustín Alejandro Debia, Iván David Coria.

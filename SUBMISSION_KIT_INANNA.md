@@ -3,7 +3,7 @@
 URL directa de tu formulario de entrega:  
 👉 **`https://www.spaceappschallenge.org/2026/find-a-team/inanna-company/?tab=project`**
 
-> **100% PURO CONCURSO HACKATHON (SIN PRECIOS NI CONTENIDO CORPORATIVO COMERCIAL):** Todos los textos presentan a **Team INANNA** estrictamente como un equipo concursante open-source de Santa Rosa de Calamuchita, Córdoba, Argentina.
+> **100% PURO CONCURSO HACKATHON (SIN PRECIOS NI CONTENIDO CORPORATIVO COMERCIAL):** Todos los textos presentan a **Team INANNA** estrictamente como un equipo concursante open-source oriundo de **Río Cuarto, Córdoba, Argentina** compitiendo en la sede oficial **Santa Rosa de Calamuchita**.
 
 ---
 

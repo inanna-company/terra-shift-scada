@@ -6,9 +6,9 @@
 
 window.MANUALS_UI = {
   en: {
-    portalBadge: 'TEAM INANNA • OPEN-SOURCE ENGINEERING & OPERATIONS DOCUMENTATION',
+    portalBadge: 'TEAM INANNA (RÍO CUARTO, CÓRDOBA) • OPEN-SOURCE DOCUMENTATION',
     portalTitle: 'TERRA-SHIFT SCADA — Complete Manuals Suite',
-    portalSub: 'Authored by Fabio Maximiliano Medina Rojas (Higher Technician in Mechatronics / Técnico Superior en Mecatrónica) • Contestant Team INANNA',
+    portalSub: 'Authored by Fabio Maximiliano Medina Rojas (Higher Technician in Mechatronics) • Team INANNA (Río Cuarto, Córdoba — Event: Santa Rosa de Calamuchita)',
     backBtn: '← Back to Live SCADA',
     printOneBtn: '⬇ Print Active Manual (PDF)',
     tab1: '📘 Manual 01: Scientific & Mechatronic Engineering',
@@ -20,9 +20,9 @@ window.MANUALS_UI = {
     divLbl: 'DOMAIN'
   },
   es: {
-    portalBadge: 'EQUIPO INANNA • DOCUMENTACIÓN ABIERTA DE INGENIERÍA Y OPERACIÓN',
+    portalBadge: 'EQUIPO INANNA (RÍO CUARTO, CÓRDOBA) • DOCUMENTACIÓN ABIERTA',
     portalTitle: 'TERRA-SHIFT SCADA — Suite Oficial de Manuales',
-    portalSub: 'Dirección Técnica: Fabio Maximiliano Medina Rojas (Técnico Superior en Mecatrónica) • Equipo Concursante INANNA (Medina Rojas • Debia • Coria)',
+    portalSub: 'Dirección Técnica: Fabio Maximiliano Medina Rojas (Técnico Superior en Mecatrónica) • Equipo INANNA (Río Cuarto, Córdoba — Sede: Santa Rosa de Calamuchita)',
     backBtn: '← Volver al SCADA en Vivo',
     printOneBtn: '⬇ Imprimir Manual Actual (PDF)',
     tab1: '📘 Manual 01: Ingeniería Científica y Mecatrónica',
@@ -34,9 +34,9 @@ window.MANUALS_UI = {
     divLbl: 'ÁREA'
   },
   pt: {
-    portalBadge: 'EQUIPE INANNA • DOCUMENTAÇÃO ABERTA DE ENGENHARIA E OPERAÇÃO',
+    portalBadge: 'EQUIPE INANNA (RÍO CUARTO, CÓRDOBA) • DOCUMENTAÇÃO ABERTA',
     portalTitle: 'TERRA-SHIFT SCADA — Suíte Oficial de Manuais',
-    portalSub: 'Direção Técnica: Fabio Maximiliano Medina Rojas (Técnico Superior em Mecatrônica) • Equipe Concursante INANNA (Medina Rojas • Debia • Coria)',
+    portalSub: 'Direção Técnica: Fabio Maximiliano Medina Rojas (Técnico Superior em Mecatrônica) • Equipe INANNA (Río Cuarto, Córdoba — Sede: Santa Rosa de Calamuchita)',
     backBtn: '← Voltar ao SCADA ao Vivo',
     printOneBtn: '⬇ Imprimir Manual Atual (PDF)',
     tab1: '📘 Manual 01: Engenharia Científica e Mecatrônica',

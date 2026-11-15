@@ -1,4 +1,4 @@
-const CACHE_NAME = 'inanna-terrashift-v4';
+const CACHE_NAME = 'inanna-terrashift-v5';
 const ASSETS = [
   './',
   './index.html',

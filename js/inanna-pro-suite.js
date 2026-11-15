@@ -1,6 +1,6 @@
 /**
  * TERRA-SHIFT SCADA — Phenology, Environmental Impact, Mechatronic P&ID & Inanna Neural Voice Tour
- * Open-Source Hackathon Project by Team INANNA (Santa Rosa de Calamuchita, Córdoba, Argentina)
+ * Open-Source Hackathon Project by Team INANNA (Río Cuarto, Córdoba — Event: Santa Rosa de Calamuchita, AR)
  * 2026 NASA Space Apps Challenge — "Field Shift: Adapting Farms with NASA Data"
  *
  * Neural Voice Engine ("Bóveda Web de Inanna"):
@@ -70,12 +70,12 @@ const PRO_I18N = {
     soundOn: '🔔 Audio & Voice: ON',
     soundOff: '🔕 Audio & Voice: MUTE',
     demoMsgs: [
-      'Part 1/6 — Inanna: Querying 20 years of live NASA POWER, MODIS & SMAP satellite data over Santa Rosa de Calamuchita...',
-      'Part 2/6 — Inanna: Ranking 10 crops to 2050 & mapping the 12-month calendar — resilient vineyards, olive, chickpea & sorghum thrive.',
+      'Part 1/6 — Inanna (Team INANNA, Río Cuarto): Querying 20 years of live NASA POWER, MODIS & SMAP satellite data over Córdoba...',
+      'Part 2/6 — Inanna: Ranking 10 crops to 2050 & mapping the 12-month calendar — sorghum, chickpea, peanut, olive & vineyards thrive.',
       'Part 3/6 — Inanna: Simulating farm-scale impact — 38% freshwater conserved, 34% VFD pump energy saved & lower carbon footprint.',
       'Part 4/6 — Inanna: Stepping into an offline rural plot — NODE-01 reads dry roots (6.80 mA = 17.5%) confirmed by NASA → Drip OPEN!',
       'Part 5/6 — Inanna: CRITICAL TEST! Severed field cable (1.20 mA < 3.6 mA NAMUR NE43) → Safety Relay LOCKS pump & switches to NASA backup!',
-      'Part 6/6 — Inanna: Loop repaired (12.00 mA = 50.0%) + SCADA Alarm ACK → Open-hardware Modbus system ARMED. Team INANNA!'
+      'Part 6/6 — Inanna: Loop repaired (12.00 mA = 50.0%) + SCADA Alarm ACK → From Río Cuarto to Calamuchita: Team INANNA!'
     ]
   },
   es: {
@@ -138,12 +138,12 @@ const PRO_I18N = {
     soundOn: '🔔 Voz Inanna: ACTIVA',
     soundOff: '🔕 Voz Inanna: SILENCIO',
     demoMsgs: [
-      'Parte 1/6 — Inanna: Consultando en vivo 20 años de satélites NASA POWER, MODIS y SMAP sobre Santa Rosa de Calamuchita...',
-      'Parte 2/6 — Inanna: Proyectando 10 cultivos a 2050 y calendario de 12 meses — destacan vid serrana, olivo, garbanzo y sorgo.',
+      'Parte 1/6 — Inanna (Equipo INANNA, Río Cuarto): Consultando en vivo 20 años de satélites NASA POWER, MODIS y SMAP sobre Córdoba...',
+      'Parte 2/6 — Inanna: Proyectando 10 cultivos a 2050 y calendario de 12 meses — destacan sorgo, garbanzo, maní, olivo y vid serrana.',
       'Parte 3/6 — Inanna: Simulando impacto ambiental — 38% de ahorro de agua dulce, 34% menos energía en bombas VFD y menos CO₂.',
       'Parte 4/6 — Inanna: Bajando al campo sin internet — NODE-01 detecta raíz seca (6.80 mA = 17.5%) validada con NASA → ¡Riego ACTIVO!',
       'Parte 5/6 — Inanna: ¡PRUEBA CRÍTICA! Cable cortado en el lote (1.20 mA < 3.6 mA NAMUR NE43) → ¡Relé BLOQUEA bomba y usa respaldo NASA!',
-      'Parte 6/6 — Inanna: Lazo reparado (12.00 mA = 50.0%) + SCADA Alarm ACK → Sistema abierto Modbus ARMADO. ¡Equipo INANNA!'
+      'Parte 6/6 — Inanna: Lazo reparado (12.00 mA = 50.0%) + SCADA Alarm ACK → ¡Desde Río Cuarto hacia Calamuchita y el mundo: Equipo INANNA!'
     ]
   },
   pt: {
@@ -206,12 +206,12 @@ const PRO_I18N = {
     soundOn: '🔔 Voz Inanna: ATIVA',
     soundOff: '🔕 Voz Inanna: MUDO',
     demoMsgs: [
-      'Parte 1/6 — Inanna: Consultando ao vivo 20 anos de satélites NASA POWER, MODIS e SMAP sobre Santa Rosa de Calamuchita...',
-      'Parte 2/6 — Inanna: Avaliando 10 culturas até 2050 e calendário de 12 meses — videira serrana, oliveira, grão-de-bico e sorgo prosperam.',
+      'Parte 1/6 — Inanna (Equipe INANNA, Río Cuarto): Consultando ao vivo 20 anos de satélites NASA POWER, MODIS e SMAP sobre Córdoba...',
+      'Parte 2/6 — Inanna: Avaliando 10 culturas até 2050 e calendário de 12 meses — sorgo, grão-de-bico, amendoim, oliveira e videira prosperam.',
       'Parte 3/6 — Inanna: Simulando impacto ambiental — 38% de economia de água doce, 34% menos energia VFD e menos emissões de CO₂.',
       'Parte 4/6 — Inanna: No campo sem internet — NODE-01 detecta raiz seca (6.80 mA = 17.5%) confirmada pela NASA → Irrigação ATIVA!',
       'Parte 5/6 — Inanna: TESTE CRÍTICO! Cabo rompido na lavoura (1.20 mA < 3.6 mA NAMUR NE43) → Relé TRAVA bomba e ativa backup NASA!',
-      'Parte 6/6 — Inanna: Laço reparado (12.00 mA = 50.0%) + SCADA Alarm ACK → Sistema aberto Modbus ARMADO. Equipe INANNA!'
+      'Parte 6/6 — Inanna: Laço reparado (12.00 mA = 50.0%) + SCADA Alarm ACK → De Río Cuarto para Calamuchita e o mundo: Equipe INANNA!'
     ]
   }
 };
@@ -316,7 +316,7 @@ class InannaProSuite {
     }
 
     const lang = this.getLang();
-    const mp3Url = `assets/audio/demo_${lang}_${stepIdx}.mp3`;
+    const mp3Url = `assets/audio/demo_${lang}_${stepIdx}.mp3?v=rc2`;
     const eq = document.getElementById('inannaVoiceEq');
 
     const audio = new Audio(mp3Url);
