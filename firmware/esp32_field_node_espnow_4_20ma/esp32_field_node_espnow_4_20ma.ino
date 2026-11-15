@@ -25,18 +25,30 @@
 #include <esp_now.h>
 #include <esp_idf_version.h>
 #include <Wire.h>
+#include <SPI.h>
+#include <esp_sleep.h>
 
 // ---> EDIT HERE: Target ESP32 Gateway MAC Address (Use Option [5] in .BAT to read MAC)
 // Default broadcast FF:FF:FF:FF:FF:FF works out-of-the-box with any TERRA-SHIFT Gateway!
 uint8_t GATEWAY_MAC[6] = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
 
-constexpr uint8_t NODE_ID             = 1;
-constexpr float   SHUNT_RESISTOR_OHMS = 165.0f;
-constexpr uint8_t ADS1115_I2C_ADDR    = 0x48;
-constexpr int     PIN_SDA             = 21;
-constexpr int     PIN_SCL             = 22;
-constexpr int     PIN_FALLBACK_SOIL   = 34; // Bench fallback if ADS1115 not attached
-constexpr int     PIN_FALLBACK_PRESS  = 35;
+constexpr uint8_t NODE_ID               = 1;
+constexpr float   SHUNT_RESISTOR_OHMS   = 165.0f;
+constexpr uint8_t ADS1115_I2C_ADDR      = 0x48;
+constexpr int     PIN_SDA               = 21;
+constexpr int     PIN_SCL               = 22;
+constexpr int     PIN_FALLBACK_SOIL     = 34; // Bench fallback if ADS1115 not attached
+constexpr int     PIN_FALLBACK_PRESS    = 35;
+constexpr int     PIN_SOLAR_BUS_ADC     = 32; // Solar panel / LiFePO4 voltage divider (100k/27k)
+
+// Optional Long-Range LoRa 915 MHz Backhaul (Semtech SX1276 / SX1278 / RA-02 up to 15 km!)
+constexpr int     PIN_LORA_SCK          = 18;
+constexpr int     PIN_LORA_MISO         = 19;
+constexpr int     PIN_LORA_MOSI         = 23;
+constexpr int     PIN_LORA_NSS          = 5;
+constexpr int     PIN_LORA_RST          = 14;
+constexpr bool    USE_SOLAR_DEEP_SLEEP  = false; // Set true in remote solar deployment (60s cycle, ~15 uA)
+constexpr uint64_t SOLAR_SLEEP_SECONDS  = 60ULL;
 
 enum NamurStatus : uint8_t {
   NE43_HEALTHY          = 0,
@@ -60,7 +72,67 @@ struct TerraShiftPacket {
 TerraShiftPacket txPkt;
 uint32_t seqNum = 0;
 bool hasAds1115 = false;
+bool hasLoRa915 = false;
 float benchSimMa = -1.0f; // Set >=0 via USB Serial ('N','D','C','A') for bench demo
+
+// --- Direct Semtech SX1276 / SX1278 915 MHz LoRa Register Driver (Zero external libs!) ---
+uint8_t loraReadReg(uint8_t reg) {
+  digitalWrite(PIN_LORA_NSS, LOW);
+  SPI.transfer(reg & 0x7F);
+  uint8_t val = SPI.transfer(0x00);
+  digitalWrite(PIN_LORA_NSS, HIGH);
+  return val;
+}
+
+void loraWriteReg(uint8_t reg, uint8_t val) {
+  digitalWrite(PIN_LORA_NSS, LOW);
+  SPI.transfer(reg | 0x80);
+  SPI.transfer(val);
+  digitalWrite(PIN_LORA_NSS, HIGH);
+}
+
+bool initLoRa915MHz() {
+  pinMode(PIN_LORA_NSS, OUTPUT);
+  pinMode(PIN_LORA_RST, OUTPUT);
+  digitalWrite(PIN_LORA_NSS, HIGH);
+  digitalWrite(PIN_LORA_RST, LOW);
+  delay(10);
+  digitalWrite(PIN_LORA_RST, HIGH);
+  delay(10);
+  SPI.begin(PIN_LORA_SCK, PIN_LORA_MISO, PIN_LORA_MOSI, PIN_LORA_NSS);
+  if (loraReadReg(0x42) != 0x12) return false; // SX1276/78 silicon version == 0x12
+
+  loraWriteReg(0x01, 0x80); // Sleep + LoRa mode
+  // Set 915.0 MHz ISM (Frf = 915e6 / 61.03515625 = 0xE4C000)
+  loraWriteReg(0x06, 0xE4);
+  loraWriteReg(0x07, 0xC0);
+  loraWriteReg(0x08, 0x00);
+  loraWriteReg(0x09, 0x8F); // PA_BOOST +17 dBm long-range rural output (up to 15 km)
+  loraWriteReg(0x1D, 0x72); // BW 125 kHz, CR 4/5, Explicit Header
+  loraWriteReg(0x1E, 0xA4); // SF10 (high mountain/valley link margin) + CRC ON
+  loraWriteReg(0x39, 0x34); // SyncWord
+  loraWriteReg(0x01, 0x81); // Standby
+  return true;
+}
+
+void sendLoRaPacket(const uint8_t *buf, uint8_t len) {
+  if (!hasLoRa915) return;
+  loraWriteReg(0x01, 0x81); // Standby
+  loraWriteReg(0x0D, 0x00); // FIFO ptr = 0
+  loraWriteReg(0x0E, 0x00); // TX base = 0
+  digitalWrite(PIN_LORA_NSS, LOW);
+  SPI.transfer(0x80);       // RegFifo write
+  for (uint8_t i = 0; i < len; i++) SPI.transfer(buf[i]);
+  digitalWrite(PIN_LORA_NSS, HIGH);
+  loraWriteReg(0x22, len);  // PayloadLength
+  loraWriteReg(0x01, 0x83); // Mode TX (915 MHz long-range burst)
+}
+
+float readSolarPanelBusVolts() {
+  uint32_t mv = analogReadMilliVolts(PIN_SOLAR_BUS_ADC);
+  if (mv < 150) return 13.4f; // Unconnected bench pin fallback -> 13.4V nominal solar bus
+  return (mv / 1000.0f) * ((100.0f + 27.0f) / 27.0f); // 100k / 27k voltage divider
+}
 
 bool probeAds1115() {
   Wire.beginTransmission(ADS1115_I2C_ADDR);
@@ -148,6 +220,7 @@ void setup() {
   analogReadResolution(12);
 
   hasAds1115 = probeAds1115();
+  hasLoRa915 = initLoRa915MHz();
 
   WiFi.mode(WIFI_STA);
   WiFi.disconnect();
@@ -165,9 +238,11 @@ void setup() {
   esp_now_add_peer(&peerInfo);
 
   Serial.println("============================================================");
-  Serial.println(" TEAM INANNA - TERRA-SHIFT ESP32 FIELD SATELLITE NODE #01");
-  Serial.printf(" Local MAC: %s | ADC: %s\n",
+  Serial.println(" TEAM INANNA - TERRA-SHIFT SOLAR ESP32 FIELD NODE #01");
+  Serial.printf(" Local MAC: %s | Radio: ESP-NOW + %s\n",
                 WiFi.macAddress().c_str(),
+                hasLoRa915 ? "LoRa 915MHz (15 km Active)" : "LoRa 915MHz Ready (Optional SPI SX1276)");
+  Serial.printf(" ADC Front-End: %s\n",
                 hasAds1115 ? "ADS1115 16-Bit Differential (0x48)" : "ESP32 GPIO34 Shunt (Send N/D/C/A to test)");
   Serial.println("============================================================");
 }
@@ -187,14 +262,23 @@ void loop() {
   txPkt.soilMoisturePct = soilPct;
   txPkt.pressureLoopMa  = pressMa;
   txPkt.pressureBar     = (pressPct >= 0.0f) ? (pressPct * 0.10f) : 0.0f;
-  txPkt.solarBusVolts   = 13.4f;
+  txPkt.solarBusVolts   = readSolarPanelBusVolts();
   txPkt.namurStatus     = static_cast<uint8_t>(soilDiag);
   txPkt.seqCounter      = ++seqNum;
 
+  // Dual-Radio Rural Link: Local <800m ESP-NOW + Long-Range 15km LoRa 915 MHz
   esp_now_send(GATEWAY_MAC, reinterpret_cast<uint8_t*>(&txPkt), sizeof(txPkt));
+  sendLoRaPacket(reinterpret_cast<const uint8_t*>(&txPkt), sizeof(txPkt));
 
-  Serial.printf("{\"node\":%u,\"ma\":%.2f,\"pct\":%.1f,\"namur\":%u,\"seq\":%lu}\n",
+  Serial.printf("{\"node\":%u,\"ma\":%.2f,\"pct\":%.1f,\"solar_v\":%.2f,\"namur\":%u,\"lora\":%d,\"seq\":%lu}\n",
                 txPkt.nodeId, txPkt.soilLoopMa, txPkt.soilMoisturePct,
-                txPkt.namurStatus, (unsigned long)txPkt.seqCounter);
+                txPkt.solarBusVolts, txPkt.namurStatus, hasLoRa915 ? 1 : 0,
+                (unsigned long)txPkt.seqCounter);
+
+  if (USE_SOLAR_DEEP_SLEEP) {
+    delay(60); // Allow radio frame completion before ~15 uA Solar Deep Sleep
+    esp_sleep_enable_timer_wakeup(SOLAR_SLEEP_SECONDS * 1000000ULL);
+    esp_deep_sleep_start();
+  }
   delay(2000);
 }

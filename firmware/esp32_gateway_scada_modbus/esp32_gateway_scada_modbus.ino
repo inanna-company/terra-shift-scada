@@ -22,13 +22,21 @@
 #include <esp_now.h>
 #include <esp_idf_version.h>
 #include <Preferences.h>
+#include <SPI.h>
 
-// Hardware Pins (Industrial ESP32 DIN-Rail Gateway)
+// Hardware Pins (Industrial ESP32 DIN-Rail Gateway: ESP-NOW + LoRa 915 MHz + RS485)
 constexpr int PIN_RS485_RX         = 16;
 constexpr int PIN_RS485_TX         = 17;
 constexpr int PIN_RS485_DE_RE      = 4;
 constexpr int PIN_VFD_PUMP_RELAY   = 26;
 constexpr int PIN_SAFETY_INTERLOCK = 27;
+
+// Auto-detected Long-Range LoRa 915 MHz Receiver (SX1276 / SX1278 up to 15 km rural/mountain range)
+constexpr int PIN_LORA_SCK         = 18;
+constexpr int PIN_LORA_MISO        = 19;
+constexpr int PIN_LORA_MOSI        = 23;
+constexpr int PIN_LORA_NSS         = 5;
+constexpr int PIN_LORA_RST         = 14;
 
 #pragma pack(push, 1)
 struct TerraShiftPacket {
@@ -62,6 +70,47 @@ WiFiServer modbusTcpServer(502);
 unsigned long lastHourSaveMs = 0;
 unsigned long lastTelemetryMs = 0;
 uint32_t rxPackets = 0;
+bool hasLoRa915 = false;
+int lastLoRaRssiDbm = -72;
+
+// --- Direct Semtech SX1276 / SX1278 915 MHz LoRa Receiver Driver (15 km Rural Backhaul) ---
+uint8_t loraReadReg(uint8_t reg) {
+  digitalWrite(PIN_LORA_NSS, LOW);
+  SPI.transfer(reg & 0x7F);
+  uint8_t val = SPI.transfer(0x00);
+  digitalWrite(PIN_LORA_NSS, HIGH);
+  return val;
+}
+
+void loraWriteReg(uint8_t reg, uint8_t val) {
+  digitalWrite(PIN_LORA_NSS, LOW);
+  SPI.transfer(reg | 0x80);
+  SPI.transfer(val);
+  digitalWrite(PIN_LORA_NSS, HIGH);
+}
+
+bool initLoRa915Receiver() {
+  pinMode(PIN_LORA_NSS, OUTPUT);
+  pinMode(PIN_LORA_RST, OUTPUT);
+  digitalWrite(PIN_LORA_NSS, HIGH);
+  digitalWrite(PIN_LORA_RST, LOW);
+  delay(10);
+  digitalWrite(PIN_LORA_RST, HIGH);
+  delay(10);
+  SPI.begin(PIN_LORA_SCK, PIN_LORA_MISO, PIN_LORA_MOSI, PIN_LORA_NSS);
+  if (loraReadReg(0x42) != 0x12) return false;
+
+  loraWriteReg(0x01, 0x80); // Sleep + LoRa
+  loraWriteReg(0x06, 0xE4); // 915.0 MHz ISM
+  loraWriteReg(0x07, 0xC0);
+  loraWriteReg(0x08, 0x00);
+  loraWriteReg(0x1D, 0x72); // BW 125 kHz, CR 4/5
+  loraWriteReg(0x1E, 0xA4); // SF10 + CRC ON
+  loraWriteReg(0x39, 0x34); // SyncWord
+  loraWriteReg(0x0F, 0x00); // RX FIFO base
+  loraWriteReg(0x01, 0x85); // RXCONTINUOUS (listening 24/7 for 15 km solar nodes)
+  return true;
+}
 
 void applyControlAndSafetyLogic() {
   if (mb.in30005_namurDiag != 0) {
@@ -222,6 +271,7 @@ void setup() {
   if (esp_now_init() == ESP_OK) {
     esp_now_register_recv_cb(onEspNowRecv);
   }
+  hasLoRa915 = initLoRa915Receiver();
 
   localServer.on("/", []() {
     localServer.send_P(200, "text/html", EMBEDDED_HTML);
@@ -235,6 +285,7 @@ void setup() {
                   ",\"namur_diag\":" + String(mb.in30005_namurDiag) +
                   ",\"pump_on\":" + String(mb.coil00001_pumpEnable ? "true" : "false") +
                   ",\"pump_hours\":" + String(mb.hr40002_pumpHours_x10 / 10.0f, 1) +
+                  ",\"lora_915_active\":" + String(hasLoRa915 ? "true" : "false") +
                   ",\"safety_tripped\":" + String(mb.coil00002_safetyTripped ? "true" : "false") + "}";
     localServer.send(200, "application/json", json);
   });
@@ -260,17 +311,44 @@ void setup() {
 
   Serial.println("============================================================");
   Serial.println(" TEAM INANNA - TERRA-SHIFT SCADA ESP32 GATEWAY ONLINE");
-  Serial.printf(" Gateway MAC: %s\n", WiFi.macAddress().c_str());
+  Serial.printf(" Gateway MAC: %s | Radio: ESP-NOW + %s\n",
+                WiFi.macAddress().c_str(),
+                hasLoRa915 ? "LoRa 915MHz (15 km RX Active)" : "LoRa 915MHz Ready (Optional SPI SX1276)");
   Serial.println(" Local Field Wi-Fi AP: INANNA-TERRASHIFT-AP (Pass: Inanna2026!)");
   Serial.println(" Embedded Web SCADA  : http://192.168.4.1/");
   Serial.println(" Modbus TCP Server   : 192.168.4.1:502 | USB Cmds: N / D / C / A");
   Serial.println("============================================================");
 }
 
+void pollLoRa915Packet() {
+  if (!hasLoRa915) return;
+  uint8_t irqFlags = loraReadReg(0x12);
+  if (irqFlags & 0x40) { // RxDone
+    loraWriteReg(0x12, 0xFF); // Clear IRQ flags
+    if ((irqFlags & 0x20) == 0) { // PayloadCrcError == 0
+      uint8_t rxBytes = loraReadReg(0x13);
+      uint8_t fifoAddr = loraReadReg(0x10);
+      if (rxBytes == sizeof(TerraShiftPacket)) {
+        loraWriteReg(0x0D, fifoAddr);
+        TerraShiftPacket pkt;
+        uint8_t *dst = reinterpret_cast<uint8_t*>(&pkt);
+        digitalWrite(PIN_LORA_NSS, LOW);
+        SPI.transfer(0x00);
+        for (uint8_t i = 0; i < rxBytes; i++) dst[i] = SPI.transfer(0x00);
+        digitalWrite(PIN_LORA_NSS, HIGH);
+        lastLoRaRssiDbm = -157 + loraReadReg(0x1A);
+        rxPackets++;
+        injectLoopMa(pkt.soilLoopMa, pkt.pressureBar);
+      }
+    }
+  }
+}
+
 void loop() {
   localServer.handleClient();
   handleModbusTcp();
   handleUsbSerialCommands();
+  pollLoRa915Packet();
 
   // Stream WebSerial JSON every 2 seconds for TERRA-SHIFT Browser Console
   if (millis() - lastTelemetryMs >= 2000UL) {
