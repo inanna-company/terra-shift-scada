@@ -42,11 +42,11 @@
 ### 🟣 MINUTO 3 (`2:00 – 3:00`) — IMPACTO ABIERTO, DEMO EN VIVO Y CIERRE
 *(Habla **Iván** o **Agustín** mostrando el cambio instantáneo `ES / EN / PT` y el reporte PDF)*
 
-> **"Pensamos TERRA-SHIFT para que cualquier productor, cooperativa o escuela agrotécnica lo pueda usar hoy mismo sin barreras:**
-> - **Primero:** Funciona como aplicación web progresiva offline, 100% traducida y narrada en Español, Inglés y Portugués, e imprime en un clic el plan agronómico de transición y calendario de riego de 12 meses en PDF para llevar al lote.
-> - **Segundo:** Publicamos todo como código y hardware 100% abierto: los esquemas electrónicos por Ley de Kirchhoff, los 4 manuales técnicos y de mantenimiento, y un instalador automático que flashea los binarios en cualquier ESP32 en 4 segundos."**
->
-> **"Desde la llanura pampeana de Río Cuarto hasta los valles de Calamuchita, TERRA-SHIFT convierte décadas de ciencia espacial de la NASA en decisiones concretas de siembra y en cada gota de agua protegida en la raíz. ¡Muchas gracias, quedamos atentos a sus preguntas!"**
+> **"Pensamos TERRA-SHIFT como un ecosistema inclusivo de tres niveles, desde quien solo tiene una computadora familiar hasta la gran agroindustria:**
+> - **Nivel 1 (Solo una PC, cero hardware):** Cualquier pequeño productor o granjero familiar entra gratis desde su PC, toca su lote, consulta 20 años de datos de la NASA e imprime su plan anual de rotación y riego en PDF sin gastar un peso en sensores.
+> - **Nivel 2 y Nivel 3 (Escala Modular Solar LoRa + ESP32 hasta Agroindustria):** Cooperativas y grandes estancias suman sobre nuestra misma placa solar abierta 6 módulos sin señal —centinela de heladas, válvulas biestables, sonda NPK por RS485, nivel de aguadas, repetidor de cerro hasta 30 km y lanza de silobolsas— integrados por Modbus directo a PLCs industriales."**
+
+> **"Desde una pequeña chacra familiar hasta miles de hectáreas en Río Cuarto y los valles de Calamuchita, TERRA-SHIFT convierte la ciencia espacial de la NASA en decisiones reales de siembra y agua protegida en la raíz. ¡Muchas gracias, quedamos atentos a sus preguntas!"**
 
 ---
 

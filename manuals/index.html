@@ -20,7 +20,7 @@
     }
     .manual-tabs {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(2, 1fr);
       gap: 10px;
     }
     .manual-tab-btn {
@@ -218,6 +218,7 @@
       <button id="tabBtn1" class="manual-tab-btn active" data-manual="m1"></button>
       <button id="tabBtn2" class="manual-tab-btn" data-manual="m2"></button>
       <button id="tabBtn3" class="manual-tab-btn" data-manual="m3"></button>
+      <button id="tabBtn4" class="manual-tab-btn" data-manual="m4"></button>
     </div>
 
     <article class="doc-sheet">
@@ -253,12 +254,12 @@
 
   <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
-  <script src="manuals-data.js"></script>
+  <script src="manuals-data.js?v=pure7"></script>
   <script>
     const params = new URLSearchParams(window.location.search);
     let currentLang = ['en', 'es', 'pt'].includes(params.get('lang')) ? params.get('lang') : 'en';
 
-    let currentManual = ['m1', 'm2', 'm3'].includes(params.get('doc')) ? params.get('doc') : 'm1';
+    let currentManual = ['m1', 'm2', 'm3', 'm4'].includes(params.get('doc')) ? params.get('doc') : 'm1';
 
     const EXTRA_M_UI = {
       en: {
@@ -323,9 +324,10 @@
       document.getElementById('tabBtn1').textContent = ui.tab1;
       document.getElementById('tabBtn2').textContent = ui.tab2;
       document.getElementById('tabBtn3').textContent = ui.tab3;
+      if (document.getElementById('tabBtn4')) document.getElementById('tabBtn4').textContent = ui.tab4;
 
       document.getElementById('docDiv').textContent = ex.divLbl;
-      const activeTitle = currentManual === 'm1' ? ui.tab1 : (currentManual === 'm2' ? ui.tab2 : ui.tab3);
+      const activeTitle = currentManual === 'm1' ? ui.tab1 : (currentManual === 'm2' ? ui.tab2 : (currentManual === 'm3' ? ui.tab3 : ui.tab4));
       document.getElementById('docHeaderTitle').textContent = activeTitle;
       document.getElementById('lblDocCode').textContent = ui.docCodeLbl + ':';
       document.getElementById('valDocCode').textContent = doc.docId;

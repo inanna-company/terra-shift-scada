@@ -531,3 +531,201 @@ window.MANUALS_CONTENT = {
     `
   }
 };
+
+window.MANUALS_UI.en.tab4 = '📕 Report 04: PC-Only to Agro-Industry Tiers + 6 Solar LoRa + ESP32 Devices';
+window.MANUALS_UI.es.tab4 = '📕 Informe 04: Escala PC Familiar a Agroindustria + 6 Nodos Solares LoRa + ESP32';
+window.MANUALS_UI.pt.tab4 = '📕 Relatório 04: Escala PC Familiar à Agroindústria + 6 Nós Solares LoRa + ESP32';
+
+window.MANUALS_CONTENT.m4 = {
+  docId: 'INANNA-ECO-TS2026-04',
+  rev: 'Rev 2.0 — NASA Space Apps 2026',
+  division: 'INCLUSIVE ADOPTION TIERS • SOLAR LoRa 915 MHz + ESP32 ECOSYSTEM',
+  en: `
+    <h2>1. Three Inclusive Adoption Tiers: From a Single Family PC to Large Agribusiness</h2>
+    <p><strong>TERRA-SHIFT SCADA</strong> is designed so nobody is left behind—scaling seamlessly from a family smallholder who <strong>only owns a basic PC (zero hardware required)</strong> up to 10,000-hectare industrial agribusinesses:</p>
+    <div class="steps-grid">
+      <div class="step-card">
+        <div class="step-num">🌱 TIER 1 • ZERO HARDWARE (PC OR PHONE ONLY)</div>
+        <strong style="color:#fff;">Smallholder &amp; Family Farmers (0.5 – 15 ha)</strong>
+        <p style="margin-top:8px;font-size:0.86rem;">Requires <strong>zero sensors or electronics</strong>. With just a basic PC (cached offline as a PWA after one town/school internet visit), the farmer clicks their plot on the map, receives 20-year <strong>NASA POWER + SMAP + MODIS</strong> diagnostics, sees which resilient crops to plant for 2035–2050, views a 12-month frost/irrigation calendar, and prints a 1-click PDF field plan.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">🚜 TIER 2 • PLUG &amp; PLAY USB / LOCAL AP</div>
+        <strong style="color:#fff;">Medium Farms, Rural Schools &amp; Cooperatives (15 – 200 ha)</strong>
+        <p style="margin-top:8px;font-size:0.86rem;">Using that same PC and our 4-second automatic flasher (<code>FLASHEAR_ESP32_TERRASHIFT.bat</code>), farmers or rural students plug in an <strong>ESP32 Gateway via USB WebSerial</strong> (or Wi-Fi AP <code>192.168.4.1</code>) and add 1 to 5 autonomous Solar + LoRa/ESP-NOW field nodes for frost alerts, latching drip valves, or tank monitoring.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">🏭 TIER 3 • FULL INDUSTRIAL SCADA &amp; PLC</div>
+        <strong style="color:#fff;">Large Agribusiness &amp; Estates (200 – 10,000+ ha)</strong>
+        <p style="margin-top:8px;font-size:0.86rem;">Deploys dozens of <strong>Solar + LoRa 915 MHz (15–30 km)</strong> nodes, hilltop mesh repeaters, and silobag lances across vast properties, bridging directly over <strong>Modbus TCP (Port 502) &amp; isolated RS485</strong> into existing industrial PLCs (Siemens, Allen-Bradley, Schneider), 100 HP VFD pump stations, and enterprise SCADA historians.</p>
+      </div>
+    </div>
+
+    <h2>2. The 6 Modular Off-Grid Field Devices (Shared Solar + LoRa 915 MHz + ESP32 Core)</h2>
+    <p>Every field module plugs into the exact same open-hardware <strong>ESP32 + Solar Panel + LiFePO4 (15 µA Deep Sleep) + LoRa 915 MHz / ESP-NOW + 4–20 mA / RS485</strong> motherboard:</p>
+
+    <h3>1. ❄️ Solar Frost &amp; Thermal-Inversion Sentinel Node (Ideal for Calamuchita, Vine, Olive &amp; Chickpea)</h3>
+    <ul>
+      <li><strong>What it solves:</strong> NASA satellites measure macro valley temperature, but cold air pools inside mountain hollows ($-2\\;^\\circ\\text{C}$) and destroys entire blossoms in a single dawn.</li>
+      <li><strong>Hardware stack:</strong> Solar ESP32 + LoRa + <strong>two industrial PT100 (4–20 mA) probes</strong> (one at $40\\text{ cm}$ and one at $1.80\\text{ m}$ to detect thermal inversion) + magnetic <em>Reed Switch</em> cup anemometer &amp; tipping-bucket rain gauge (counts pulses waking ESP32 with zero idle battery drain!).</li>
+      <li><strong>Zero-signal action:</strong> Upon detecting a rapid drop toward dew-point freezing, fires a <strong>15 km LoRa alert</strong> to the farmhouse and triggers anti-frost micro-sprinklers automatically.</li>
+    </ul>
+
+    <h3>2. 🚰 Solar Bi-Stable Latching Solenoid Valve + Burst-Pipe Detector Node</h3>
+    <ul>
+      <li><strong>What it solves:</strong> Standard solenoids draw continuous current and drain solar batteries. A <strong>bi-stable Latching Solenoid (9V/12V DC)</strong> opens with a single <strong>50 ms pulse</strong> and stays open for hours on an internal magnet drawing <strong>0.00 mA</strong>, closing with an inverted 50 ms H-bridge pulse (<code>DRV8871</code>).</li>
+      <li><strong>Mechatronic bonus:</strong> Paired with a main-line pulse or 4–20 mA flowmeter: if the valve opened but flow is zero (clogged filter), or if flow spikes 2× (animal ruptured a drip line), it <strong>autonomously shuts that branch</strong> and sends a LoRa alarm so the tank never drains.</li>
+    </ul>
+
+    <h3>3. 🧪 Solar Soil-Health Node (NPK + Salinity EC + pH) over RS485 Modbus</h3>
+    <ul>
+      <li><strong>What it solves:</strong> Directly addresses the <em>Field Shift</em> challenge goal of protecting long-term soil health across crop rotations.</li>
+      <li><strong>Hardware stack:</strong> Encapsulated <code>IP68</code> multi-parameter agricultural probe wired directly into our ESP32's <strong>RS485 (MAX485)</strong> port (Moisture + Temp + Electrical Conductivity EC + pH + Nitrogen/Phosphorus/Potassium).</li>
+      <li><strong>NASA orbital fusion:</strong> When <strong>NASA MODIS NDVI</strong> spots canopy yellowing from orbit, this ground probe immediately confirms whether the cause is <strong>water stress, well-water salinization, or nutrient depletion</strong>.</li>
+    </ul>
+
+    <h3>4. 🌊 Solar Australian-Tank, Livestock Trough &amp; Deep-Well Level Monitor (4–20 mA)</h3>
+    <ul>
+      <li><strong>What it solves:</strong> In summer, aquifers drop or remote tanks 5 km away run dry—causing submersible pumps to cavitate and burn out, or leaving cattle without water in distant pastures.</li>
+      <li><strong>Hardware stack:</strong> <strong>Submersible stainless-steel hydrostatic level transmitter (4–20 mA)</strong> lowered into the tank or well casing + Solar ESP32 + LoRa.</li>
+      <li><strong>Industrial safety:</strong> Interlocks the pump before dry-running, and if the cable at the windmill/tank is severed, triggers <strong>NAMUR NE43 (&lt; 3.6 mA)</strong> immediately.</li>
+    </ul>
+
+    <h3>5. 🏔️ Hilltop Solar Mesh Repeater + Tractor / Pickup Cab Portable Monitor</h3>
+    <ul>
+      <li><strong>For rugged terrain without line-of-sight (Calamuchita / Traslasierra):</strong> A 300-gram <code>IP67</code> weatherproof box on a ridge post (ESP32 + LoRa 915 MHz + 5W Solar Panel) with zero sensors—it simply <strong>listens to hidden valley packets and relays them over the mountain up to 25–30 km</strong>.</li>
+      <li><strong>Cab Display in Pickup or Tractor:</strong> An ESP32 + LoRa + sunlight-readable OLED/E-Ink screen plugged into the tractor/truck 12V socket. As the farmer drives across zero-cell-service fields, the screen live-harvests the status of every plot, water trough, and valve for kilometers around.</li>
+    </ul>
+
+    <h3>6. 🌾 Solar Silobag Grain-Preservation Sentinel Lance (CO₂ + Intergranular Moisture — 100% Río Cuarto!)</h3>
+    <ul>
+      <li><strong>What it solves:</strong> Across southern Córdoba, entire harvests of maize, soybean, sorghum, and chickpea are stored in field <strong>silobags</strong> with zero power or signal. If wildlife tears the plastic and water enters, grain ferments and <strong>releases CO₂</strong> weeks before spoiling.</li>
+      <li><strong>Hardware stack:</strong> Spear probe with <strong>CO₂ + intergranular temperature/humidity sensor</strong> + Solar ESP32 + LoRa 915 MHz. If biological CO₂ rises or moisture spikes, it beams an instant alarm 10 km to the main barn.</li>
+    </ul>
+  `,
+
+  es: `
+    <h2>1. Tres Escalones Inclusivos de Uso: Desde una Sola PC Familiar hasta Grandes Empresas</h2>
+    <p><strong>TERRA-SHIFT SCADA</strong> fue diseñado para democratizar la ciencia de la NASA en todo el espectro productivo: desde el pequeño granjero familiar que <strong>solo cuenta con una PC básica (sin comprar ni soldar un solo sensor)</strong> hasta establecimientos agroindustriales de miles de hectáreas:</p>
+    <div class="steps-grid">
+      <div class="step-card">
+        <div class="step-num">🌱 NIVEL 1 • SOLO UNA PC (CERO HARDWARE)</div>
+        <strong style="color:#fff;">Granjeros Familiares, Huertas y Pequeños Productores (0.5 – 15 ha)</strong>
+        <p style="margin-top:8px;font-size:0.86rem;"><strong>No requiere placas ni sensores.</strong> Con solo una computadora básica (o celular) —que guarda la app offline tras conectarse una vez en el pueblo o escuela—, el productor toca su lote en el mapa, recibe 20 años de clima real <strong>NASA POWER + SMAP + MODIS</strong>, ve qué cultivos resilientes sembrar hacia 2035–2050, consulta su calendario mensual de heladas/riego y descarga en 1 clic su <strong>Plan PDF impreso</strong> para llevar al campo.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">🚜 NIVEL 2 • PC + USB / AP LOCAL PLUG &amp; PLAY</div>
+        <strong style="color:#fff;">Productores Medianos, Escuelas Agrotécnicas y Cooperativas (15 – 200 ha)</strong>
+        <p style="margin-top:8px;font-size:0.86rem;">Usando esa misma PC y nuestro flasheador automático de 4 segundos (<code>FLASHEAR_ESP32_TERRASHIFT.bat</code>), conectan un <strong>ESP32 Gateway por cable USB (WebSerial)</strong> o Wi-Fi propio (<code>192.168.4.1</code>) y suman de a uno los nodos solares abiertos que necesiten: alerta de heladas, electroválvulas biestables o nivel de tanque.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">🏭 NIVEL 3 • RED LORA 30 KM + SCADA INDUSTRIAL</div>
+        <strong style="color:#fff;">Grandes Empresas Agroindustriales y Estancias (200 – +10.000 ha)</strong>
+        <p style="margin-top:8px;font-size:0.86rem;">Despliega decenas de nodos solares <strong>LoRa 915 MHz (15–30 km)</strong>, repetidores en cumbre y lanzas de silobolsa en grandes extensiones, integrándose directo por <strong>Modbus TCP (Puerto 502) y RS485 aislado</strong> a PLCs industriales (Siemens, Schneider, Allen-Bradley), bombas VFD de alta potencia y SCADAs corporativos.</p>
+      </div>
+    </div>
+
+    <h2>2. Los 6 Dispositivos del Ecosistema Rural sin Señal (Base Universal Solar + LoRa + ESP32)</h2>
+    <p>Todos estos dispositivos comparten la misma arquitectura base abierta <strong>ESP32 + Panel Solar (LiFePO4, 15 µA en reposo) + LoRa 915 MHz / ESP-NOW + entradas 4–20 mA / RS485</strong>:</p>
+
+    <h3>1. ❄️ Nodo Solar Centinela de Heladas e Inversión Térmica (Ideal Calamuchita, Vid, Olivo y Garbanzo)</h3>
+    <ul>
+      <li><strong>Qué resuelve:</strong> El satélite de la NASA ve la temperatura macro del valle, pero en las hondonadas serranas se embolsa el aire helado (-2 °C) y te quema toda la floración en una sola madrugada.</li>
+      <li><strong>Qué lleva:</strong> ESP32 Solar + LoRa + 2 sondas industriales PT100 (4–20 mA) (una a 40 cm del suelo y otra a 1.80 m para detectar inversión térmica) + anemómetro y pluviómetro de cazoletas por contacto magnético Reed Switch (¡cuenta pulsos despertando al ESP32 sin gastar batería!).</li>
+      <li><strong>Qué hace sin señal:</strong> Cuando detecta caída brusca al punto de rocío, dispara alerta por LoRa a 15 km hasta el casco y activa solo el riego anti-helada.</li>
+    </ul>
+
+    <h3>2. 🚰 Nodo Solar de Electroválvulas Latch (Biestables) + Detección de Caño Roto</h3>
+    <ul>
+      <li><strong>Qué resuelve:</strong> Una electroválvula común consume corriente todo el tiempo y agota cualquier batería solar. En cambio, una electroválvula Latch (biestable de pulso 9V/12V DC) abre con un pulso de 50 milisegundos y queda abierta horas con un imán interno consumiendo 0.00 mA, y cierra con otro pulso invertido de 50 ms (usando un puente H chico tipo DRV8871).</li>
+      <li><strong>Plus mecatrónico:</strong> Le sumás un caudalímetro de pulsos o 4–20 mA en la manguera maestra: si la válvula abrió pero no pasa agua (filtro tapado) o si el caudal se dispara al doble (un animal rompió el caño de goteo), cierra sola esa rama y avisa por LoRa para no vaciar el tanque.</li>
+    </ul>
+
+    <h3>3. 🧪 Nodo Solar de Salud de Suelo (NPK + Salinidad EC + pH) por RS485 Modbus</h3>
+    <ul>
+      <li><strong>Qué resuelve:</strong> El desafío Field Shift pide específicamente proteger la salud del suelo en las rotaciones.</li>
+      <li><strong>Qué lleva:</strong> Una sonda agrícola encapsulada IP68 conectada directo al puerto RS485 (MAX485) que ya tiene nuestro ESP32 (Humedad + Temperatura + Conductividad Eléctrica EC + pH + Nitrógeno/Fósforo/Potasio).</li>
+      <li><strong>Fusión brutal con la NASA:</strong> Cuando el satélite NASA MODIS NDVI detecta desde el espacio que un sector del lote se está poniendo amarillo, este nodo te confirma desde abajo si es estrés hídrico, salinización por agua de pozo dura o falta de nutrientes.</li>
+    </ul>
+
+    <h3>4. 🌊 Monitor Solar de Tanque Australiano, Aguadas y Nivel Dinámico de Pozo (4–20 mA)</h3>
+    <ul>
+      <li><strong>Qué resuelve:</strong> En verano baja la napa o se vacía el tanque australiano a 5 km de la casa; la bomba sumergible chupa aire (cavitación) y se quema, o la hacienda se queda sin bebida en el potrero lejano.</li>
+      <li><strong>Qué lleva:</strong> Transmisor hidrostático sumergible de acero inoxidable (4–20 mA) tirado al fondo del tanque australiano o dentro del caño camisa de la perforación + ESP32 Solar + LoRa.</li>
+      <li><strong>Seguridad industrial:</strong> Bloquea el arranque de la bomba antes de trabajar en seco y, si se corta el cable en el molino/tanque, salta NAMUR NE43 (&lt; 3.6 mA).</li>
+    </ul>
+
+    <h3>5. 🏔️ Posta Repetidora Solar de Cumbre (Mesh Repeater) + Monitor Portátil en Tractor/Chata</h3>
+    <ul>
+      <li><strong>Para zonas quebradas sin línea de vista (Calamuchita / Traslasierra):</strong> Una cajita estanca IP67 de 300 gramos en lo alto de un poste o loma (ESP32 + LoRa 915 MHz + Panelcito Solar de 5W) que no tiene sensores: solo escucha los paquetes del valle oculto y los salta por arriba del cerro hasta 25–30 km.</li>
+      <li><strong>Pantalla en la Chata o Tractor:</strong> Un ESP32 + LoRa + pantallita OLED/E-Ink enchufado al 12V de la camioneta o tractor. Cuando el productor recorre el campo sin nada de señal celular, la pantallita va levantando en vivo el estado de cada lote, aguada y válvula a kilómetros a la redonda.</li>
+    </ul>
+
+    <h3>6. 🌾 Lanza Solar Centinela de Silobolsa (CO₂ + Humedad Intergranular — ¡100% Río Cuarto!)</h3>
+    <ul>
+      <li><strong>Qué resuelve:</strong> En todo el sur de Córdoba quedan cosechas enteras de maíz, soja, sorgo y garbanzo guardados en silobolsas en lotes aislados sin luz ni señal. Si entra agua por rotura de un peludo/chancho o sube la humedad, el grano fermenta y emite CO₂ semanas antes de echarse a perder.</li>
+      <li><strong>Qué lleva:</strong> Una lanza con sensor CO₂ + temperatura/humedad + ESP32 Solar + LoRa 915 MHz. Si sube el CO₂ por actividad biológica o detecta desgarro, manda alarma directa al casco de la estancia a 10 km.</li>
+    </ul>
+  `,
+
+  pt: `
+    <h2>1. Três Níveis Inclusivos de Adoção: De um Único PC Familiar à Grande Agroindústria</h2>
+    <p><strong>TERRA-SHIFT SCADA</strong> democratiza os dados da NASA para todos os perfis rurais — desde o agricultor familiar que <strong>possui apenas um computador básico (zero hardware necessário)</strong> até grandes propriedades agroindustriais:</p>
+    <div class="steps-grid">
+      <div class="step-card">
+        <div class="step-num">🌱 NÍVEL 1 • APENAS UM PC (ZERO HARDWARE)</div>
+        <strong style="color:#fff;">Agricultores Familiares e Pequenos Produtores (0,5 – 15 ha)</strong>
+        <p style="margin-top:8px;font-size:0.86rem;"><strong>Não exige placas nem sensores.</strong> Com apenas um PC básico (salvo offline como PWA), o produtor clica em sua parcela no mapa, recebe 20 anos de dados <strong>NASA POWER + SMAP + MODIS</strong>, descobre culturas resilientes para 2035–2050, consulta o calendário de 12 meses de geadas/irrigação e imprime o Plano PDF em 1 clique.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">🚜 NÍVEL 2 • PC + USB / AP LOCAL PLUG &amp; PLAY</div>
+        <strong style="color:#fff;">Médios Produtores, Escolas Técnicas e Cooperativas (15 – 200 ha)</strong>
+        <p style="margin-top:8px;font-size:0.86rem;">Usando o mesmo PC e o gravador automático de 4 segundos (<code>FLASHEAR_ESP32_TERRASHIFT.bat</code>), conectam um <strong>ESP32 Gateway via USB WebSerial</strong> ou Wi-Fi local (<code>192.168.4.1</code>) e adicionam nós solares modulares conforme a necessidade.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">🏭 NÍVEL 3 • REDE LORA 30 KM + SCADA INDUSTRIAL</div>
+        <strong style="color:#fff;">Grandes Empresas Agroindustriais (200 – +10.000 ha)</strong>
+        <p style="margin-top:8px;font-size:0.86rem;">Implanta dezenas de nós solares <strong>LoRa 915 MHz (15–30 km)</strong>, repetidores de topo de morro e lanças de silobags, integrando-se via <strong>Modbus TCP (Porta 502) e RS485 isolado</strong> a CLPs industriais, bombas VFD de alta potência e SCADAs corporativos.</p>
+      </div>
+    </div>
+
+    <h2>2. Os 6 Dispositivos Modulares Rurais sem Sinal (Base Solar + LoRa 915 MHz + ESP32)</h2>
+    <h3>1. ❄️ Nó Solar Sentinela de Geadas e Inversão Térmica (Ideal para Calamuchita, Videira, Oliveira e Grão-de-Bico)</h3>
+    <ul>
+      <li><strong>O que resolve:</strong> O satélite da NASA vê a temperatura macro do vale, mas o ar frio acumula nas baixadas serranas (-2 °C) e queima a florada em uma única madrugada.</li>
+      <li><strong>O que leva:</strong> ESP32 Solar + LoRa + 2 sondas industriais PT100 (4–20 mA) (a 40 cm e 1,80 m para detectar inversão térmica) + anemômetro e pluviômetro por Reed Switch (zero consumo em repouso).</li>
+      <li><strong>Ação sem sinal:</strong> Dispara alerta LoRa a 15 km até a sede e aciona automaticamente a irrigação antigeada.</li>
+    </ul>
+
+    <h3>2. 🚰 Nó Solar de Eletroválvulas Latch (Biestáveis) + Detecção de Tubo Rompido</h3>
+    <ul>
+      <li><strong>O que resolve:</strong> Solenoides comuns drenam baterias solares. Uma eletroválvula Latch (9V/12V DC) abre com um pulso de 50 ms e permanece aberta por horas consumindo 0,00 mA via ímã interno, fechando com pulso invertido de 50 ms (ponte H DRV8871).</li>
+      <li><strong>Diferencial mecatrônico:</strong> Com hidrômetro de pulsos ou 4–20 mA na linha principal: se não houver fluxo (filtro entupido) ou o fluxo dobrar (tubo rompido por animais), fecha o ramal sozinho e envia alarme via LoRa.</li>
+    </ul>
+
+    <h3>3. 🧪 Nó Solar de Saúde do Solo (NPK + Salinidade EC + pH) via RS485 Modbus</h3>
+    <ul>
+      <li><strong>O que resolve:</strong> Atende diretamente à proteção da saúde do solo nas rotações do desafio Field Shift.</li>
+      <li><strong>O que leva:</strong> Sonda agrícola IP68 conectada à porta RS485 (MAX485) do ESP32 (Umidade + Temp + Condutividade EC + pH + NPK).</li>
+      <li><strong>Fusão com a NASA:</strong> Quando o satélite NASA MODIS NDVI detecta amarelecimento do dossel, este nó confirma no solo se é falta de água, salinização ou deficiência nutricional.</li>
+    </ul>
+
+    <h3>4. 🌊 Monitor Solar de Reservatório, Bebedouros e Nível Dinâmico de Poço (4–20 mA)</h3>
+    <ul>
+      <li><strong>O que resolve:</strong> Evita cavitação e queima de bombas submersas quando o lençol baixa no verão ou falta de água para o gado a 5 km da sede.</li>
+      <li><strong>O que leva:</strong> Transmissor hidrostático submersível em inox (4–20 mA) + ESP32 Solar + LoRa, com proteção imediata NAMUR NE43 (&lt; 3,6 mA) contra cabo rompido.</li>
+    </ul>
+
+    <h3>5. 🏔️ Repetidor Solar de Topo de Morro (Mesh Repeater) + Monitor Portátil no Trator/Caminhonete</h3>
+    <ul>
+      <li><strong>Para relevo montanhoso sem visada (Calamuchita / Traslasierra):</strong> Caixa estanque IP67 de 300 g no alto do morro (ESP32 + LoRa 915 MHz + Painel 5W) que retransmite pacotes de vales ocultos por 25–30 km.</li>
+      <li><strong>Tela na Caminhonete ou Trator:</strong> ESP32 + LoRa + tela OLED/E-Ink ligada no 12V da cabine, captando ao vivo o status de cada talhão, reservatório e válvula ao percorrer a fazenda sem sinal celular.</li>
+    </ul>
+
+    <h3>6. 🌾 Lança Solar Sentinela de Silobag (CO₂ + Umidade Intergranular — 100% Río Cuarto!)</h3>
+    <ul>
+      <li><strong>O que resolve:</strong> Protege safras inteiras de milho, soja, sorgo e grão-de-bico armazenadas em silobags no campo sem energia nem sinal. Se entrar água por rasgo de animais, o grão fermenta e emite CO₂ semanas antes de apodrecer.</li>
+      <li><strong>O que leva:</strong> Lança com sensor CO₂ + temperatura/umidade + ESP32 Solar + LoRa 915 MHz enviando alarme imediato a 10 km até o galpão principal.</li>
+    </ul>
+  `
+};
