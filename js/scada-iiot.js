@@ -164,17 +164,24 @@ class InannaScadaEngine {
     this.nodes[0].ma = soilLoop.ma;
     const lineBar = pressLoop.pct !== null ? Number((pressLoop.pct * 0.10).toFixed(2)) : 0.0;
 
+    const lang = (window.APP_STATE && window.APP_STATE.lang) || 'en';
+    const regTxt = {
+      en: { inR: 'Input Reg', holdR: 'Holding Reg', coilR: 'Coil (R/W)', fault: 'FAULT (0xFFFF)', cyc: 'cycles', on: 'ON (1)', off: 'OFF (0)', trip: 'TRIPPED (1)', arm: 'ARMED (0)' },
+      es: { inR: 'Reg. Entrada', holdR: 'Reg. Retención', coilR: 'Bobina (L/E)', fault: 'FALLA (0xFFFF)', cyc: 'ciclos', on: 'ENCENDIDO (1)', off: 'APAGADO (0)', trip: 'BLOQUEADO (1)', arm: 'ARMADO (0)' },
+      pt: { inR: 'Reg. Entrada', holdR: 'Reg. Retenção', coilR: 'Bobina (L/E)', fault: 'FALHA (0xFFFF)', cyc: 'ciclos', on: 'LIGADO (1)', off: 'DESLIGADO (0)', trip: 'TRAVADO (1)', arm: 'ARMADO (0)' }
+    }[lang] || { inR: 'Input Reg', holdR: 'Holding Reg', coilR: 'Coil (R/W)', fault: 'FAULT (0xFFFF)', cyc: 'cycles', on: 'ON (1)', off: 'OFF (0)', trip: 'TRIPPED (1)', arm: 'ARMED (0)' };
+
     const registers = [
-      { reg: '30001', type: 'Input Reg',   name: 'Soil_Loop_Current_x100', raw: Math.round(soilLoop.ma * 100),    eng: `${soilLoop.ma.toFixed(2)} mA` },
-      { reg: '30002', type: 'Input Reg',   name: 'Root_Moisture_Pct_x100', raw: soilLoop.pct !== null ? Math.round(soilLoop.pct * 100) : 65535, eng: soilLoop.pct !== null ? `${soilLoop.pct.toFixed(1)} %` : 'FAULT (0xFFFF)' },
-      { reg: '30003', type: 'Input Reg',   name: 'NASA_GWETROOT_Pct_x100', raw: Math.round(nasaPct * 100),        eng: `${nasaPct.toFixed(1)} %` },
-      { reg: '30004', type: 'Input Reg',   name: 'Line_Pressure_Bar_x100', raw: Math.round(lineBar * 100),        eng: `${lineBar.toFixed(2)} bar` },
-      { reg: '30005', type: 'Input Reg',   name: 'NAMUR_NE43_Diag_Status', raw: statusCode,                       eng: soilLoop.namurCode },
-      { reg: '40001', type: 'Holding Reg', name: 'Setpoint_Irrig_Pct_x100',raw: 3600,                             eng: '36.00 % (R/W)' },
-      { reg: '40002', type: 'Holding Reg', name: 'NVS_Pump_Hours_x10',     raw: Math.round(this.pumpHours * 10),  eng: `${this.pumpHours.toFixed(1)} h` },
-      { reg: '40003', type: 'Holding Reg', name: 'NVS_Irrig_Cycle_Count',  raw: this.irrigCycles,                 eng: `${this.irrigCycles} cycles` },
-      { reg: '00001', type: 'Coil (R/W)',  name: 'VFD_Irrigation_Enable',  raw: this.pumpActive ? 1 : 0,          eng: this.pumpActive ? 'ON (1)' : 'OFF (0)' },
-      { reg: '00002', type: 'Coil (R/W)',  name: 'Safety_Interlock_Relay', raw: this.safetyRelayLocked ? 1 : 0,   eng: this.safetyRelayLocked ? 'TRIPPED (1)' : 'ARMED (0)' }
+      { reg: '30001', type: regTxt.inR,   name: 'Soil_Loop_Current_x100', raw: Math.round(soilLoop.ma * 100),    eng: `${soilLoop.ma.toFixed(2)} mA` },
+      { reg: '30002', type: regTxt.inR,   name: 'Root_Moisture_Pct_x100', raw: soilLoop.pct !== null ? Math.round(soilLoop.pct * 100) : 65535, eng: soilLoop.pct !== null ? `${soilLoop.pct.toFixed(1)} %` : regTxt.fault },
+      { reg: '30003', type: regTxt.inR,   name: 'NASA_GWETROOT_Pct_x100', raw: Math.round(nasaPct * 100),        eng: `${nasaPct.toFixed(1)} %` },
+      { reg: '30004', type: regTxt.inR,   name: 'Line_Pressure_Bar_x100', raw: Math.round(lineBar * 100),        eng: `${lineBar.toFixed(2)} bar` },
+      { reg: '30005', type: regTxt.inR,   name: 'NAMUR_NE43_Diag_Status', raw: statusCode,                       eng: soilLoop.namurCode },
+      { reg: '40001', type: regTxt.holdR, name: 'Setpoint_Irrig_Pct_x100',raw: 3600,                             eng: '36.00 %' },
+      { reg: '40002', type: regTxt.holdR, name: 'NVS_Pump_Hours_x10',     raw: Math.round(this.pumpHours * 10),  eng: `${this.pumpHours.toFixed(1)} h` },
+      { reg: '40003', type: regTxt.holdR, name: 'NVS_Irrig_Cycle_Count',  raw: this.irrigCycles,                 eng: `${this.irrigCycles} ${regTxt.cyc}` },
+      { reg: '00001', type: regTxt.coilR, name: 'VFD_Irrigation_Enable',  raw: this.pumpActive ? 1 : 0,          eng: this.pumpActive ? regTxt.on : regTxt.off },
+      { reg: '00002', type: regTxt.coilR, name: 'Safety_Interlock_Relay', raw: this.safetyRelayLocked ? 1 : 0,   eng: this.safetyRelayLocked ? regTxt.trip : regTxt.arm }
     ];
 
     return {

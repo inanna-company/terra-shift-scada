@@ -700,10 +700,16 @@ function renderScadaPanel() {
   const t = I18N[lang];
   const sl = snap.soilLoop;
 
+  const extraScada = {
+    en: { faultBang: 'FAULT!', faultTag: 'FAULT', loopLbl: 'Loop:', solarLbl: 'Solar Bus:', lvl: { ALARM: 'ALARM', WARN: 'WARN', ACK: 'ACK', INFO: 'INFO' } },
+    es: { faultBang: '¡FALLA!', faultTag: 'FALLA', loopLbl: 'Lazo:', solarLbl: 'Bus Solar:', lvl: { ALARM: 'ALARMA', WARN: 'AVISO', ACK: 'CONF', INFO: 'INFO' } },
+    pt: { faultBang: 'FALHA!', faultTag: 'FALHA', loopLbl: 'Laço:', solarLbl: 'Barramento Solar:', lvl: { ALARM: 'ALARME', WARN: 'AVISO', ACK: 'CONF', INFO: 'INFO' } }
+  }[lang] || { faultBang: 'FAULT!', faultTag: 'FAULT', loopLbl: 'Loop:', solarLbl: 'Solar Bus:', lvl: { ALARM: 'ALARM', WARN: 'WARN', ACK: 'ACK', INFO: 'INFO' } };
+
   document.getElementById('valLoopMa').textContent = `${sl.ma.toFixed(2)} mA`;
   document.getElementById('valKirchhoffV').textContent = `${sl.vSense.toFixed(3)} V`;
   document.getElementById('valAdsCounts').textContent = `${sl.adcCounts} cts`;
-  document.getElementById('valLoopPct').textContent = sl.pct !== null ? `${sl.pct.toFixed(1)} %` : 'FAULT!';
+  document.getElementById('valLoopPct').textContent = sl.pct !== null ? `${sl.pct.toFixed(1)} %` : extraScada.faultBang;
 
   const diagEl = document.getElementById('namurStatusBadge');
   diagEl.textContent = sl.label[lang] || sl.label.en;
@@ -726,10 +732,10 @@ function renderScadaPanel() {
       <div class="node-card">
         <div style="display:flex;justify-content:space-between;align-items:center;">
           <strong style="color:#fff;">${n.id} • ${getZoneLocalized(n)}</strong>
-          <span class="badge ${bCls}">${evalNode.pct !== null ? evalNode.pct + '%' : 'FAULT'}</span>
+          <span class="badge ${bCls}">${evalNode.pct !== null ? evalNode.pct + '%' : extraScada.faultTag}</span>
         </div>
         <div style="color:#94a3b8;">MAC ${n.mac} | AES-128 | ${n.latMs} ms | ${n.rssi} dBm</div>
-        <div style="color:#00b8e6;">Loop: ${n.ma.toFixed(2)} mA | Solar Bus: ${n.battV} V DC</div>
+        <div style="color:#00b8e6;">${extraScada.loopLbl} ${n.ma.toFixed(2)} mA | ${extraScada.solarLbl} ${n.battV} V DC</div>
       </div>
     `;
   }).join('');
@@ -747,7 +753,8 @@ function renderScadaPanel() {
   document.getElementById('alarmHistorian').innerHTML = snap.alarms.map(a => {
     const col = a.level === 'ALARM' ? '#fca5a5' : (a.level === 'WARN' ? '#fcd34d' : (a.level === 'ACK' ? '#6ee7b7' : '#94a3b8'));
     const txt = (a.msg && typeof a.msg === 'object') ? (a.msg[lang] || a.msg.en) : a.msg;
-    return `<div style="color:${col};">[${a.ts}] <strong>${a.level}</strong> — ${txt}</div>`;
+    const lvlTxt = extraScada.lvl[a.level] || a.level;
+    return `<div style="color:${col};">[${a.ts}] <strong>${lvlTxt}</strong> — ${txt}</div>`;
   }).join('');
 
   if (window.inannaProSuite) {
@@ -756,12 +763,67 @@ function renderScadaPanel() {
 }
 window.renderScadaPanel = renderScadaPanel;
 
+const EXTRA_PURE_UI = {
+  en: {
+    navVideo: '🎬 30s Video',
+    navEsp32: '🔌 ESP32 Emulator',
+    promoBadge: '✓ OFFICIAL 29s PROJECT VIDEO (<30s COMPLIANT) • 1080p',
+    promoTitle: 'Official 29s Demo Video: NASA Orbital Data + Live ESP32 Code & NAMUR NE43 Safety',
+    promoDesc: 'Watch our offline ESP32 Concentrator (192.168.4.1) & C++ firmware react in <4 ms to a severed sensor wire without flooding crops, switching seamlessly to NASA SMAP orbital soil moisture.',
+    promoBtnEsp: '🔌 Launch Interactive ESP32 Code Emulator',
+    promoBtnFull: '🎬 Full Video Showcase & Download MP4',
+    btnOpenEsp32: '🔌 Emulate ESP32 Code & AP',
+    roiBadge: 'OPEN-SOURCE ENVIRONMENTAL IMPACT',
+    roiOpt5: '5 HP (3.7 kW — Smallholder / Orchard)',
+    roiOpt15: '15 HP (11.2 kW — Medium Farm / Vineyard)',
+    roiOpt40: '40 HP (29.8 kW — Pivot / Agro-Plot)',
+    roiOpt100: '100 HP (74.6 kW — Agro-Cooperative)',
+    roiPaybackSub: 'Saved aquifer water column',
+    footTagline: 'OPEN-SOURCE HACKATHON PROJECT • EARTH OBSERVATION + RURAL MECHATRONICS'
+  },
+  es: {
+    navVideo: '🎬 Video 30s',
+    navEsp32: '🔌 Emulador ESP32',
+    promoBadge: '✓ VIDEO OFICIAL DE 29s (CUMPLE LÍMITE ≤30s) • 1080p',
+    promoTitle: 'Video Oficial (29s): Datos Orbitales NASA + Código ESP32 en Vivo y Seguridad NAMUR NE43',
+    promoDesc: 'Mirá nuestro Concentrador ESP32 sin internet (192.168.4.1) y su código C++ reaccionar en <4 ms ante un cable cortado sin inundar el cultivo, activando el respaldo satelital NASA SMAP.',
+    promoBtnEsp: '🔌 Abrir Emulador Interactivo de Código ESP32',
+    promoBtnFull: '🎬 Ver Pantalla Completa y Descargar MP4',
+    btnOpenEsp32: '🔌 Emular Código ESP32',
+    roiBadge: 'IMPACTO AMBIENTAL DE CÓDIGO ABIERTO',
+    roiOpt5: '5 HP (3.7 kW — Pequeño Productor / Quinta)',
+    roiOpt15: '15 HP (11.2 kW — Lote Mediano / Viñedo)',
+    roiOpt40: '40 HP (29.8 kW — Pivote / Campo Extensivo)',
+    roiOpt100: '100 HP (74.6 kW — Cooperativa Agrícola)',
+    roiPaybackSub: 'Columna de acuífero preservada',
+    footTagline: 'PROYECTO DE HACKATHON ABIERTO • OBSERVACIÓN TERRESTRE + MECATRÓNICA RURAL'
+  },
+  pt: {
+    navVideo: '🎬 Vídeo 30s',
+    navEsp32: '🔌 Emulador ESP32',
+    promoBadge: '✓ VÍDEO OFICIAL DE 29s (CUMPRE LIMITE ≤30s) • 1080p',
+    promoTitle: 'Vídeo Oficial (29s): Dados Orbitais NASA + Código ESP32 ao Vivo e Segurança NAMUR NE43',
+    promoDesc: 'Veja nosso Concentrador ESP32 sem internet (192.168.4.1) e seu código C++ reagir em <4 ms a um cabo rompido sem inundar a lavoura, assumindo o backup orbital NASA SMAP.',
+    promoBtnEsp: '🔌 Abrir Emulador Interativo de Código ESP32',
+    promoBtnFull: '🎬 Tela Cheia e Baixar MP4',
+    btnOpenEsp32: '🔌 Emular Código ESP32',
+    roiBadge: 'IMPACTO AMBIENTAL DE CÓDIGO ABERTO',
+    roiOpt5: '5 HP (3.7 kW — Pequeno Produtor / Pomar)',
+    roiOpt15: '15 HP (11.2 kW — Fazenda Média / Vinhedo)',
+    roiOpt40: '40 HP (29.8 kW — Pivô / Lavoura Extensiva)',
+    roiOpt100: '100 HP (74.6 kW — Cooperativa Agrícola)',
+    roiPaybackSub: 'Coluna de aquífero preservada',
+    footTagline: 'PROJETO DE HACKATHON ABERTO • OBSERVAÇÃO TERRESTRE + MECATRÔNICA RURAL'
+  }
+};
+
 function applyTranslations() {
   const lang = APP_STATE.lang;
   const t = I18N[lang];
+  const ex = EXTRA_PURE_UI[lang] || EXTRA_PURE_UI.en;
   document.documentElement.lang = lang;
 
-  // Sync active language pill button & slide deck link
+  // Sync active language pill button & navigation links
   document.querySelectorAll('.lang-btn').forEach(b => {
     b.classList.toggle('active', b.dataset.lang === lang);
   });
@@ -769,6 +831,36 @@ function applyTranslations() {
   slidesLink.href = `presentation/deck_7_slides.html?lang=${lang}`;
   const manualsLink = document.getElementById('navManuals');
   if (manualsLink) manualsLink.href = `manuals/index.html?lang=${lang}`;
+  const videoLink = document.getElementById('navVideo');
+  if (videoLink) videoLink.href = `video/index.html?lang=${lang}`;
+  const espLink = document.getElementById('navEsp32');
+  if (espLink) espLink.href = `esp32/index.html?lang=${lang}`;
+  const promoBtnEsp = document.getElementById('promoBtnEsp');
+  if (promoBtnEsp) promoBtnEsp.href = `esp32/index.html?lang=${lang}`;
+  const promoBtnFull = document.getElementById('promoBtnFull');
+  if (promoBtnFull) promoBtnFull.href = `video/index.html?lang=${lang}`;
+  const btnOpenEsp32 = document.getElementById('btnOpenEsp32');
+  if (btnOpenEsp32) btnOpenEsp32.href = `esp32/index.html?lang=${lang}`;
+
+  // Swap embedded Official 29s Video & Subtitles into the exact selected language!
+  const inlineVid = document.getElementById('inlinePromoVideo');
+  const inlineSrc = document.getElementById('inlinePromoSrc');
+  const inlineTrk = document.getElementById('inlinePromoTrack');
+  if (inlineVid && inlineSrc) {
+    const targetSrc = `assets/video/terra_shift_${lang}.mp4`;
+    if (!inlineSrc.getAttribute('src').includes(`terra_shift_${lang}.mp4`)) {
+      const wasPlaying = !inlineVid.paused;
+      inlineVid.pause();
+      inlineVid.poster = `assets/video/poster_${lang}.jpg`;
+      inlineSrc.setAttribute('src', targetSrc);
+      if (inlineTrk) {
+        inlineTrk.setAttribute('srclang', lang);
+        inlineTrk.setAttribute('src', `assets/video/subs_${lang}.vtt`);
+      }
+      inlineVid.load();
+      if (wasPlaying) inlineVid.play().catch(() => {});
+    }
+  }
 
   const textMap = {
     ribOrbital: t.ribOrbital,
@@ -780,6 +872,21 @@ function applyTranslations() {
     navScada: t.navScada,
     navManuals: t.navManuals,
     navSlides: t.navSlides,
+    navVideo: ex.navVideo,
+    navEsp32: ex.navEsp32,
+    promoBadge: ex.promoBadge,
+    promoTitle: ex.promoTitle,
+    promoDesc: ex.promoDesc,
+    promoBtnEsp: ex.promoBtnEsp,
+    promoBtnFull: ex.promoBtnFull,
+    btnOpenEsp32: ex.btnOpenEsp32,
+    roiBadge: ex.roiBadge,
+    roiOpt5: ex.roiOpt5,
+    roiOpt15: ex.roiOpt15,
+    roiOpt40: ex.roiOpt40,
+    roiOpt100: ex.roiOpt100,
+    roiPaybackSub: ex.roiPaybackSub,
+    footTagline: ex.footTagline,
     btnPrint: t.btnPrint,
     heroBadge: t.heroBadge,
     heroTitle: t.heroTitle,

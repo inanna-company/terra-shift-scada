@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ESP32 Firmware &amp; Field AP Emulator | TERRA-SHIFT SCADA — Team INANNA</title>
+  <link rel="icon" type="image/jpeg" href="../assets/inanna-isotipo.jpg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg-body: #080c12;
+      --bg-main: #121821;
+      --bg-card: #17202b;
+      --border: #253445;
+      --cyan: #00b8e6;
+      --blue: #1890ff;
+      --green-bg: #14532d; --green-txt: #86efac;
+      --amber-bg: #78350f; --amber-txt: #fde68a;
+      --red-bg: #7f1d1d;   --red-txt: #fca5a5;
+      --muted: #94a3b8;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: radial-gradient(circle at 20% 0%, #0e1e33 0%, var(--bg-body) 60%);
+      color: #f1f5f9;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      min-height: 100vh;
+      padding: 16px 20px 44px;
+    }
+    .topbar {
+      max-width: 1420px;
+      margin: 0 auto 16px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      background: rgba(18, 24, 33, 0.94);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 12px 18px;
+    }
+    .brand { display: flex; align-items: center; gap: 12px; }
+    .brand img { width: 40px; height: 40px; border-radius: 9px; border: 1px solid rgba(0,184,230,0.45); }
+    .brand-t1 { font-weight: 800; font-size: 1rem; letter-spacing: 0.02em; color: #fff; }
+    .brand-t2 { font-size: 0.75rem; color: var(--cyan); font-family: 'JetBrains Mono', monospace; }
+    .nav-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .lang-group { display: inline-flex; background: #0b1118; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+    .lang-btn {
+      background: transparent; color: var(--muted); border: none; padding: 6px 11px;
+      font-weight: 700; font-size: 0.76rem; cursor: pointer; font-family: 'JetBrains Mono', monospace;
+    }
+    .lang-btn.active { background: var(--cyan); color: #041019; }
+    .pill-btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: #162230; color: #e2e8f0; border: 1px solid #2b3e52;
+      padding: 7px 13px; border-radius: 8px; font-size: 0.8rem; font-weight: 700;
+      text-decoration: none; cursor: pointer; transition: 0.18s;
+    }
+    .pill-btn:hover { border-color: var(--cyan); color: #fff; }
+    .pill-btn.primary { background: linear-gradient(135deg, #059669, #10b981); color: #04130d; border-color: transparent; }
+    .pill-btn.video { border-color: rgba(245,158,11,0.55); color: #fde68a; }
+
+    .workspace {
+      max-width: 1420px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 450px 1fr;
+      gap: 18px;
+      align-items: start;
+    }
+    @media (max-width: 1080px) {
+      .workspace { grid-template-columns: 1fr; }
+    }
+
+    /* LEFT: Authentic INANNA Embedded ESP32 Local Web Server (192.168.4.1) */
+    .esp-device-frame {
+      background: var(--bg-main);
+      border: 1px solid #283848;
+      border-radius: 18px;
+      padding: 18px 16px;
+      box-shadow: 0 20px 48px rgba(0,0,0,0.65);
+    }
+    .ap-url-bar {
+      display: flex; align-items: center; justify-content: space-between;
+      background: #0a0f16; border: 1px solid #223242; border-radius: 9px;
+      padding: 7px 11px; margin-bottom: 14px; font-family: 'JetBrains Mono', monospace; font-size: 0.72rem;
+    }
+    .ap-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #22c55e; margin-right: 6px; box-shadow: 0 0 8px #22c55e; }
+    .esp-h1 { text-align: center; color: var(--blue); font-size: 1.5rem; font-weight: 800; margin-bottom: 4px; }
+    .esp-sub { text-align: center; color: var(--muted); font-size: 0.75rem; margin-bottom: 12px; }
+    .status-banner {
+      width: 100%; padding: 12px 10px; border-radius: 10px; text-align: center;
+      font-weight: 800; font-size: 0.88rem; margin-bottom: 14px; letter-spacing: 0.02em;
+      transition: all 0.22s ease;
+    }
+    .status-normal { background: var(--green-bg); color: var(--green-txt); border: 1px solid rgba(134,239,172,0.35); }
+    .status-warn   { background: var(--amber-bg); color: var(--amber-txt); border: 1px solid rgba(253,230,138,0.4); }
+    .status-fault  { background: var(--red-bg);   color: var(--red-txt);   border: 1px solid rgba(252,165,165,0.55); box-shadow: 0 0 22px rgba(239,68,68,0.35); }
+
+    .metrics-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+    .metric-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 12px 8px; text-align: center; }
+    .metric-lbl { color: var(--muted); font-size: 0.7rem; font-weight: 700; text-transform: uppercase; margin-bottom: 5px; }
+    .metric-val { color: var(--cyan); font-size: 1.48rem; font-weight: 800; font-family: 'JetBrains Mono', monospace; }
+    .metric-sub { color: #cbd5e1; font-size: 0.68rem; margin-top: 3px; font-family: 'JetBrains Mono', monospace; }
+
+    .kirchhoff-box {
+      background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px;
+      padding: 10px 12px; margin-bottom: 12px; font-size: 0.74rem;
+    }
+    .k-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
+    .k-row:last-child { margin-bottom: 0; }
+
+    .osc-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; margin-bottom: 12px; }
+    .osc-head { display: flex; justify-content: space-between; font-size: 0.69rem; color: var(--muted); margin-bottom: 6px; font-weight: 700; }
+    canvas#oscCanvas { width: 100%; height: 145px; display: block; border-radius: 6px; background: #0b1017; }
+
+    .sim-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; }
+    .sim-btn {
+      background: #101720; color: #dbeafe; border: 1px solid #293a4c;
+      padding: 9px 8px; border-radius: 8px; font-size: 0.74rem; font-weight: 700;
+      cursor: pointer; transition: 0.16s; text-align: center;
+    }
+    .sim-btn:hover { border-color: var(--cyan); }
+    .sim-btn.active { background: rgba(0,184,230,0.18); border-color: var(--cyan); color: #fff; box-shadow: 0 0 12px rgba(0,184,230,0.22); }
+    .sim-btn.fault-active { background: #dc2626; border-color: #fca5a5; color: #fff; }
+
+    /* RIGHT: ESP-NOW Mesh + Live C++ Firmware IDE + Serial Monitor + Modbus Strip */
+    .right-stack { display: flex; flex-direction: column; gap: 14px; }
+    .panel {
+      background: var(--bg-main); border: 1px solid var(--border);
+      border-radius: 16px; padding: 14px 16px;
+    }
+    .panel-head {
+      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;
+      margin-bottom: 10px;
+    }
+    .panel-title { font-size: 0.92rem; font-weight: 800; color: #38bdf8; display: flex; align-items: center; gap: 8px; }
+    .badge-aes {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.69rem; font-weight: 700;
+      padding: 3px 9px; border-radius: 99px;
+      background: rgba(16,185,129,0.14); color: #6ee7b7; border: 1px solid rgba(16,185,129,0.38);
+    }
+    canvas#meshCanvas { width: 100%; height: 155px; display: block; background: #0a1017; border: 1px solid #1e2c3c; border-radius: 10px; }
+
+    /* Firmware IDE */
+    .ide-tabs { display: flex; gap: 6px; flex-wrap: wrap; }
+    .ide-tab {
+      background: #0d141d; color: var(--muted); border: 1px solid #223142;
+      padding: 5px 11px; border-radius: 7px; font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem; font-weight: 700; cursor: pointer;
+    }
+    .ide-tab.active { background: #172636; color: #38bdf8; border-color: #38bdf8; }
+    .code-box {
+      background: #090e14; border: 1px solid #1e2c3c; border-radius: 10px;
+      padding: 10px 0; font-family: 'JetBrains Mono', monospace; font-size: 0.75rem;
+      line-height: 1.52; overflow-x: auto; max-height: 295px; overflow-y: auto;
+    }
+    .code-line {
+      display: flex; padding: 1px 14px; border-left: 3px solid transparent; transition: background 0.2s;
+    }
+    .code-line.hl-ok { background: rgba(16, 185, 129, 0.16); border-left-color: #10b981; }
+    .code-line.hl-warn { background: rgba(245, 158, 11, 0.18); border-left-color: #f59e0b; }
+    .code-line.hl-fault { background: rgba(239, 68, 68, 0.24); border-left-color: #ef4444; }
+    .ln { width: 32px; color: #475569; user-select: none; flex-shrink: 0; }
+    .lc { color: #e2e8f0; white-space: pre; }
+    .kw { color: #c084fc; font-weight: 600; }
+    .fn { color: #38bdf8; }
+    .num { color: #fbbf24; }
+    .cm { color: #64748b; }
+    .st { color: #86efac; }
+
+    /* Serial Monitor + Modbus */
+    .serial-grid { display: grid; grid-template-columns: 1.25fr 1fr; gap: 14px; }
+    @media (max-width: 900px) { .serial-grid { grid-template-columns: 1fr; } }
+    .serial-term {
+      background: #060a0f; border: 1px solid #1f2e3d; border-radius: 10px;
+      padding: 10px 12px; height: 165px; overflow-y: auto;
+      font-family: 'JetBrains Mono', monospace; font-size: 0.71rem; line-height: 1.48; color: #93c5fd;
+    }
+    .s-ok { color: #6ee7b7; }
+    .s-warn { color: #fde68a; }
+    .s-err { color: #fca5a5; font-weight: 700; }
+    .mb-table { width: 100%; border-collapse: collapse; font-family: 'JetBrains Mono', monospace; font-size: 0.71rem; }
+    .mb-table th { text-align: left; color: var(--muted); padding: 5px 6px; border-bottom: 1px solid #233242; }
+    .mb-table td { padding: 5px 6px; border-bottom: 1px solid #182330; color: #e2e8f0; }
+    .mb-reg { color: #fbbf24; font-weight: 700; }
+  </style>
+</head>
+<body>
+
+  <header class="topbar">
+    <div class="brand">
+      <img src="../assets/inanna-isotipo.jpg" alt="Team INANNA" />
+      <div>
+        <div class="brand-t1" id="hdrTitle">ESP32 FIRMWARE &amp; FIELD AP EMULATOR</div>
+        <div class="brand-t2" id="hdrSub">TERRA-SHIFT SCADA • Team INANNA (Río Cuarto → Santa Rosa de Calamuchita)</div>
+      </div>
+    </div>
+    <div class="nav-actions">
+      <div class="lang-group" role="group" aria-label="Language">
+        <button class="lang-btn active" data-lang="en">EN</button>
+        <button class="lang-btn" data-lang="es">ES</button>
+        <button class="lang-btn" data-lang="pt">PT</button>
+      </div>
+      <button class="pill-btn primary" id="btnAutoCycle" onclick="toggleAutoCycle()">▶ Auto-Simulate Cycle</button>
+      <a class="pill-btn video" id="lnkVideo" href="../video/index.html">🎬 30s Video</a>
+      <a class="pill-btn" id="lnkDeck" href="../presentation/deck_7_slides.html">📊 7-Slide Deck</a>
+      <a class="pill-btn" id="lnkScada" href="../index.html">← NASA SCADA</a>
+    </div>
+  </header>
+
+  <main class="workspace">
+    <!-- LEFT: EMULATED EMBEDDED ESP32 FIELD SERVER (192.168.4.1) -->
+    <section class="esp-device-frame">
+      <div class="ap-url-bar">
+        <span><span class="ap-dot"></span><strong>http://192.168.4.1</strong> • SSID: <code>INANNA-TERRASHIFT-AP</code></span>
+        <span id="apOfflineTag" style="color:#6ee7b7;">OFFLINE READY</span>
+      </div>
+      <h1 class="esp-h1" id="espCardTitle">ESP32 Field Concentrator</h1>
+      <div class="esp-sub" id="espCardSub">4–20 mA NAMUR NE43 Loop + NASA SMAP Root-Zone Fusion</div>
+
+      <div id="statusBanner" class="status-banner status-normal">STATUS: NORMAL OPERATION — OPTIMAL MOISTURE</div>
+
+      <div class="metrics-grid">
+        <div class="metric-card">
+          <div class="metric-lbl" id="lblM1">SOIL LOOP (4–20 mA)</div>
+          <div class="metric-val" id="valMa">11.68 mA</div>
+          <div class="metric-sub" id="valPct">48.0% Root Moisture</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-lbl" id="lblM2">NASA SMAP / POWER</div>
+          <div class="metric-val" id="valNasa" style="color:#60a5fa;">46.2%</div>
+          <div class="metric-sub" id="valNasaSub">GWETROOT Sync OK</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-lbl" id="lblM3">DRIP LINE PRESSURE</div>
+          <div class="metric-val" id="valPress">1.80 Bar</div>
+          <div class="metric-sub" id="valPressMa">6.88 mA (Reg 30004)</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-lbl" id="lblM4">VFD DRIP PUMP</div>
+          <div class="metric-val" id="valFlow" style="color:#86efac;">0.0 m³/h</div>
+          <div class="metric-sub" id="valRelay">Relay GPIO26: OFF</div>
+        </div>
+      </div>
+
+      <div class="kirchhoff-box">
+        <div class="k-row">
+          <span id="lblShunt">⚡ Kirchhoff Shunt (165.0 Ω • ADS1115 16-bit):</span>
+          <strong id="valVolts" style="color:var(--cyan);font-family:'JetBrains Mono',monospace;">1.927 V</strong>
+        </div>
+        <div class="k-row" style="color:var(--muted);">
+          <span><span id="lblHrs">NVS Horometer:</span> <strong id="valHrs" style="color:#fff;">1428.4 h</strong></span>
+          <span id="valNamurTag" style="color:#4ade80;font-weight:700;">LIVE-ZERO OK (≥ 3.6 mA)</span>
+        </div>
+      </div>
+
+      <div class="osc-card">
+        <div class="osc-head">
+          <span id="lblOscTitle">REAL-TIME 4–20 mA LOOP vs NASA GWETROOT (30s)</span>
+          <span style="color:#ef4444;">--- 3.6 mA NAMUR</span>
+        </div>
+        <canvas id="oscCanvas" width="410" height="145"></canvas>
+      </div>
+
+      <div class="sim-grid">
+        <button class="sim-btn active" id="btnSimNom" onclick="setSimMode('nominal')">🟢 Nominal Soil (11.68 mA)</button>
+        <button class="sim-btn" id="btnSimDry" onclick="setSimMode('dry')">🟡 Dry Root → Irrigate (6.80 mA)</button>
+        <button class="sim-btn" id="btnSimCut" onclick="setSimMode('cut')">✂️ Cut Wire (&lt;3.6 mA Fault)</button>
+        <button class="sim-btn" id="btnSimAck" onclick="setSimMode('ack')">🔧 Repair + ACK (12.00 mA)</button>
+      </div>
+    </section>
+
+    <!-- RIGHT: ESP-NOW TOPOLOGY + LIVE C++ CODE EXECUTION + SERIAL & MODBUS -->
+    <section class="right-stack">
+      <div class="panel">
+        <div class="panel-head">
+          <div class="panel-title" id="meshTitle">📡 Routerless ESP-NOW P2P Field Mesh → ESP32 Modbus Gateway</div>
+          <span class="badge-aes" id="meshBadge">🔒 AES-128 MAC P2P • 2.4 ms • ZERO INTERNET</span>
+        </div>
+        <canvas id="meshCanvas" width="900" height="155"></canvas>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head">
+          <div class="panel-title" id="codeTitle">💻 Live C++ Firmware Execution Trace (ESP32 + ADS1115 + NAMUR NE43)</div>
+          <div class="ide-tabs">
+            <button class="ide-tab active" id="tabGateway" onclick="switchCodeTab('gateway')">esp32_gateway_scada_modbus.ino</button>
+            <button class="ide-tab" id="tabNode" onclick="switchCodeTab('node')">esp32_field_node_espnow_4_20ma.ino</button>
+          </div>
+        </div>
+        <div class="code-box" id="codeContainer"></div>
+      </div>
+
+      <div class="serial-grid">
+        <div class="panel">
+          <div class="panel-head">
+            <div class="panel-title" id="serialTitle">🖥️ USB Serial Monitor (115200 baud)</div>
+            <span style="font-family:'JetBrains Mono',monospace;font-size:0.68rem;color:var(--muted);" id="pktCounter">PKTS: 1,428</span>
+          </div>
+          <div class="serial-term" id="serialTerm"></div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">
+            <div class="panel-title" id="modbusTitle">🔌 Modbus TCP:502 / RS485 Map</div>
+            <span style="font-family:'JetBrains Mono',monospace;font-size:0.68rem;color:#fbbf24;">×100 INT16</span>
+          </div>
+          <table class="mb-table">
+            <thead>
+              <tr><th id="thReg">Reg</th><th id="thDesc">Parameter</th><th id="thRaw">Raw</th><th id="thVal">Value</th></tr>
+            </thead>
+            <tbody id="mbBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const UI_TEXT = {
+      en: {
+        hdrTitle: 'ESP32 FIRMWARE & FIELD AP EMULATOR',
+        hdrSub: 'TERRA-SHIFT SCADA • Team INANNA (Río Cuarto → Santa Rosa de Calamuchita)',
+        autoStart: '▶ Auto-Simulate Cycle',
+        autoStop: '⏹ Stop Auto-Cycle',
+        lnkVideo: '🎬 30s Video',
+        lnkDeck: '📊 7-Slide Deck',
+        lnkScada: '← NASA SCADA',
+        apOfflineTag: 'OFFLINE READY',
+        espCardTitle: 'ESP32 Field Concentrator',
+        espCardSub: '4–20 mA NAMUR NE43 Loop + NASA SMAP Root-Zone Fusion',
+        lblM1: 'SOIL LOOP (4–20 mA)',
+        lblM2: 'NASA SMAP / POWER',
+        lblM3: 'DRIP LINE PRESSURE',
+        lblM4: 'VFD DRIP PUMP',
+        lblShunt: '⚡ Kirchhoff Shunt (165.0 Ω • ADS1115 16-bit):',
+        lblHrs: 'NVS Horometer:',
+        lblOscTitle: 'REAL-TIME 4–20 mA LOOP vs NASA GWETROOT (30s)',
+        btnSimNom: '🟢 Nominal Soil (11.68 mA)',
+        btnSimDry: '🟡 Dry Root → Irrigate (6.80 mA)',
+        btnSimCut: '✂️ Cut Wire (<3.6 mA Fault)',
+        btnSimAck: '🔧 Repair + ACK (12.00 mA)',
+        meshTitle: '📡 Routerless ESP-NOW P2P Field Mesh → ESP32 Modbus Gateway',
+        meshBadge: '🔒 AES-128 MAC P2P • 2.4 ms • ZERO INTERNET',
+        codeTitle: '💻 Live C++ Firmware Execution Trace (ESP32 + ADS1115 + NAMUR NE43)',
+        serialTitle: '🖥️ USB Serial Monitor (115200 baud)',
+        modbusTitle: '🔌 Modbus TCP:502 / RS485 Map',
+        thReg: 'Reg', thDesc: 'Parameter', thRaw: 'Raw', thVal: 'Value',
+        rootMoist: 'Root Moisture',
+        wireBreak: 'OPEN LOOP FAULT!',
+        nasaSync: 'GWETROOT Sync OK',
+        nasaFallback: 'ACTIVE BACKUP!',
+        relayOn: 'VFD Relay GPIO26: ON',
+        relayOff: 'VFD Relay GPIO26: OFF',
+        relayLock: 'GPIO27 SAFETY LOCK!',
+        namurOk: 'LIVE-ZERO OK (≥ 3.6 mA)',
+        namurErr: 'NAMUR NE43 FAULT (< 3.6 mA)!',
+        banners: {
+          nominal: 'STATUS: NORMAL OPERATION — OPTIMAL ROOT MOISTURE',
+          dry: 'STATUS: DRY ROOT ZONE (17.5%) — VFD DRIP IRRIGATION ACTIVE',
+          cut: 'CRITICAL: WIRE CUT (0.00 mA) — PUMP LOCKED + NASA ORBITAL BACKUP!',
+          ack: 'STATUS: LOOP REPAIRED (50.0%) — SCADA ACK & INTERLOCK ARMED'
+        },
+        nodes: ['Node #01 Valley Vine', 'Node #02 Olive Drip', 'Node #03 Chickpea Plot', 'Node #04 Sorghum North'],
+        gatewayLbl: 'ESP32 GATEWAY\nModbus + AP',
+        mbNames: ['Soil Loop mA', 'Root Moisture', 'NASA GWETROOT', 'NAMUR Diagnostic', 'VFD Pump Coil', 'Safety Interlock'],
+        mbStates: { ok: '0 (OK)', fault: '2 (CUT)', on: 'ON', off: 'OFF', locked: 'LOCKED', armed: 'ARMED' },
+        serialLogs: {
+          nominal: '[ESP-NOW] Node #01 (<2.4ms) | I_loop=11.68 mA (48.0%) | NASA=46.2% | VFD=STANDBY',
+          dry: '[CONTROL] Soil 6.80 mA (17.5% < 36.0% Setpoint) confirmed by NASA -> VFD PUMP ON (22.4 m3/h)',
+          cut: '[NAMUR NE43] FAULT! I_loop=0.00 mA (<3.60 mA) -> GPIO27 LOCKS PUMP! Switching to NASA GWETROOT (46.2%)',
+          ack: '[SCADA ACK] Cable restored (12.00 mA = 50.0%) -> Interlock cleared, Modbus PLC Ready.'
+        }
+      },
+      es: {
+        hdrTitle: 'EMULADOR DE CÓDIGO ESP32 Y SERVIDOR DE CAMPO',
+        hdrSub: 'TERRA-SHIFT SCADA • Equipo INANNA (Río Cuarto → Sede Santa Rosa de Calamuchita)',
+        autoStart: '▶ Simular Ciclo Automático',
+        autoStop: '⏹ Detener Ciclo',
+        lnkVideo: '🎬 Video 30s',
+        lnkDeck: '📊 7 Diapositivas',
+        lnkScada: '← SCADA NASA',
+        apOfflineTag: 'MODO CAMPO SIN RED',
+        espCardTitle: 'Concentrador Rural ESP32',
+        espCardSub: 'Lazo 4–20 mA NAMUR NE43 + Fusión Radicular NASA SMAP',
+        lblM1: 'LAZO SUELO (4–20 mA)',
+        lblM2: 'NASA SMAP / POWER',
+        lblM3: 'PRESIÓN GOTEO',
+        lblM4: 'BOMBA VFD RIEGO',
+        lblShunt: '⚡ Derivación Kirchhoff (165.0 Ω • ADS1115 16-bit):',
+        lblHrs: 'Horómetro NVS:',
+        lblOscTitle: 'LAZO 4–20 mA EN TIEMPO REAL vs NASA GWETROOT (30s)',
+        btnSimNom: '🟢 Suelo Nominal (11.68 mA)',
+        btnSimDry: '🟡 Raíz Seca → Regar (6.80 mA)',
+        btnSimCut: '✂️ Cable Cortado (<3.6 mA)',
+        btnSimAck: '🔧 Reparar + Confirmar (12 mA)',
+        meshTitle: '📡 Red Rural ESP-NOW P2P sin Router → Concentrador ESP32 Modbus',
+        meshBadge: '🔒 AES-128 MAC P2P • 2.4 ms • CERO INTERNET',
+        codeTitle: '💻 Ejecución en Vivo del Código C++ ESP32 (ADS1115 + NAMUR NE43)',
+        serialTitle: '🖥️ Monitor Serie USB (115200 baudios)',
+        modbusTitle: '🔌 Mapa Modbus TCP:502 / RS485',
+        thReg: 'Reg', thDesc: 'Parámetro', thRaw: 'Crudo', thVal: 'Valor',
+        rootMoist: 'Humedad Raíz',
+        wireBreak: '¡LAZO ABIERTO!',
+        nasaSync: 'Sincronía GWETROOT OK',
+        nasaFallback: '¡RESPALDO ACTIVO!',
+        relayOn: 'Relé VFD GPIO26: ENCENDIDO',
+        relayOff: 'Relé VFD GPIO26: APAGADO',
+        relayLock: '¡BLOQUEO GPIO27 ACTIVO!',
+        namurOk: 'CERO VIVO OK (≥ 3.6 mA)',
+        namurErr: '¡FALLA NAMUR NE43 (< 3.6 mA)!',
+        banners: {
+          nominal: 'ESTADO: OPERACIÓN NORMAL — HUMEDAD RADICULAR ÓPTIMA',
+          dry: 'ESTADO: RAÍZ SECA (17.5%) — RIEGO POR GOTEO VFD ACTIVO',
+          cut: 'CRÍTICO: CABLE CORTADO (0.00 mA) — ¡BOMBA ENCLAVADA + RESPALDO NASA!',
+          ack: 'ESTADO: LAZO REPARADO (50.0%) — ALARMA CONFIRMADA Y SISTEMA ARMADO'
+        },
+        nodes: ['Nodo #01 Vid Serrana', 'Nodo #02 Olivo Goteo', 'Nodo #03 Lote Garbanzo', 'Nodo #04 Sorgo Norte'],
+        gatewayLbl: 'ESP32 CENTRAL\nModbus + AP',
+        mbNames: ['Corriente Lazo', 'Humedad Raíz', 'NASA GWETROOT', 'Diagnóstico NAMUR', 'Bobina Bomba VFD', 'Enclavamiento'],
+        mbStates: { ok: '0 (OK)', fault: '2 (CORTE)', on: 'ENCENDIDO', off: 'APAGADO', locked: 'BLOQUEADO', armed: 'ARMADO' },
+        serialLogs: {
+          nominal: '[ESP-NOW] Nodo #01 (<2.4ms) | I_lazo=11.68 mA (48.0%) | NASA=46.2% | VFD=ESPERA',
+          dry: '[CONTROL] Suelo 6.80 mA (17.5% < 36.0% Umbral) validado por NASA -> BOMBA VFD ENCENDIDA (22.4 m3/h)',
+          cut: '[NAMUR NE43] ¡FALLA! I_lazo=0.00 mA (<3.60 mA) -> ¡GPIO27 ENCLAVA BOMBA! Conmutando a NASA GWETROOT (46.2%)',
+          ack: '[CONFIRMACIÓN SCADA] Cable reparado (12.00 mA = 50.0%) -> Enclavamiento liberado, PLC Modbus listo.'
+        }
+      },
+      pt: {
+        hdrTitle: 'EMULADOR DE CÓDIGO ESP32 E SERVIDOR DE CAMPO',
+        hdrSub: 'TERRA-SHIFT SCADA • Equipe INANNA (Río Cuarto → Sede Santa Rosa de Calamuchita)',
+        autoStart: '▶ Simular Ciclo Automático',
+        autoStop: '⏹ Parar Ciclo',
+        lnkVideo: '🎬 Vídeo 30s',
+        lnkDeck: '📊 7 Slides',
+        lnkScada: '← SCADA NASA',
+        apOfflineTag: 'MODO CAMPO SEM REDE',
+        espCardTitle: 'Concentrador Rural ESP32',
+        espCardSub: 'Laço 4–20 mA NAMUR NE43 + Fusão Radicular NASA SMAP',
+        lblM1: 'LAÇO SOLO (4–20 mA)',
+        lblM2: 'NASA SMAP / POWER',
+        lblM3: 'PRESSÃO GOTEJAMENTO',
+        lblM4: 'BOMBA VFD IRRIGAÇÃO',
+        lblShunt: '⚡ Derivação Kirchhoff (165.0 Ω • ADS1115 16-bit):',
+        lblHrs: 'Horímetro NVS:',
+        lblOscTitle: 'LAÇO 4–20 mA EM TEMPO REAL vs NASA GWETROOT (30s)',
+        btnSimNom: '🟢 Solo Nominal (11.68 mA)',
+        btnSimDry: '🟡 Raiz Seca → Irrigar (6.80 mA)',
+        btnSimCut: '✂️ Cabo Rompido (<3.6 mA)',
+        btnSimAck: '🔧 Reparar + Confirmar (12 mA)',
+        meshTitle: '📡 Rede Rural ESP-NOW P2P sem Roteador → Concentrador ESP32 Modbus',
+        meshBadge: '🔒 AES-128 MAC P2P • 2.4 ms • ZERO INTERNET',
+        codeTitle: '💻 Execução ao Vivo do Código C++ ESP32 (ADS1115 + NAMUR NE43)',
+        serialTitle: '🖥️ Monitor Serial USB (115200 bauds)',
+        modbusTitle: '🔌 Mapa Modbus TCP:502 / RS485',
+        thReg: 'Reg', thDesc: 'Parâmetro', thRaw: 'Bruto', thVal: 'Valor',
+        rootMoist: 'Umidade Raiz',
+        wireBreak: 'LAÇO ABERTO!',
+        nasaSync: 'Sincronia GWETROOT OK',
+        nasaFallback: 'BACKUP ATIVO!',
+        relayOn: 'Relé VFD GPIO26: LIGADO',
+        relayOff: 'Relé VFD GPIO26: DESLIGADO',
+        relayLock: 'BLOQUEIO GPIO27 ATIVO!',
+        namurOk: 'ZERO VIVO OK (≥ 3.6 mA)',
+        namurErr: 'FALHA NAMUR NE43 (< 3.6 mA)!',
+        banners: {
+          nominal: 'STATUS: OPERAÇÃO NORMAL — UMIDADE RADICULAR IDEAL',
+          dry: 'STATUS: RAIZ SECA (17.5%) — IRRIGAÇÃO POR GOTEJAMENTO VFD ATIVA',
+          cut: 'CRÍTICO: CABO ROMPIDO (0.00 mA) — BOMBA TRAVADA + BACKUP NASA!',
+          ack: 'STATUS: LAÇO REPARADO (50.0%) — ALARME CONFIRMADO E SISTEMA ARMADO'
+        },
+        nodes: ['Nó #01 Videira Serrana', 'Nó #02 Oliveira Gotejo', 'Nó #03 Lote Grão-de-Bico', 'Nó #04 Sorgo Norte'],
+        gatewayLbl: 'ESP32 CENTRAL\nModbus + AP',
+        mbNames: ['Corrente Laço', 'Umidade Raiz', 'NASA GWETROOT', 'Diagnóstico NAMUR', 'Bobina Bomba VFD', 'Bloqueio Segurança'],
+        mbStates: { ok: '0 (OK)', fault: '2 (CORTE)', on: 'LIGADO', off: 'DESLIGADO', locked: 'TRAVADO', armed: 'ARMADO' },
+        serialLogs: {
+          nominal: '[ESP-NOW] Nó #01 (<2.4ms) | I_laco=11.68 mA (48.0%) | NASA=46.2% | VFD=ESPERA',
+          dry: '[CONTROLE] Solo 6.80 mA (17.5% < 36.0% Limite) validado pela NASA -> BOMBA VFD LIGADA (22.4 m3/h)',
+          cut: '[NAMUR NE43] FALHA! I_laco=0.00 mA (<3.60 mA) -> GPIO27 TRAVA A BOMBA! Assumindo NASA GWETROOT (46.2%)',
+          ack: '[CONFIRMAÇÃO SCADA] Cabo reparado (12.00 mA = 50.0%) -> Bloqueio liberado, CLP Modbus pronto.'
+        }
+      }
+    };
+
+    const CODE_SNIPPETS = {
+      gateway: {
+        en: [
+          { n: 63, t: '<span class="kw">void</span> <span class="fn">applyControlAndSafetyLogic</span>() {' },
+          { n: 64, t: '  <span class="cm">// NAMUR NE43 Live-Zero Fault (&lt;3.6 mA) -&gt; Lock Pump + NASA Backup!</span>' },
+          { n: 65, t: '  <span class="kw">if</span> (mb.in30005_namurDiag != <span class="num">0</span>) {', modes: { cut: 'hl-fault' } },
+          { n: 66, t: '    mb.coil00001_pumpEnable    = <span class="kw">false</span>;', modes: { cut: 'hl-fault' } },
+          { n: 67, t: '    mb.coil00002_safetyTripped = <span class="kw">true</span>;', modes: { cut: 'hl-fault' } },
+          { n: 68, t: '    <span class="fn">digitalWrite</span>(PIN_VFD_PUMP_RELAY, LOW);', modes: { cut: 'hl-fault' } },
+          { n: 69, t: '    <span class="fn">digitalWrite</span>(PIN_SAFETY_INTERLOCK, HIGH); <span class="cm">// Fallback: NASA GWETROOT</span>', modes: { cut: 'hl-fault' } },
+          { n: 70, t: '    <span class="kw">return</span>;', modes: { cut: 'hl-fault' } },
+          { n: 71, t: '  }' },
+          { n: 73, t: '  <span class="kw">if</span> (!mb.coil00002_safetyTripped) {', modes: { nominal: 'hl-ok', dry: 'hl-warn', ack: 'hl-ok' } },
+          { n: 74, t: '    <span class="kw">bool</span> irrigate = (mb.in30002_soilPct_x100 &lt; <span class="num">3600</span>); <span class="cm">// &lt;36.0% Setpoint</span>', modes: { nominal: 'hl-ok', dry: 'hl-warn' } },
+          { n: 79, t: '    mb.coil00001_pumpEnable = irrigate;', modes: { dry: 'hl-warn' } },
+          { n: 80, t: '    <span class="fn">digitalWrite</span>(PIN_VFD_PUMP_RELAY, irrigate ? HIGH : LOW);', modes: { nominal: 'hl-ok', dry: 'hl-warn' } },
+          { n: 81, t: '  }' },
+          { n: 82, t: '}' },
+          { n: 132, t: 'localServer.<span class="fn">on</span>(<span class="st">"/ack"</span>, []() { <span class="cm">// Rearm after cable repair</span>', modes: { ack: 'hl-ok' } },
+          { n: 134, t: '  mb.coil00002_safetyTripped = <span class="kw">false</span>; <span class="fn">digitalWrite</span>(PIN_SAFETY_INTERLOCK, LOW);', modes: { ack: 'hl-ok' } },
+          { n: 136, t: '});' }
+        ],
+        es: [
+          { n: 63, t: '<span class="kw">void</span> <span class="fn">applyControlAndSafetyLogic</span>() {' },
+          { n: 64, t: '  <span class="cm">// Falla Cero Vivo NAMUR NE43 (&lt;3.6 mA) -&gt; ¡Enclavar Bomba + Respaldo NASA!</span>' },
+          { n: 65, t: '  <span class="kw">if</span> (mb.in30005_namurDiag != <span class="num">0</span>) {', modes: { cut: 'hl-fault' } },
+          { n: 66, t: '    mb.coil00001_pumpEnable    = <span class="kw">false</span>;', modes: { cut: 'hl-fault' } },
+          { n: 67, t: '    mb.coil00002_safetyTripped = <span class="kw">true</span>;', modes: { cut: 'hl-fault' } },
+          { n: 68, t: '    <span class="fn">digitalWrite</span>(PIN_VFD_PUMP_RELAY, LOW);', modes: { cut: 'hl-fault' } },
+          { n: 69, t: '    <span class="fn">digitalWrite</span>(PIN_SAFETY_INTERLOCK, HIGH); <span class="cm">// Usa NASA GWETROOT</span>', modes: { cut: 'hl-fault' } },
+          { n: 70, t: '    <span class="kw">return</span>;', modes: { cut: 'hl-fault' } },
+          { n: 71, t: '  }' },
+          { n: 73, t: '  <span class="kw">if</span> (!mb.coil00002_safetyTripped) {', modes: { nominal: 'hl-ok', dry: 'hl-warn', ack: 'hl-ok' } },
+          { n: 74, t: '    <span class="kw">bool</span> regar = (mb.in30002_soilPct_x100 &lt; <span class="num">3600</span>); <span class="cm">// Umbral &lt;36.0%</span>', modes: { nominal: 'hl-ok', dry: 'hl-warn' } },
+          { n: 79, t: '    mb.coil00001_pumpEnable = regar;', modes: { dry: 'hl-warn' } },
+          { n: 80, t: '    <span class="fn">digitalWrite</span>(PIN_VFD_PUMP_RELAY, regar ? HIGH : LOW);', modes: { nominal: 'hl-ok', dry: 'hl-warn' } },
+          { n: 81, t: '  }' },
+          { n: 82, t: '}' },
+          { n: 132, t: 'localServer.<span class="fn">on</span>(<span class="st">"/ack"</span>, []() { <span class="cm">// Rearme tras reparar el lazo</span>', modes: { ack: 'hl-ok' } },
+          { n: 134, t: '  mb.coil00002_safetyTripped = <span class="kw">false</span>; <span class="fn">digitalWrite</span>(PIN_SAFETY_INTERLOCK, LOW);', modes: { ack: 'hl-ok' } },
+          { n: 136, t: '});' }
+        ],
+        pt: [
+          { n: 63, t: '<span class="kw">void</span> <span class="fn">applyControlAndSafetyLogic</span>() {' },
+          { n: 64, t: '  <span class="cm">// Falha Zero Vivo NAMUR NE43 (&lt;3.6 mA) -&gt; Travar Bomba + Backup NASA!</span>' },
+          { n: 65, t: '  <span class="kw">if</span> (mb.in30005_namurDiag != <span class="num">0</span>) {', modes: { cut: 'hl-fault' } },
+          { n: 66, t: '    mb.coil00001_pumpEnable    = <span class="kw">false</span>;', modes: { cut: 'hl-fault' } },
+          { n: 67, t: '    mb.coil00002_safetyTripped = <span class="kw">true</span>;', modes: { cut: 'hl-fault' } },
+          { n: 68, t: '    <span class="fn">digitalWrite</span>(PIN_VFD_PUMP_RELAY, LOW);', modes: { cut: 'hl-fault' } },
+          { n: 69, t: '    <span class="fn">digitalWrite</span>(PIN_SAFETY_INTERLOCK, HIGH); <span class="cm">// Assume NASA GWETROOT</span>', modes: { cut: 'hl-fault' } },
+          { n: 70, t: '    <span class="kw">return</span>;', modes: { cut: 'hl-fault' } },
+          { n: 71, t: '  }' },
+          { n: 73, t: '  <span class="kw">if</span> (!mb.coil00002_safetyTripped) {', modes: { nominal: 'hl-ok', dry: 'hl-warn', ack: 'hl-ok' } },
+          { n: 74, t: '    <span class="kw">bool</span> irrigar = (mb.in30002_soilPct_x100 &lt; <span class="num">3600</span>); <span class="cm">// Limite &lt;36.0%</span>', modes: { nominal: 'hl-ok', dry: 'hl-warn' } },
+          { n: 79, t: '    mb.coil00001_pumpEnable = irrigar;', modes: { dry: 'hl-warn' } },
+          { n: 80, t: '    <span class="fn">digitalWrite</span>(PIN_VFD_PUMP_RELAY, irrigar ? HIGH : LOW);', modes: { nominal: 'hl-ok', dry: 'hl-warn' } },
+          { n: 81, t: '  }' },
+          { n: 82, t: '}' },
+          { n: 132, t: 'localServer.<span class="fn">on</span>(<span class="st">"/ack"</span>, []() { <span class="cm">// Rearme após reparo do cabo</span>', modes: { ack: 'hl-ok' } },
+          { n: 134, t: '  mb.coil00002_safetyTripped = <span class="kw">false</span>; <span class="fn">digitalWrite</span>(PIN_SAFETY_INTERLOCK, LOW);', modes: { ack: 'hl-ok' } },
+          { n: 136, t: '});' }
+        ]
+      },
+      node: {
+        en: [
+          { n: 59, t: '<span class="kw">float</span> <span class="fn">readCurrentLoopMa</span>(<span class="kw">uint8_t</span> ch) {' },
+          { n: 60, t: '  <span class="kw">int16_t</span> raw = ads.<span class="fn">readADC_Differential_0_1</span>();', modes: { nominal: 'hl-ok', dry: 'hl-warn', cut: 'hl-fault', ack: 'hl-ok' } },
+          { n: 65, t: '  <span class="kw">return</span> (ads.<span class="fn">computeVolts</span>(raw) / <span class="num">165.0f</span>) * <span class="num">1000.0f</span>; <span class="cm">// Kirchhoff 165 Ohm</span>', modes: { nominal: 'hl-ok', dry: 'hl-warn', cut: 'hl-fault', ack: 'hl-ok' } },
+          { n: 66, t: '}' },
+          { n: 68, t: 'NamurStatus <span class="fn">evaluateNamurNE43</span>(<span class="kw">float</span> ma, <span class="kw">float</span> &amp;pct) {' },
+          { n: 69, t: '  <span class="kw">if</span> (ma &lt; <span class="num">3.60f</span>) { pct = <span class="num">-1.0f</span>; <span class="kw">return</span> NE43_UNDERSCALE_FAULT; }', modes: { cut: 'hl-fault' } },
+          { n: 77, t: '  pct = ((ma - <span class="num">4.0f</span>) / <span class="num">16.0f</span>) * <span class="num">100.0f</span>;', modes: { nominal: 'hl-ok', dry: 'hl-warn', ack: 'hl-ok' } },
+          { n: 81, t: '  <span class="kw">return</span> NE43_HEALTHY;', modes: { nominal: 'hl-ok', dry: 'hl-warn', ack: 'hl-ok' } },
+          { n: 82, t: '}' },
+          { n: 135, t: '<span class="fn">esp_now_send</span>(GATEWAY_MAC, (<span class="kw">uint8_t</span>*)&amp;txPkt, <span class="kw">sizeof</span>(txPkt)); <span class="cm">// AES-128 &lt;4ms</span>', modes: { nominal: 'hl-ok', dry: 'hl-warn', cut: 'hl-fault', ack: 'hl-ok' } }
+        ],
+        es: [
+          { n: 59, t: '<span class="kw">float</span> <span class="fn">readCurrentLoopMa</span>(<span class="kw">uint8_t</span> ch) {' },
+          { n: 60, t: '  <span class="kw">int16_t</span> raw = ads.<span class="fn">readADC_Differential_0_1</span>();', modes: { nominal: 'hl-ok', dry: 'hl-warn', cut: 'hl-fault', ack: 'hl-ok' } },
+          { n: 65, t: '  <span class="kw">return</span> (ads.<span class="fn">computeVolts</span>(raw) / <span class="num">165.0f</span>) * <span class="num">1000.0f</span>; <span class="cm">// Ley Kirchhoff 165 Ω</span>', modes: { nominal: 'hl-ok', dry: 'hl-warn', cut: 'hl-fault', ack: 'hl-ok' } },
+          { n: 66, t: '}' },
+          { n: 68, t: 'NamurStatus <span class="fn">evaluateNamurNE43</span>(<span class="kw">float</span> ma, <span class="kw">float</span> &amp;pct) {' },
+          { n: 69, t: '  <span class="kw">if</span> (ma &lt; <span class="num">3.60f</span>) { pct = <span class="num">-1.0f</span>; <span class="kw">return</span> NE43_UNDERSCALE_FAULT; }', modes: { cut: 'hl-fault' } },
+          { n: 77, t: '  pct = ((ma - <span class="num">4.0f</span>) / <span class="num">16.0f</span>) * <span class="num">100.0f</span>;', modes: { nominal: 'hl-ok', dry: 'hl-warn', ack: 'hl-ok' } },
+          { n: 81, t: '  <span class="kw">return</span> NE43_HEALTHY;', modes: { nominal: 'hl-ok', dry: 'hl-warn', ack: 'hl-ok' } },
+          { n: 82, t: '}' },
+          { n: 135, t: '<span class="fn">esp_now_send</span>(GATEWAY_MAC, (<span class="kw">uint8_t</span>*)&amp;txPkt, <span class="kw">sizeof</span>(txPkt)); <span class="cm">// AES-128 &lt;4ms</span>', modes: { nominal: 'hl-ok', dry: 'hl-warn', cut: 'hl-fault', ack: 'hl-ok' } }
+        ],
+        pt: [
+          { n: 59, t: '<span class="kw">float</span> <span class="fn">readCurrentLoopMa</span>(<span class="kw">uint8_t</span> ch) {' },
+          { n: 60, t: '  <span class="kw">int16_t</span> raw = ads.<span class="fn">readADC_Differential_0_1</span>();', modes: { nominal: 'hl-ok', dry: 'hl-warn', cut: 'hl-fault', ack: 'hl-ok' } },
+          { n: 65, t: '  <span class="kw">return</span> (ads.<span class="fn">computeVolts</span>(raw) / <span class="num">165.0f</span>) * <span class="num">1000.0f</span>; <span class="cm">// Lei Kirchhoff 165 Ω</span>', modes: { nominal: 'hl-ok', dry: 'hl-warn', cut: 'hl-fault', ack: 'hl-ok' } },
+          { n: 66, t: '}' },
+          { n: 68, t: 'NamurStatus <span class="fn">evaluateNamurNE43</span>(<span class="kw">float</span> ma, <span class="kw">float</span> &amp;pct) {' },
+          { n: 69, t: '  <span class="kw">if</span> (ma &lt; <span class="num">3.60f</span>) { pct = <span class="num">-1.0f</span>; <span class="kw">return</span> NE43_UNDERSCALE_FAULT; }', modes: { cut: 'hl-fault' } },
+          { n: 77, t: '  pct = ((ma - <span class="num">4.0f</span>) / <span class="num">16.0f</span>) * <span class="num">100.0f</span>;', modes: { nominal: 'hl-ok', dry: 'hl-warn', ack: 'hl-ok' } },
+          { n: 81, t: '  <span class="kw">return</span> NE43_HEALTHY;', modes: { nominal: 'hl-ok', dry: 'hl-warn', ack: 'hl-ok' } },
+          { n: 82, t: '}' },
+          { n: 135, t: '<span class="fn">esp_now_send</span>(GATEWAY_MAC, (<span class="kw">uint8_t</span>*)&amp;txPkt, <span class="kw">sizeof</span>(txPkt)); <span class="cm">// AES-128 &lt;4ms</span>', modes: { nominal: 'hl-ok', dry: 'hl-warn', cut: 'hl-fault', ack: 'hl-ok' } }
+        ]
+      }
+    };
+
+    let curLang = 'en';
+    let curMode = 'nominal';
+    let curTab = 'gateway';
+    let pktCount = 1428;
+    let pumpHours = 1428.4;
+    let autoTimer = null;
+    let meshPhase = 0;
+    let maHistory = Array(36).fill(11.68);
+    let serialEntries = [];
+
+    function getModeMetrics() {
+      if (curMode === 'nominal') return { ma: 11.68, pct: 48.0, press: 1.80, pMa: 6.88, flow: 0.0, pump: false, fault: false };
+      if (curMode === 'dry')     return { ma: 6.80,  pct: 17.5, press: 4.20, pMa: 10.72, flow: 22.4, pump: true, fault: false };
+      if (curMode === 'cut')     return { ma: 0.00,  pct: -1,   press: 0.00, pMa: 4.00, flow: 0.0, pump: false, fault: true };
+      return                            { ma: 12.00, pct: 50.0, press: 1.95, pMa: 7.12, flow: 0.0, pump: false, fault: false };
+    }
+
+    function pushSerial(modeKey) {
+      const ts = new Date().toTimeString().slice(0, 8);
+      serialEntries.push({ ts, modeKey });
+      if (serialEntries.length > 14) serialEntries.shift();
+      renderSerial();
+    }
+
+    function renderSerial() {
+      const t = UI_TEXT[curLang];
+      const box = document.getElementById('serialTerm');
+      box.innerHTML = serialEntries.map(e => {
+        const cls = e.modeKey === 'cut' ? 's-err' : (e.modeKey === 'dry' ? 's-warn' : 's-ok');
+        return `<div class="${cls}">[${e.ts}] ${t.serialLogs[e.modeKey]}</div>`;
+      }).join('');
+      box.scrollTop = box.scrollHeight;
+    }
+
+    function renderCode() {
+      const lines = CODE_SNIPPETS[curTab][curLang];
+      document.getElementById('codeContainer').innerHTML = lines.map(l => {
+        const hl = (l.modes && l.modes[curMode]) ? l.modes[curMode] : '';
+        return `<div class="code-line ${hl}"><span class="ln">${l.n}</span><span class="lc">${l.t}</span></div>`;
+      }).join('');
+    }
+
+    function renderUI() {
+      const t = UI_TEXT[curLang];
+      const m = getModeMetrics();
+      document.documentElement.lang = curLang;
+
+      document.getElementById('hdrTitle').textContent = t.hdrTitle;
+      document.getElementById('hdrSub').textContent = t.hdrSub;
+      document.getElementById('btnAutoCycle').textContent = autoTimer ? t.autoStop : t.autoStart;
+      document.getElementById('lnkVideo').textContent = t.lnkVideo;
+      document.getElementById('lnkVideo').href = `../video/index.html?lang=${curLang}`;
+      document.getElementById('lnkDeck').textContent = t.lnkDeck;
+      document.getElementById('lnkDeck').href = `../presentation/deck_7_slides.html?lang=${curLang}`;
+      document.getElementById('lnkScada').textContent = t.lnkScada;
+      document.getElementById('lnkScada').href = `../index.html?lang=${curLang}`;
+
+      document.getElementById('apOfflineTag').textContent = t.apOfflineTag;
+      document.getElementById('espCardTitle').textContent = t.espCardTitle;
+      document.getElementById('espCardSub').textContent = t.espCardSub;
+
+      const banner = document.getElementById('statusBanner');
+      banner.textContent = t.banners[curMode];
+      banner.className = 'status-banner ' + (curMode === 'cut' ? 'status-fault' : (curMode === 'dry' ? 'status-warn' : 'status-normal'));
+
+      document.getElementById('lblM1').textContent = t.lblM1;
+      document.getElementById('lblM2').textContent = t.lblM2;
+      document.getElementById('lblM3').textContent = t.lblM3;
+      document.getElementById('lblM4').textContent = t.lblM4;
+
+      const valMa = document.getElementById('valMa');
+      valMa.textContent = m.ma.toFixed(2) + ' mA';
+      valMa.style.color = m.fault ? '#ef4444' : '#00b8e6';
+      document.getElementById('valPct').textContent = m.fault ? t.wireBreak : `${m.pct.toFixed(1)}% ${t.rootMoist}`;
+      document.getElementById('valNasaSub').textContent = m.fault ? t.nasaFallback : t.nasaSync;
+      document.getElementById('valNasaSub').style.color = m.fault ? '#fde68a' : '#cbd5e1';
+
+      document.getElementById('valPress').textContent = m.press.toFixed(2) + ' Bar';
+      document.getElementById('valPressMa').textContent = `${m.pMa.toFixed(2)} mA (30004)`;
+      document.getElementById('valFlow').textContent = m.flow.toFixed(1) + ' m³/h';
+      document.getElementById('valFlow').style.color = m.fault ? '#fca5a5' : (m.pump ? '#fde68a' : '#86efac');
+      document.getElementById('valRelay').textContent = m.fault ? t.relayLock : (m.pump ? t.relayOn : t.relayOff);
+
+      document.getElementById('lblShunt').textContent = t.lblShunt;
+      document.getElementById('valVolts').textContent = ((m.ma * 165.0) / 1000.0).toFixed(3) + ' V';
+      document.getElementById('lblHrs').textContent = t.lblHrs;
+      document.getElementById('valHrs').textContent = pumpHours.toFixed(1) + ' h';
+      const namurEl = document.getElementById('valNamurTag');
+      namurEl.textContent = m.fault ? t.namurErr : t.namurOk;
+      namurEl.style.color = m.fault ? '#fca5a5' : '#4ade80';
+
+      document.getElementById('lblOscTitle').textContent = t.lblOscTitle;
+      document.getElementById('btnSimNom').textContent = t.btnSimNom;
+      document.getElementById('btnSimDry').textContent = t.btnSimDry;
+      document.getElementById('btnSimCut').textContent = t.btnSimCut;
+      document.getElementById('btnSimAck').textContent = t.btnSimAck;
+
+      document.getElementById('btnSimNom').className = 'sim-btn' + (curMode === 'nominal' ? ' active' : '');
+      document.getElementById('btnSimDry').className = 'sim-btn' + (curMode === 'dry' ? ' active' : '');
+      document.getElementById('btnSimCut').className = 'sim-btn' + (curMode === 'cut' ? ' fault-active' : '');
+      document.getElementById('btnSimAck').className = 'sim-btn' + (curMode === 'ack' ? ' active' : '');
+
+      document.getElementById('meshTitle').textContent = t.meshTitle;
+      document.getElementById('meshBadge').textContent = t.meshBadge;
+      document.getElementById('codeTitle').textContent = t.codeTitle;
+      document.getElementById('serialTitle').textContent = t.serialTitle;
+      document.getElementById('modbusTitle').textContent = t.modbusTitle;
+      document.getElementById('thReg').textContent = t.thReg;
+      document.getElementById('thDesc').textContent = t.thDesc;
+      document.getElementById('thRaw').textContent = t.thRaw;
+      document.getElementById('thVal').textContent = t.thVal;
+
+      const rows = [
+        ['30001', t.mbNames[0], Math.round(m.ma * 100), m.ma.toFixed(2) + ' mA'],
+        ['30002', t.mbNames[1], m.fault ? '65535' : Math.round(m.pct * 100), m.fault ? t.wireBreak : m.pct.toFixed(1) + '%'],
+        ['30003', t.mbNames[2], '4620', '46.2%'],
+        ['30005', t.mbNames[3], m.fault ? '2' : '0', m.fault ? t.mbStates.fault : t.mbStates.ok],
+        ['00001', t.mbNames[4], m.pump ? '1' : '0', m.pump ? t.mbStates.on : t.mbStates.off],
+        ['00002', t.mbNames[5], m.fault ? '1' : '0', m.fault ? t.mbStates.locked : t.mbStates.armed]
+      ];
+      document.getElementById('mbBody').innerHTML = rows.map(r =>
+        `<tr><td class="mb-reg">${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td><td>${r[3]}</td></tr>`
+      ).join('');
+
+      document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.dataset.lang === curLang));
+      renderCode();
+      renderSerial();
+    }
+
+    function setSimMode(mode) {
+      curMode = mode;
+      pushSerial(mode);
+      renderUI();
+    }
+
+    function switchCodeTab(tab) {
+      curTab = tab;
+      document.getElementById('tabGateway').classList.toggle('active', tab === 'gateway');
+      document.getElementById('tabNode').classList.toggle('active', tab === 'node');
+      renderCode();
+    }
+
+    function setLanguage(lang) {
+      curLang = UI_TEXT[lang] ? lang : 'en';
+      localStorage.setItem('inanna_lang', curLang);
+      renderUI();
+    }
+
+    function toggleAutoCycle() {
+      if (autoTimer) {
+        clearInterval(autoTimer);
+        autoTimer = null;
+        renderUI();
+        return;
+      }
+      const seq = ['nominal', 'dry', 'cut', 'ack'];
+      let idx = 0;
+      setSimMode(seq[idx]);
+      autoTimer = setInterval(() => {
+        idx = (idx + 1) % seq.length;
+        setSimMode(seq[idx]);
+      }, 3600);
+      renderUI();
+    }
+
+    function drawOscilloscope() {
+      const c = document.getElementById('oscCanvas');
+      const ctx = c.getContext('2d');
+      const w = c.width, h = c.height;
+      ctx.clearRect(0, 0, w, h);
+
+      // Grid
+      ctx.strokeStyle = '#182433';
+      ctx.lineWidth = 1;
+      for (let i = 1; i < 4; i++) {
+        const y = (h / 4) * i;
+        ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke();
+      }
+
+      // NASA GWETROOT Reference (46.2% -> 11.39 mA equivalent)
+      const yNasa = h - (11.39 / 21.0) * (h - 18) - 9;
+      ctx.strokeStyle = 'rgba(96, 165, 250, 0.55)';
+      ctx.setLineDash([5, 5]);
+      ctx.beginPath(); ctx.moveTo(0, yNasa); ctx.lineTo(w, yNasa); ctx.stroke();
+
+      // NAMUR NE43 3.60 mA Threshold
+      const yNamur = h - (3.60 / 21.0) * (h - 18) - 9;
+      ctx.strokeStyle = 'rgba(239, 68, 68, 0.75)';
+      ctx.beginPath(); ctx.moveTo(0, yNamur); ctx.lineTo(w, yNamur); ctx.stroke();
+      ctx.setLineDash([]);
+
+      // Live mA trace
+      ctx.strokeStyle = curMode === 'cut' ? '#ef4444' : '#00b8e6';
+      ctx.lineWidth = 2.6;
+      ctx.beginPath();
+      maHistory.forEach((v, i) => {
+        const x = (i / (maHistory.length - 1)) * w;
+        const y = h - (v / 21.0) * (h - 18) - 9;
+        if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+      });
+      ctx.stroke();
+    }
+
+    function drawMesh() {
+      const c = document.getElementById('meshCanvas');
+      const ctx = c.getContext('2d');
+      const w = c.width, h = c.height;
+      ctx.clearRect(0, 0, w, h);
+      const t = UI_TEXT[curLang];
+
+      const gwX = w * 0.72, gwY = h * 0.5;
+      const nodeYs = [24, 60, 96, 132];
+
+      nodeYs.forEach((ny, idx) => {
+        const nx = 145;
+        const isCut = (idx === 0 && curMode === 'cut');
+        ctx.strokeStyle = isCut ? 'rgba(239,68,68,0.75)' : 'rgba(0,184,230,0.42)';
+        ctx.lineWidth = 2;
+        if (isCut) ctx.setLineDash([6, 5]); else ctx.setLineDash([]);
+        ctx.beginPath(); ctx.moveTo(nx + 75, ny); ctx.lineTo(gwX - 70, gwY); ctx.stroke();
+        ctx.setLineDash([]);
+
+        // Animated packet dot
+        const p = ((meshPhase + idx * 0.25) % 1);
+        const px = (nx + 75) + (gwX - 70 - (nx + 75)) * p;
+        const py = ny + (gwY - ny) * p;
+        ctx.fillStyle = isCut ? '#ef4444' : '#22c55e';
+        ctx.beginPath(); ctx.arc(px, py, 4.2, 0, Math.PI * 2); ctx.fill();
+
+        // Node pill
+        ctx.fillStyle = isCut ? '#451215' : '#13202e';
+        ctx.strokeStyle = isCut ? '#ef4444' : '#2c445c';
+        ctx.lineWidth = 1.4;
+        ctx.fillRect(14, ny - 13, 205, 25);
+        ctx.strokeRect(14, ny - 13, 205, 25);
+        ctx.fillStyle = '#f1f5f9';
+        ctx.font = '600 11.5px Inter, sans-serif';
+        ctx.fillText(t.nodes[idx], 22, ny + 4);
+      });
+
+      // Gateway Box
+      ctx.fillStyle = curMode === 'cut' ? '#3b1219' : '#0f2438';
+      ctx.strokeStyle = curMode === 'cut' ? '#ef4444' : '#00b8e6';
+      ctx.lineWidth = 2;
+      ctx.fillRect(gwX - 70, gwY - 34, 155, 68);
+      ctx.strokeRect(gwX - 70, gwY - 34, 155, 68);
+      ctx.fillStyle = '#38bdf8';
+      ctx.font = '700 12px JetBrains Mono, monospace';
+      const gwLines = t.gatewayLbl.split('\n');
+      ctx.fillText(gwLines[0], gwX - 58, gwY - 6);
+      ctx.fillStyle = '#cbd5e1';
+      ctx.font = '600 11px Inter, sans-serif';
+      ctx.fillText(gwLines[1], gwX - 58, gwY + 14);
+
+      // PLC / NASA Output Box
+      ctx.strokeStyle = '#fbbf24';
+      ctx.beginPath(); ctx.moveTo(gwX + 85, gwY); ctx.lineTo(w - 135, gwY); ctx.stroke();
+      ctx.fillStyle = '#17212b';
+      ctx.strokeRect(w - 135, gwY - 28, 120, 56);
+      ctx.fillRect(w - 135, gwY - 28, 120, 56);
+      ctx.fillStyle = '#fbbf24';
+      ctx.font = '700 11px JetBrains Mono, monospace';
+      ctx.fillText('MODBUS :502', w - 124, gwY - 4);
+      ctx.fillStyle = '#93c5fd';
+      ctx.fillText('NASA SYNC', w - 124, gwY + 14);
+    }
+
+    setInterval(() => {
+      const m = getModeMetrics();
+      const jitter = m.fault ? 0 : (Math.random() - 0.5) * 0.14;
+      maHistory.push(Math.max(0, m.ma + jitter));
+      maHistory.shift();
+      pktCount += 4;
+      if (m.pump) pumpHours += 0.1;
+      document.getElementById('pktCounter').textContent = `PKTS: ${pktCount.toLocaleString()}`;
+      drawOscilloscope();
+    }, 650);
+
+    function animLoop() {
+      meshPhase = (meshPhase + 0.012) % 1;
+      drawMesh();
+      requestAnimationFrame(animLoop);
+    }
+
+    const urlLang = new URLSearchParams(window.location.search).get('lang');
+    curLang = ['en', 'es', 'pt'].includes(urlLang) ? urlLang : 'en';
+    pushSerial('nominal');
+    renderUI();
+    drawOscilloscope();
+    animLoop();
+
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      btn.addEventListener('click', () => setLanguage(btn.dataset.lang));
+    });
+  </script>
+</body>
+</html>

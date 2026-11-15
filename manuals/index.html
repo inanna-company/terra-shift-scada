@@ -189,12 +189,14 @@
         <img src="../assets/inanna-isotipo.jpg" alt="Team INANNA Monogram" />
       </a>
       <div class="brand-titles">
-        <h1>TEAM INANNA — MANUALS</h1>
-        <div class="brand-subtitle">TERRA-SHIFT SCADA • <strong>OPEN-SOURCE MECHATRONICS &amp; EARTH SCIENCE SUITE</strong></div>
+        <h1 id="hdrManualsMain">TEAM INANNA — MANUALS</h1>
+        <div class="brand-subtitle" id="hdrManualsSub">TERRA-SHIFT SCADA • <strong>OPEN-SOURCE MECHATRONICS &amp; EARTH SCIENCE SUITE</strong></div>
       </div>
     </div>
 
     <div class="header-actions">
+      <a id="espBtn" href="../esp32/index.html" class="btn" style="border-color:rgba(16,185,129,0.5);color:#6ee7b7;">🔌 ESP32 Emulator</a>
+      <a id="vidBtn" href="../video/index.html" class="btn" style="border-color:rgba(245,158,11,0.5);color:#fde68a;">🎬 30s Video</a>
       <a id="backBtn" href="../index.html" class="btn">← Back to Live SCADA</a>
       <div class="lang-switcher" role="group" aria-label="Language Selector">
         <button type="button" class="lang-btn active" data-lang="en">EN</button>
@@ -207,7 +209,7 @@
 
   <main class="manuals-wrap">
     <div>
-      <span id="portalBadge" class="badge badge-cyan">INANNA COMPANY • OFFICIAL DOCUMENTATION</span>
+      <span id="portalBadge" class="badge badge-cyan">TEAM INANNA • OFFICIAL DOCUMENTATION</span>
       <h2 id="portalTitle" style="font-size:1.6rem;font-weight:800;margin-top:8px;color:#fff;">TERRA-SHIFT SCADA — Complete Manuals Suite</h2>
       <p id="portalSub" style="color:#94a3b8;font-size:0.9rem;margin-top:4px;"></p>
     </div>
@@ -221,7 +223,7 @@
     <article class="doc-sheet">
       <div class="doc-letterhead">
         <div>
-          <img src="../assets/inanna-logo-horizontal.jpg" alt="INANNA COMPANY Official Logo" style="height:48px;border-radius:6px;border:1px solid rgba(0,184,230,0.4);margin-bottom:8px;display:block;" />
+          <img src="../assets/inanna-logo-horizontal.jpg" alt="Team INANNA" style="height:48px;border-radius:6px;border:1px solid rgba(0,184,230,0.4);margin-bottom:8px;display:block;" />
           <div style="font-family:var(--font-mono);font-size:0.76rem;color:#00b8e6;font-weight:700;" id="docDiv"></div>
           <h2 id="docHeaderTitle" style="font-size:1.35rem;color:#fff;margin-top:4px;"></h2>
         </div>
@@ -231,7 +233,7 @@
           <span id="lblRev" style="color:#94a3b8;">REVISION:</span>
           <strong id="valRev" style="color:#00b8e6;"></strong>
           <span id="lblAuthor" style="color:#94a3b8;">MECHATRONICS LEAD:</span>
-          <strong style="color:#fff;">F. M. Medina Rojas (T.S. Mecatrónica)</strong>
+          <strong id="valAuthorRole" style="color:#fff;">F. M. Medina Rojas (Mechatronics Tech.)</strong>
         </div>
       </div>
 
@@ -239,10 +241,10 @@
 
       <div class="signature-box">
         <div>
-          <strong style="color:#fff;">Fabio Maximiliano Medina Rojas — Técnico Superior en Mecatrónica</strong><br/>
-          <span>Contestant Team INANNA: Agustín Alejandro Debia • Iván David Coria | Origin: Río Cuarto, Córdoba • Event: Santa Rosa de Calamuchita, AR</span>
+          <strong id="sigLead" style="color:#fff;">Fabio Maximiliano Medina Rojas — Higher Technician in Mechatronics</strong><br/>
+          <span id="sigTeam">Contestant Team INANNA: Agustín Alejandro Debia • Iván David Coria | Origin: Río Cuarto, Córdoba • Event: Santa Rosa de Calamuchita, AR</span>
         </div>
-        <div style="font-family:var(--font-mono);color:#00b8e6;font-weight:700;">
+        <div id="sigFoot" style="font-family:var(--font-mono);color:#00b8e6;font-weight:700;">
           2026 NASA SPACE APPS CHALLENGE • OPEN-SOURCE DOCUMENTATION
         </div>
       </div>
@@ -254,21 +256,62 @@
   <script src="manuals-data.js"></script>
   <script>
     const params = new URLSearchParams(window.location.search);
-    let currentLang = ['en', 'es', 'pt'].includes(params.get('lang'))
-      ? params.get('lang')
-      : (localStorage.getItem('inanna_lang') || 'en');
-    if (!['en', 'es', 'pt'].includes(currentLang)) currentLang = 'en';
+    let currentLang = ['en', 'es', 'pt'].includes(params.get('lang')) ? params.get('lang') : 'en';
 
     let currentManual = ['m1', 'm2', 'm3'].includes(params.get('doc')) ? params.get('doc') : 'm1';
 
+    const EXTRA_M_UI = {
+      en: {
+        hMain: 'TEAM INANNA — MANUALS',
+        hSub: 'TERRA-SHIFT SCADA • <strong>OPEN-SOURCE MECHATRONICS &amp; EARTH SCIENCE SUITE</strong>',
+        espBtn: '🔌 ESP32 Emulator',
+        vidBtn: '🎬 30s Video',
+        authorRole: 'F. M. Medina Rojas (Mechatronics Tech.)',
+        sigLead: 'Fabio Maximiliano Medina Rojas — Higher Technician in Mechatronics',
+        sigTeam: 'Contestant Team INANNA: Agustín Alejandro Debia • Iván David Coria | Origin: Río Cuarto, Córdoba • Official Event: Santa Rosa de Calamuchita, AR',
+        sigFoot: '2026 NASA SPACE APPS CHALLENGE • OPEN-SOURCE DOCUMENTATION',
+        divLbl: 'TEAM INANNA • OPEN-SOURCE ENGINEERING DOCUMENTATION'
+      },
+      es: {
+        hMain: 'EQUIPO INANNA — MANUALES',
+        hSub: 'TERRA-SHIFT SCADA • <strong>SUITE ABIERTA DE MECATRÓNICA Y CIENCIAS TERRESTRES</strong>',
+        espBtn: '🔌 Emulador ESP32',
+        vidBtn: '🎬 Video 30s',
+        authorRole: 'F. M. Medina Rojas (T.S. en Mecatrónica)',
+        sigLead: 'Fabio Maximiliano Medina Rojas — Técnico Superior en Mecatrónica',
+        sigTeam: 'Equipo Concursante INANNA: Agustín Alejandro Debia • Iván David Coria | Origen: Río Cuarto, Córdoba • Sede Oficial: Santa Rosa de Calamuchita, AR',
+        sigFoot: 'NASA SPACE APPS CHALLENGE 2026 • DOCUMENTACIÓN DE CÓDIGO ABIERTO',
+        divLbl: 'EQUIPO INANNA • DOCUMENTACIÓN TÉCNICA ABIERTA'
+      },
+      pt: {
+        hMain: 'EQUIPE INANNA — MANUAIS',
+        hSub: 'TERRA-SHIFT SCADA • <strong>SUÍTE ABERTA DE MECATRÔNICA E CIÊNCIAS TERRESTRES</strong>',
+        espBtn: '🔌 Emulador ESP32',
+        vidBtn: '🎬 Vídeo 30s',
+        authorRole: 'F. M. Medina Rojas (Téc. Sup. em Mecatrônica)',
+        sigLead: 'Fabio Maximiliano Medina Rojas — Técnico Superior em Mecatrônica',
+        sigTeam: 'Equipe Concursante INANNA: Agustín Alejandro Debia • Iván David Coria | Origem: Río Cuarto, Córdoba • Sede Oficial: Santa Rosa de Calamuchita, AR',
+        sigFoot: 'NASA SPACE APPS CHALLENGE 2026 • DOCUMENTAÇÃO DE CÓDIGO ABERTO',
+        divLbl: 'EQUIPE INANNA • DOCUMENTAÇÃO TÉCNICA ABERTA'
+      }
+    };
+
     function renderManualView() {
       const ui = window.MANUALS_UI[currentLang];
+      const ex = EXTRA_M_UI[currentLang] || EXTRA_M_UI.en;
       const doc = window.MANUALS_CONTENT[currentManual];
       document.documentElement.lang = currentLang;
       localStorage.setItem('inanna_lang', currentLang);
 
       document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.dataset.lang === currentLang));
       document.querySelectorAll('.manual-tab-btn').forEach(b => b.classList.toggle('active', b.dataset.manual === currentManual));
+
+      document.getElementById('hdrManualsMain').textContent = ex.hMain;
+      document.getElementById('hdrManualsSub').innerHTML = ex.hSub;
+      document.getElementById('espBtn').textContent = ex.espBtn;
+      document.getElementById('espBtn').href = `../esp32/index.html?lang=${currentLang}`;
+      document.getElementById('vidBtn').textContent = ex.vidBtn;
+      document.getElementById('vidBtn').href = `../video/index.html?lang=${currentLang}`;
 
       document.getElementById('portalBadge').textContent = ui.portalBadge;
       document.getElementById('portalTitle').textContent = ui.portalTitle;
@@ -281,7 +324,7 @@
       document.getElementById('tabBtn2').textContent = ui.tab2;
       document.getElementById('tabBtn3').textContent = ui.tab3;
 
-      document.getElementById('docDiv').textContent = doc.division;
+      document.getElementById('docDiv').textContent = ex.divLbl;
       const activeTitle = currentManual === 'm1' ? ui.tab1 : (currentManual === 'm2' ? ui.tab2 : ui.tab3);
       document.getElementById('docHeaderTitle').textContent = activeTitle;
       document.getElementById('lblDocCode').textContent = ui.docCodeLbl + ':';
@@ -289,6 +332,10 @@
       document.getElementById('lblRev').textContent = ui.revLbl + ':';
       document.getElementById('valRev').textContent = doc.rev;
       document.getElementById('lblAuthor').textContent = ui.authorLbl + ':';
+      document.getElementById('valAuthorRole').textContent = ex.authorRole;
+      document.getElementById('sigLead').textContent = ex.sigLead;
+      document.getElementById('sigTeam').textContent = ex.sigTeam;
+      document.getElementById('sigFoot').textContent = ex.sigFoot;
 
       const bodyEl = document.getElementById('manualBody');
       bodyEl.innerHTML = doc[currentLang] || doc.en;

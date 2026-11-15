@@ -25,15 +25,17 @@ Our platform queries live 20-year NASA POWER agroclimatology series and renders 
 
 ## SECCIÓN B — Project Links
 
-### 1. `Project Demonstration *` *(Link público al Deck Oficial de 7 Slides con voz de Inanna)*
+### 1. `Project Demonstration *` *(Link público al Video Oficial de 29.00s `<30s` mostrando la emulación en vivo del código ESP32 + fusión NASA, con selector 100% puro EN / ES / PT y acceso directo al Deck de 7 Slides)*
 ```text
-https://inanna-company.github.io/terra-shift-scada/presentation/deck_7_slides.html
+https://inanna-company.github.io/terra-shift-scada/video/index.html
 ```
+*(Alternativa válida reglamento ≤ 7 Slides: `https://inanna-company.github.io/terra-shift-scada/presentation/deck_7_slides.html` — ambos links están cruzados e incluidos también dentro de Project Details).*
 
-### 2. `Project *` *(Link público a la Web App interactiva en vivo con Tour Guiado por Voz de Inanna)*
+### 2. `Project *` *(Link público a la Web App interactiva en vivo + Emulador ESP32 + Código y Binarios `.bin` en GitHub)*
 ```text
 https://inanna-company.github.io/terra-shift-scada/
 ```
+*(Emulador directo ESP32 C++ & AP `192.168.4.1`: `https://inanna-company.github.io/terra-shift-scada/esp32/index.html` | Repositorio Open-Source con `.ino`, `.bin` y `.bat`: `https://github.com/inanna-company/terra-shift-scada`)*
 
 ---
 

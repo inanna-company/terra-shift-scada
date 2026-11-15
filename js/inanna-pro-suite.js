@@ -316,7 +316,7 @@ class InannaProSuite {
     }
 
     const lang = this.getLang();
-    const mp3Url = `assets/audio/demo_${lang}_${stepIdx}.mp3?v=rc2`;
+    const mp3Url = `assets/audio/demo_${lang}_${stepIdx}.mp3?v=pure6`;
     const eq = document.getElementById('inannaVoiceEq');
 
     const audio = new Audio(mp3Url);
@@ -737,9 +737,39 @@ class InannaProSuite {
     const wireColor = isFault ? '#ef4444' : '#00b8e6';
     const wireDash = isCut ? '6,6' : '8,4';
     const actColor = snap.safetyRelayLocked ? '#ef4444' : (snap.pumpActive ? '#10b981' : '#38bdf8');
+    const pidTxt = {
+      en: {
+        bkpReady: 'ORBITAL BACKUP READY', bkpAct: 'ACTIVE FALLBACK SOURCE!', bkpCross: 'Cross-validating 4–20mA',
+        openCut: '✂️ OPEN!', soilLbl: 'Soil:', wireFault: 'WIRE/SHORT FAULT',
+        meshSub: '📡 P2P MAC Star/Mesh', zeroNet: '0 Routers / 0 SIM Cards', latLbl: 'Latency: 2.8 ms | AES-128',
+        solarNodes: '4 Active Solar Nodes', syncOk: 'NODE-01..04 SYNC OK', rssiSolar: 'RSSI -64 dBm • 13.4V Solar',
+        gwTitle: '🖧 ESP32 Open Gateway', rs485Iso: 'RS485 MAX485 Isolated', cycUnit: 'cyc', localAp: 'Local Wi-Fi AP + WebSerial',
+        vfdValves: '⚙️ VFD + Drip Valves', hdrPress: 'Header:', on1: '1 (ON)', off0: '0 (OFF)', lock1: '1 (LOCK)', arm0: '0 (ARM)',
+        stLock: 'SAFETY RELAY: LOCKED (STOP)', stRun: 'VFD PUMP: RUNNING (DRIP ON)', stArm: 'VFD PUMP: ARMED STANDBY'
+      },
+      es: {
+        bkpReady: 'RESPALDO ORBITAL LISTO', bkpAct: '¡FUENTE DE RESPALDO ACTIVA!', bkpCross: 'Validando lazo 4–20mA',
+        openCut: '✂️ ¡ABIERTO!', soilLbl: 'Suelo:', wireFault: 'FALLA CABLE/CORTO',
+        meshSub: '📡 Estrella/Malla P2P MAC', zeroNet: '0 Routers / 0 Tarjetas SIM', latLbl: 'Latencia: 2.8 ms | AES-128',
+        solarNodes: '4 Nodos Solares Activos', syncOk: 'NODO-01..04 SINCRONÍA OK', rssiSolar: 'RSSI -64 dBm • 13.4V Solar',
+        gwTitle: '🖧 Concentrador ESP32', rs485Iso: 'RS485 MAX485 Aislado', cycUnit: 'cic', localAp: 'Red Wi-Fi Local + USB',
+        vfdValves: '⚙️ Bomba VFD + Válvulas', hdrPress: 'Colector:', on1: '1 (ENC)', off0: '0 (APG)', lock1: '1 (BLOQ)', arm0: '0 (ARM)',
+        stLock: 'RELÉ SEGURIDAD: BLOQUEADO', stRun: 'BOMBA VFD: REGANDO ACTIVA', stArm: 'BOMBA VFD: ARMADA EN ESPERA'
+      },
+      pt: {
+        bkpReady: 'BACKUP ORBITAL PRONTO', bkpAct: 'FONTE DE BACKUP ATIVA!', bkpCross: 'Validando laço 4–20mA',
+        openCut: '✂️ ABERTO!', soilLbl: 'Solo:', wireFault: 'FALHA CABO/CURTO',
+        meshSub: '📡 Estrela/Malha P2P MAC', zeroNet: '0 Roteadores / 0 Chips SIM', latLbl: 'Latência: 2.8 ms | AES-128',
+        solarNodes: '4 Nós Solares Ativos', syncOk: 'NÓ-01..04 SINCRONIA OK', rssiSolar: 'RSSI -64 dBm • 13.4V Solar',
+        gwTitle: '🖧 Concentrador ESP32', rs485Iso: 'RS485 MAX485 Isolado', cycUnit: 'cic', localAp: 'Wi-Fi Local + USB Serial',
+        vfdValves: '⚙️ Bomba VFD + Válvulas', hdrPress: 'Coletor:', on1: '1 (LIG)', off0: '0 (DES)', lock1: '1 (TRAV)', arm0: '0 (ARM)',
+        stLock: 'RELÉ SEGURANÇA: TRAVADO', stRun: 'BOMBA VFD: IRRIGANDO ATIVA', stArm: 'BOMBA VFD: ARMADA EM ESPERA'
+      }
+    }[lang] || {};
+
     const actStateText = snap.safetyRelayLocked
-      ? 'SAFETY RELAY: LOCKED (STOP)'
-      : (snap.pumpActive ? 'VFD PUMP: RUNNING (DRIP ON)' : 'VFD PUMP: ARMED STANDBY');
+      ? pidTxt.stLock
+      : (snap.pumpActive ? pidTxt.stRun : pidTxt.stArm);
 
     svgBox.innerHTML = `
       <svg viewBox="0 0 1160 250" width="100%" height="auto" role="img" aria-label="Mechatronic P&ID Architecture">
@@ -758,19 +788,19 @@ class InannaProSuite {
         <text x="28" y="122" fill="#94a3b8" font-size="11" font-family="JetBrains Mono, monospace">MODIS NDVI + LST</text>
         <text x="28" y="144" fill="#c084fc" font-size="11" font-family="JetBrains Mono, monospace">CMIP6: ${window.APP_STATE.horizon} (${window.APP_STATE.scenario.toUpperCase()})</text>
         <rect x="28" y="168" width="172" height="40" rx="6" fill="#080c12" stroke="rgba(56,189,248,0.35)"/>
-        <text x="38" y="186" fill="#6ee7b7" font-size="10" font-family="JetBrains Mono, monospace">ORBITAL BACKUP READY</text>
-        <text x="38" y="201" fill="#94a3b8" font-size="9.5" font-family="JetBrains Mono, monospace">${isFault ? 'ACTIVE FALLBACK SOURCE!' : 'Cross-validating 4–20mA'}</text>
+        <text x="38" y="186" fill="#6ee7b7" font-size="10" font-family="JetBrains Mono, monospace">${pidTxt.bkpReady}</text>
+        <text x="38" y="201" fill="#94a3b8" font-size="9.5" font-family="JetBrains Mono, monospace">${isFault ? pidTxt.bkpAct : pidTxt.bkpCross}</text>
 
         <!-- 2. 24V DC 4-20mA Kirchhoff Shunt Block -->
         <rect x="248" y="24" width="232" height="202" rx="10" fill="url(#pidCardBg)" stroke="${wireColor}" stroke-width="1.8"/>
         <text x="262" y="48" fill="${wireColor}" font-size="11" font-weight="700" font-family="JetBrains Mono, monospace">${p.pidLoop}</text>
         <text x="262" y="74" fill="#f1f5f9" font-size="12" font-weight="700">⚡ Kirchhoff 165.0 Ω (0.1%)</text>
-        <text x="262" y="98" fill="#00b8e6" font-size="11.5" font-weight="700" font-family="JetBrains Mono, monospace">I_loop = ${sl.ma.toFixed(2)} mA ${isCut ? '✂️ OPEN!' : ''}</text>
+        <text x="262" y="98" fill="#00b8e6" font-size="11.5" font-weight="700" font-family="JetBrains Mono, monospace">I_loop = ${sl.ma.toFixed(2)} mA ${isCut ? pidTxt.openCut : ''}</text>
         <text x="262" y="120" fill="#cbd5e1" font-size="11" font-family="JetBrains Mono, monospace">V_shunt = ${sl.vSense.toFixed(3)} V DC</text>
         <text x="262" y="142" fill="#cbd5e1" font-size="11" font-family="JetBrains Mono, monospace">ADS1115 = ${sl.adcCounts} cts (16b)</text>
         <rect x="262" y="164" width="204" height="44" rx="6" fill="${isFault ? 'rgba(239,68,68,0.18)' : 'rgba(16,185,129,0.14)'}" stroke="${wireColor}"/>
         <text x="272" y="183" fill="#ffffff" font-size="10.5" font-weight="700" font-family="JetBrains Mono, monospace">${sl.namurCode}</text>
-        <text x="272" y="199" fill="#cbd5e1" font-size="10" font-family="JetBrains Mono, monospace">Soil: ${sl.pct !== null ? sl.pct.toFixed(1) + ' %' : 'WIRE/SHORT FAULT'}</text>
+        <text x="272" y="199" fill="#cbd5e1" font-size="10" font-family="JetBrains Mono, monospace">${pidTxt.soilLbl} ${sl.pct !== null ? sl.pct.toFixed(1) + ' %' : pidTxt.wireFault}</text>
 
         <!-- Animated Wire 2 -> 3 -->
         <line x1="480" y1="125" x2="514" y2="125" stroke="${wireColor}" stroke-width="3" stroke-dasharray="${wireDash}">
@@ -780,13 +810,13 @@ class InannaProSuite {
         <!-- 3. ESP-NOW AES-128 Rural Mesh -->
         <rect x="514" y="24" width="192" height="202" rx="10" fill="url(#pidCardBg)" stroke="#00b8e6" stroke-width="1.5"/>
         <text x="528" y="48" fill="#00b8e6" font-size="11" font-weight="700" font-family="JetBrains Mono, monospace">${p.pidMesh}</text>
-        <text x="528" y="76" fill="#f1f5f9" font-size="12" font-weight="700">📡 P2P MAC Star/Mesh</text>
-        <text x="528" y="100" fill="#94a3b8" font-size="11" font-family="JetBrains Mono, monospace">0 Routers / 0 Sim Cards</text>
-        <text x="528" y="122" fill="#6ee7b7" font-size="11" font-family="JetBrains Mono, monospace">Latency: 2.8 ms | AES-128</text>
-        <text x="528" y="144" fill="#94a3b8" font-size="11" font-family="JetBrains Mono, monospace">4 Active Solar Nodes</text>
+        <text x="528" y="76" fill="#f1f5f9" font-size="12" font-weight="700">${pidTxt.meshSub}</text>
+        <text x="528" y="100" fill="#94a3b8" font-size="11" font-family="JetBrains Mono, monospace">${pidTxt.zeroNet}</text>
+        <text x="528" y="122" fill="#6ee7b7" font-size="11" font-family="JetBrains Mono, monospace">${pidTxt.latLbl}</text>
+        <text x="528" y="144" fill="#94a3b8" font-size="11" font-family="JetBrains Mono, monospace">${pidTxt.solarNodes}</text>
         <rect x="528" y="168" width="164" height="40" rx="6" fill="#080c12" stroke="rgba(0,184,230,0.35)"/>
-        <text x="538" y="186" fill="#00b8e6" font-size="10" font-family="JetBrains Mono, monospace">NODE-01..04 SYNC OK</text>
-        <text x="538" y="201" fill="#94a3b8" font-size="9.5" font-family="JetBrains Mono, monospace">RSSI -64 dBm • 13.4V Solar</text>
+        <text x="538" y="186" fill="#00b8e6" font-size="10" font-family="JetBrains Mono, monospace">${pidTxt.syncOk}</text>
+        <text x="538" y="201" fill="#94a3b8" font-size="9.5" font-family="JetBrains Mono, monospace">${pidTxt.rssiSolar}</text>
 
         <!-- Animated Wire 3 -> 4 -->
         <line x1="706" y1="125" x2="740" y2="125" stroke="#00b8e6" stroke-width="3" stroke-dasharray="8,4">
@@ -796,13 +826,13 @@ class InannaProSuite {
         <!-- 4. DIN-Rail ESP32 Gateway + Modbus -->
         <rect x="740" y="24" width="196" height="202" rx="10" fill="url(#pidCardBg)" stroke="#38bdf8" stroke-width="1.5"/>
         <text x="754" y="48" fill="#38bdf8" font-size="11" font-weight="700" font-family="JetBrains Mono, monospace">${p.pidPlc}</text>
-        <text x="754" y="76" fill="#f1f5f9" font-size="12" font-weight="700">🖧 ESP32 Open Gateway</text>
+        <text x="754" y="76" fill="#f1f5f9" font-size="12" font-weight="700">${pidTxt.gwTitle}</text>
         <text x="754" y="100" fill="#cbd5e1" font-size="11" font-family="JetBrains Mono, monospace">Modbus TCP :502 (×100)</text>
-        <text x="754" y="122" fill="#cbd5e1" font-size="11" font-family="JetBrains Mono, monospace">RS485 MAX485 Isolated</text>
-        <text x="754" y="144" fill="#00b8e6" font-size="11" font-family="JetBrains Mono, monospace">NVS: ${snap.pumpHours.toFixed(1)}h | ${snap.irrigCycles} cyc</text>
+        <text x="754" y="122" fill="#cbd5e1" font-size="11" font-family="JetBrains Mono, monospace">${pidTxt.rs485Iso}</text>
+        <text x="754" y="144" fill="#00b8e6" font-size="11" font-family="JetBrains Mono, monospace">NVS: ${snap.pumpHours.toFixed(1)}h | ${snap.irrigCycles} ${pidTxt.cycUnit}</text>
         <rect x="754" y="168" width="168" height="40" rx="6" fill="#080c12" stroke="rgba(56,189,248,0.35)"/>
         <text x="764" y="186" fill="#f8fafc" font-size="10" font-family="JetBrains Mono, monospace">Reg 30001 = ${Math.round(sl.ma * 100)}</text>
-        <text x="764" y="201" fill="#94a3b8" font-size="9.5" font-family="JetBrains Mono, monospace">Local Wi-Fi AP + WebSerial</text>
+        <text x="764" y="201" fill="#94a3b8" font-size="9.5" font-family="JetBrains Mono, monospace">${pidTxt.localAp}</text>
 
         <!-- Orbital Fusion Link 1 -> 4 -->
         <path d="M 114 24 L 114 8 L 838 8 L 838 24" fill="none" stroke="#38bdf8" stroke-width="1.6" stroke-dasharray="5,4"/>
@@ -815,10 +845,10 @@ class InannaProSuite {
         <!-- 5. VFD Pump, Drip Manifold & NC Safety Interlock -->
         <rect x="968" y="24" width="178" height="202" rx="10" fill="url(#pidCardBg)" stroke="${actColor}" stroke-width="2"/>
         <text x="980" y="48" fill="${actColor}" font-size="10.5" font-weight="700" font-family="JetBrains Mono, monospace">${p.pidAct}</text>
-        <text x="980" y="76" fill="#f1f5f9" font-size="12" font-weight="700">⚙️ VFD + Drip Valves</text>
-        <text x="980" y="100" fill="#cbd5e1" font-size="11" font-family="JetBrains Mono, monospace">Header: ${snap.lineBar.toFixed(2)} bar</text>
-        <text x="980" y="122" fill="#cbd5e1" font-size="11" font-family="JetBrains Mono, monospace">Coil 00001: ${snap.pumpActive ? '1 (ON)' : '0 (OFF)'}</text>
-        <text x="980" y="144" fill="${snap.safetyRelayLocked ? '#fca5a5' : '#6ee7b7'}" font-size="11" font-family="JetBrains Mono, monospace">Coil 00002: ${snap.safetyRelayLocked ? '1 (LOCK)' : '0 (ARM)'}</text>
+        <text x="980" y="76" fill="#f1f5f9" font-size="12" font-weight="700">${pidTxt.vfdValves}</text>
+        <text x="980" y="100" fill="#cbd5e1" font-size="11" font-family="JetBrains Mono, monospace">${pidTxt.hdrPress} ${snap.lineBar.toFixed(2)} bar</text>
+        <text x="980" y="122" fill="#cbd5e1" font-size="11" font-family="JetBrains Mono, monospace">00001: ${snap.pumpActive ? pidTxt.on1 : pidTxt.off0}</text>
+        <text x="980" y="144" fill="${snap.safetyRelayLocked ? '#fca5a5' : '#6ee7b7'}" font-size="11" font-family="JetBrains Mono, monospace">00002: ${snap.safetyRelayLocked ? pidTxt.lock1 : pidTxt.arm0}</text>
         <rect x="980" y="164" width="154" height="44" rx="6" fill="${snap.safetyRelayLocked ? 'rgba(239,68,68,0.22)' : (snap.pumpActive ? 'rgba(16,185,129,0.2)' : 'rgba(56,189,248,0.12)')}" stroke="${actColor}"/>
         <text x="988" y="190" fill="#ffffff" font-size="9.5" font-weight="700" font-family="JetBrains Mono, monospace">${actStateText}</text>
       </svg>

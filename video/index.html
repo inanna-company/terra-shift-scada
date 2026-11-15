@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Official 30s Demo Video | TERRA-SHIFT SCADA — Team INANNA</title>
+  <link rel="icon" type="image/jpeg" href="../assets/inanna-isotipo.jpg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #080c12;
+      --panel: #121821;
+      --border: #253445;
+      --cyan: #00b8e6;
+      --blue: #1890ff;
+      --green: #10b981;
+      --muted: #94a3b8;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: radial-gradient(circle at 50% 0%, #0e2038 0%, var(--bg) 62%);
+      color: #f8fafc;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      min-height: 100vh;
+      padding: 20px 20px 56px;
+    }
+    .container { max-width: 1180px; margin: 0 auto; }
+    .topbar {
+      display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px;
+      background: rgba(18,24,33,0.95); border: 1px solid var(--border); border-radius: 14px;
+      padding: 12px 18px; margin-bottom: 20px;
+    }
+    .brand { display: flex; align-items: center; gap: 12px; }
+    .brand img { width: 42px; height: 42px; border-radius: 9px; border: 1px solid rgba(0,184,230,0.5); }
+    .b-t1 { font-weight: 800; font-size: 1.02rem; }
+    .b-t2 { font-size: 0.74rem; color: var(--cyan); font-family: 'JetBrains Mono', monospace; }
+    .actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .lang-group { display: inline-flex; background: #0a1017; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+    .lang-btn {
+      background: transparent; color: var(--muted); border: none; padding: 6px 12px;
+      font-weight: 700; font-size: 0.78rem; cursor: pointer; font-family: 'JetBrains Mono', monospace;
+    }
+    .lang-btn.active { background: var(--cyan); color: #041019; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: #162230; color: #e2e8f0; border: 1px solid #2b3e52;
+      padding: 8px 14px; border-radius: 8px; font-size: 0.82rem; font-weight: 700;
+      text-decoration: none; cursor: pointer; transition: 0.18s;
+    }
+    .btn:hover { border-color: var(--cyan); color: #fff; }
+    .btn-primary { background: linear-gradient(135deg, var(--blue), var(--cyan)); color: #041019; border-color: transparent; }
+    .btn-esp { background: linear-gradient(135deg, #059669, #10b981); color: #04130d; border-color: transparent; }
+
+    .video-shell {
+      background: var(--panel); border: 1px solid var(--border); border-radius: 18px;
+      padding: 20px; box-shadow: 0 24px 60px rgba(0,0,0,0.65); margin-bottom: 20px;
+    }
+    .video-meta-top {
+      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;
+      margin-bottom: 14px;
+    }
+    .rule-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(16,185,129,0.14); color: #6ee7b7; border: 1px solid rgba(16,185,129,0.4);
+      padding: 4px 12px; border-radius: 99px; font-size: 0.74rem; font-weight: 700;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    video {
+      width: 100%; aspect-ratio: 16 / 9; border-radius: 12px;
+      background: #04070b; border: 1px solid #283a4e; display: block;
+    }
+    .chapters {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 10px; margin-top: 16px;
+    }
+    .chap-btn {
+      background: #0d141d; border: 1px solid #223244; border-radius: 10px;
+      padding: 10px 12px; text-align: left; cursor: pointer; color: #e2e8f0; transition: 0.16s;
+    }
+    .chap-btn:hover { border-color: var(--cyan); background: #131e2b; }
+    .chap-t { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--cyan); font-weight: 700; margin-bottom: 3px; }
+    .chap-d { font-size: 0.8rem; font-weight: 600; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="topbar">
+      <div class="brand">
+        <img src="../assets/inanna-isotipo.jpg" alt="Team INANNA" />
+        <div>
+          <div class="b-t1" id="hdrTitle">OFFICIAL 29-SECOND PROJECT DEMO VIDEO</div>
+          <div class="b-t2" id="hdrSub">TERRA-SHIFT SCADA • Team INANNA (Río Cuarto → Santa Rosa de Calamuchita)</div>
+        </div>
+      </div>
+      <div class="actions">
+        <div class="lang-group" role="group" aria-label="Language">
+          <button class="lang-btn active" data-lang="en">EN</button>
+          <button class="lang-btn" data-lang="es">ES</button>
+          <button class="lang-btn" data-lang="pt">PT</button>
+        </div>
+        <a class="btn btn-esp" id="btnEsp32" href="../esp32/index.html">🔌 Try Live ESP32 Emulator</a>
+        <a class="btn btn-primary" id="btnDownload" href="../assets/video/terra_shift_en.mp4" download>⬇ Download MP4 (1080p)</a>
+        <a class="btn" id="btnDeck" href="../presentation/deck_7_slides.html">📊 7-Slide Deck</a>
+        <a class="btn" id="btnBack" href="../index.html">← Live NASA SCADA</a>
+      </div>
+    </header>
+
+    <section class="video-shell">
+      <div class="video-meta-top">
+        <div>
+          <h1 style="font-size:1.3rem;margin-bottom:3px;" id="vidHeading">NASA Orbital Data + Live ESP32 Firmware &amp; NAMUR NE43 Safety Demo</h1>
+          <p style="font-size:0.84rem;color:var(--muted);" id="vidDesc">Full HD 1080p • Narrated by Inanna Voice • Strictly ≤ 30 Seconds (29.0s Compliant)</p>
+        </div>
+        <span class="rule-badge" id="rulePill">✓ COMPLIANT: 29.0s (&lt; 30s LIMIT) • 1080p</span>
+      </div>
+
+      <video id="mainVideo" controls playsinline preload="metadata" poster="../assets/video/poster_en.jpg">
+        <source id="vidSrc" src="../assets/video/terra_shift_en.mp4" type="video/mp4" />
+        <track id="vidTrack" kind="captions" srclang="en" label="Captions" src="../assets/video/subs_en.vtt" default />
+      </video>
+
+      <div class="chapters" id="chaptersGrid"></div>
+    </section>
+  </div>
+
+  <script>
+    const V_I18N = {
+      en: {
+        hdrTitle: 'OFFICIAL 29-SECOND PROJECT DEMO VIDEO',
+        hdrSub: 'TERRA-SHIFT SCADA • Team INANNA (Río Cuarto → Santa Rosa de Calamuchita)',
+        btnEsp32: '🔌 Try Live ESP32 Emulator',
+        btnDownload: '⬇ Download MP4 (1080p)',
+        btnDeck: '📊 7-Slide Deck',
+        btnBack: '← Live NASA SCADA',
+        vidHeading: 'NASA Orbital Data + Live ESP32 Firmware & NAMUR NE43 Safety Demo',
+        vidDesc: 'Full HD 1080p • Narrated in English by Inanna • Strictly ≤ 30 Seconds (29.0s Official Limit)',
+        rulePill: '✓ COMPLIANT: 29.0s (< 30s LIMIT) • 1080p',
+        chaps: [
+          [0.0,  '00:00 – 00:05', '1. NASA POWER + SMAP & 2050 Crop Shift'],
+          [5.5,  '00:05 – 00:12', '2. Offline ESP32 AP (192.168.4.1) & Dry Root'],
+          [12.1, '00:12 – 00:20', '3. Cut Wire (<3.6 mA) → Lock Pump + NASA Backup'],
+          [20.7, '00:20 – 00:29', '4. Loop Repaired (12 mA) & -38% Water Impact']
+        ]
+      },
+      es: {
+        hdrTitle: 'VIDEO DEMO OFICIAL DE 29 SEGUNDOS',
+        hdrSub: 'TERRA-SHIFT SCADA • Equipo INANNA (Río Cuarto → Sede Santa Rosa de Calamuchita)',
+        btnEsp32: '🔌 Probar Emulador ESP32 en Vivo',
+        btnDownload: '⬇ Descargar MP4 (1080p)',
+        btnDeck: '📊 7 Diapositivas',
+        btnBack: '← SCADA NASA en Vivo',
+        vidHeading: 'Datos Orbitales NASA + Código ESP32 en Vivo y Seguridad NAMUR NE43',
+        vidDesc: 'Full HD 1080p • Narrado en Español por Inanna • Cumple Límite Oficial ≤ 30s (29.0s)',
+        rulePill: '✓ REGLAMENTARIO: 29.0s (< 30s) • 1080p',
+        chaps: [
+          [0.0,  '00:00 – 00:05', '1. NASA POWER + SMAP y Cultivos 2050'],
+          [5.5,  '00:05 – 00:12', '2. Servidor ESP32 sin Red (192.168.4.1) y Riego'],
+          [12.1, '00:12 – 00:20', '3. Cable Cortado (<3.6 mA) → Bloqueo + NASA'],
+          [20.7, '00:20 – 00:29', '4. Lazo Reparado (12 mA) y -38% de Agua']
+        ]
+      },
+      pt: {
+        hdrTitle: 'VÍDEO DEMO OFICIAL DE 29 SEGUNDOS',
+        hdrSub: 'TERRA-SHIFT SCADA • Equipe INANNA (Río Cuarto → Sede Santa Rosa de Calamuchita)',
+        btnEsp32: '🔌 Testar Emulador ESP32 ao Vivo',
+        btnDownload: '⬇ Baixar MP4 (1080p)',
+        btnDeck: '📊 7 Slides',
+        btnBack: '← SCADA NASA ao Vivo',
+        vidHeading: 'Dados Orbitais NASA + Código ESP32 ao Vivo e Segurança NAMUR NE43',
+        vidDesc: 'Full HD 1080p • Narrado em Português pela Inanna • Cumpre Limite Oficial ≤ 30s (29.0s)',
+        rulePill: '✓ REGULAMENTAR: 29.0s (< 30s) • 1080p',
+        chaps: [
+          [0.0,  '00:00 – 00:05', '1. NASA POWER + SMAP e Culturas 2050'],
+          [5.5,  '00:05 – 00:12', '2. Servidor ESP32 sem Rede (192.168.4.1) e Irrigação'],
+          [12.1, '00:12 – 00:20', '3. Cabo Rompido (<3.6 mA) → Trava + NASA'],
+          [20.7, '00:20 – 00:29', '4. Laço Reparado (12 mA) e -38% de Água']
+        ]
+      }
+    };
+
+    let activeLang = 'en';
+
+    function seekTo(sec) {
+      const v = document.getElementById('mainVideo');
+      v.currentTime = sec;
+      v.play().catch(() => {});
+    }
+
+    function applyLang(lang) {
+      activeLang = V_I18N[lang] ? lang : 'en';
+      const d = V_I18N[activeLang];
+      document.documentElement.lang = activeLang;
+      localStorage.setItem('inanna_lang', activeLang);
+
+      document.getElementById('hdrTitle').textContent = d.hdrTitle;
+      document.getElementById('hdrSub').textContent = d.hdrSub;
+      document.getElementById('btnEsp32').textContent = d.btnEsp32;
+      document.getElementById('btnEsp32').href = `../esp32/index.html?lang=${activeLang}`;
+      document.getElementById('btnDownload').textContent = d.btnDownload;
+      document.getElementById('btnDownload').href = `../assets/video/terra_shift_${activeLang}.mp4`;
+      document.getElementById('btnDeck').textContent = d.btnDeck;
+      document.getElementById('btnDeck').href = `../presentation/deck_7_slides.html?lang=${activeLang}`;
+      document.getElementById('btnBack').textContent = d.btnBack;
+      document.getElementById('btnBack').href = `../index.html?lang=${activeLang}`;
+      document.getElementById('vidHeading').textContent = d.vidHeading;
+      document.getElementById('vidDesc').textContent = d.vidDesc;
+      document.getElementById('rulePill').textContent = d.rulePill;
+
+      const v = document.getElementById('mainVideo');
+      const wasPlaying = !v.paused;
+      v.pause();
+      v.poster = `../assets/video/poster_${activeLang}.jpg`;
+      document.getElementById('vidSrc').src = `../assets/video/terra_shift_${activeLang}.mp4`;
+      const trk = document.getElementById('vidTrack');
+      trk.srclang = activeLang;
+      trk.src = `../assets/video/subs_${activeLang}.vtt`;
+      v.load();
+      if (wasPlaying) v.play().catch(() => {});
+
+      document.getElementById('chaptersGrid').innerHTML = d.chaps.map(c =>
+        `<button class="chap-btn" onclick="seekTo(${c[0]})"><div class="chap-t">${c[1]}</div><div class="chap-d">${c[2]}</div></button>`
+      ).join('');
+
+      document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.dataset.lang === activeLang));
+    }
+
+    const qLang = new URLSearchParams(window.location.search).get('lang');
+    applyLang(['en', 'es', 'pt'].includes(qLang) ? qLang : 'en');
+
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      btn.addEventListener('click', () => applyLang(btn.dataset.lang));
+    });
+  </script>
+</body>
+</html>
