@@ -1,4 +1,4 @@
-const CACHE_NAME = 'inanna-terrashift-v8';
+const CACHE_NAME = 'inanna-terrashift-v9';
 const ASSETS = [
   './',
   './index.html',
@@ -13,6 +13,8 @@ const ASSETS = [
   './assets/inanna-logo-horizontal.jpg',
   './assets/inanna-logo-full.jpg',
   './esp32/index.html',
+  './lora/index.html',
+  './pitch/index.html',
   './video/index.html',
   './manuals/index.html',
   './manuals/manuals-data.js',

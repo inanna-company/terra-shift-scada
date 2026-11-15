@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>3-Min Jury Pitch Coach & Q&A Defense — TERRA-SHIFT SCADA</title>
+  <link rel="icon" type="image/jpeg" href="../assets/inanna-isotipo.jpg" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=JetBrains+Mono:wght@600;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #080c12;
+      --panel: #121923;
+      --dark: #0b1017;
+      --border: rgba(0, 184, 230, 0.28);
+      --cyan: #00b8e6;
+      --blue: #1890ff;
+      --green: #22c55e;
+      --amber: #f59e0b;
+      --red: #ef4444;
+      --text: #f1f5f9;
+      --muted: #94a3b8;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: radial-gradient(circle at 80% 0%, #112236 0%, var(--bg) 65%);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+    }
+    .topbar {
+      background: rgba(11, 16, 24, 0.95);
+      border-bottom: 1px solid var(--border);
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .brand { display: flex; align-items: center; gap: 11px; text-decoration: none; color: inherit; }
+    .brand img { width: 38px; height: 38px; border-radius: 8px; border: 1px solid var(--cyan); }
+    .brand-t1 { font-weight: 800; font-size: 0.96rem; color: #fff; }
+    .brand-t2 { font-size: 0.72rem; color: var(--cyan); font-family: 'JetBrains Mono', monospace; }
+    .ctrl-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .lang-group { display: flex; background: #0d141d; border: 1px solid var(--border); border-radius: 7px; overflow: hidden; }
+    .lang-btn { background: transparent; color: var(--muted); border: none; padding: 6px 10px; font-weight: 700; font-size: 0.74rem; cursor: pointer; }
+    .lang-btn.active { background: var(--blue); color: #fff; }
+
+    .wrap {
+      max-width: 1460px;
+      margin: 0 auto;
+      padding: 16px;
+      display: grid;
+      grid-template-columns: 390px 1fr;
+      gap: 16px;
+      align-items: start;
+    }
+    @media (max-width: 1040px) {
+      .wrap { grid-template-columns: 1fr; }
+    }
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px;
+      box-shadow: 0 14px 32px rgba(0,0,0,0.45);
+    }
+    .timer-card { position: sticky; top: 52px; }
+    .clock-box {
+      background: #060a0f;
+      border: 2px solid var(--cyan);
+      border-radius: 14px;
+      padding: 18px;
+      text-align: center;
+      margin: 12px 0;
+    }
+    .clock-digits {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 3.6rem;
+      font-weight: 800;
+      color: #4ade80;
+      letter-spacing: 0.04em;
+    }
+    .clock-sub { font-size: 0.78rem; color: var(--muted); margin-top: 4px; font-weight: 700; }
+    .prog-track { height: 10px; background: #17212e; border-radius: 999px; overflow: hidden; margin-top: 12px; }
+    .prog-bar { height: 100%; width: 100%; background: linear-gradient(90deg, #22c55e, #00b8e6); transition: width 0.3s linear; }
+
+    .btn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px; }
+    .t-btn {
+      padding: 10px 12px; border-radius: 9px; font-weight: 800; font-size: 0.8rem;
+      cursor: pointer; border: 1px solid var(--border); background: #172434; color: #fff;
+    }
+    .t-btn.go { background: linear-gradient(135deg, #059669, #10b981); border: none; }
+    .t-btn.qa { background: linear-gradient(135deg, #d97706, #f59e0b); border: none; color: #080c12; }
+
+    .step-card {
+      background: var(--dark);
+      border: 1px solid #223246;
+      border-radius: 11px;
+      padding: 13px 15px;
+      margin-bottom: 10px;
+      transition: all 0.2s ease;
+    }
+    .step-card.active-step {
+      border-color: var(--cyan);
+      background: linear-gradient(145deg, #11263b 0%, #0b141f 100%);
+      box-shadow: 0 0 20px rgba(0, 184, 230, 0.28);
+    }
+    .step-head {
+      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 7px;
+    }
+    .step-time {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.76rem; font-weight: 800;
+      padding: 3px 8px; border-radius: 6px; background: rgba(0,184,230,0.16); color: #7dd3fc;
+    }
+    .step-speaker {
+      font-size: 0.73rem; font-weight: 700; color: #fde68a;
+      background: rgba(245,158,11,0.15); border: 1px solid rgba(245,158,11,0.4);
+      padding: 3px 8px; border-radius: 6px;
+    }
+    .step-script { font-size: 0.88rem; line-height: 1.52; color: #f8fafc; }
+    .step-action {
+      margin-top: 8px; font-size: 0.75rem; color: #86efac; font-family: 'JetBrains Mono', monospace;
+    }
+
+    .qa-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 12px; }
+    @media (max-width: 780px) { .qa-grid { grid-template-columns: 1fr; } }
+    .qa-card {
+      background: var(--dark); border: 1px solid #243549; border-radius: 11px; padding: 12px 14px; cursor: pointer;
+    }
+    .qa-card:hover { border-color: var(--cyan); }
+    .qa-q { font-size: 0.82rem; font-weight: 800; color: #38bdf8; margin-bottom: 6px; }
+    .qa-a { font-size: 0.78rem; line-height: 1.45; color: #cbd5e1; }
+  </style>
+</head>
+<body>
+
+  <header class="topbar">
+    <a href="../index.html" class="brand" id="brandHome">
+      <img src="../assets/inanna-isotipo.jpg" alt="Team INANNA" />
+      <div>
+        <div class="brand-t1" id="hdrTitle">ENTRENADOR DE DEFENSA 3:00 MIN + BANCO Q&amp;A JURADO</div>
+        <div class="brand-t2" id="hdrSub">Sede Santa Rosa de Calamuchita (15:30 hs) • 3 min Pitch + 2 min Preguntas</div>
+      </div>
+    </a>
+    <div class="ctrl-row">
+      <div class="lang-group">
+        <button class="lang-btn" data-lang="en">EN</button>
+        <button class="lang-btn active" data-lang="es">ES</button>
+        <button class="lang-btn" data-lang="pt">PT</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <!-- LEFT: OFFICIAL JURY STOPWATCH -->
+    <aside class="panel timer-card">
+      <div style="font-weight:800;font-size:0.9rem;color:#fff;" id="lblTimerHdr">⏱️ Cronómetro Oficial Santa Rosa (15:30 hs)</div>
+      <div class="clock-box" id="clockBox">
+        <div class="clock-digits" id="clockDigits">03:00</div>
+        <div class="clock-sub" id="clockModeLbl">MODO PRESENTACIÓN (180 SEGUNDOS)</div>
+        <div class="prog-track"><div class="prog-bar" id="progBar"></div></div>
+      </div>
+
+      <div class="btn-grid">
+        <button class="t-btn go" id="btnStartPause" onclick="toggleClock()">▶ Iniciar / Pausar</button>
+        <button class="t-btn" id="btnReset" onclick="resetClock(180)">↺ Reiniciar 03:00</button>
+      </div>
+      <button class="t-btn qa" style="width:100%;margin-bottom:12px;" id="btnModeQa" onclick="resetClock(120)">❓ Pasar a Rueda de Preguntas (02:00)</button>
+
+      <div style="font-size:0.76rem;color:var(--muted);line-height:1.45;" id="tipsBox"></div>
+    </aside>
+
+    <!-- RIGHT: TELEPROMPTER + KILLER Q&A -->
+    <section>
+      <div class="panel" style="margin-bottom:16px;">
+        <div style="font-weight:800;font-size:0.95rem;color:#fff;margin-bottom:10px;" id="teleTitle">🎙️ Guion Sincronizado de 3:00 Minutos (Se ilumina en vivo con el reloj)</div>
+        <div id="stepsContainer"></div>
+      </div>
+
+      <div class="panel">
+        <div style="font-weight:800;font-size:0.95rem;color:#fff;" id="qaTitle">🛡️ Las 6 Preguntas Trampa del Jurado (2:00 min Q&amp;A) — Respuestas Nocaut</div>
+        <div class="qa-grid" id="qaContainer"></div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const PITCH_I18N = {
+      es: {
+        hdrTitle: 'ENTRENADOR DE DEFENSA 3:00 MIN + BANCO Q&A JURADO',
+        hdrSub: 'Sede Santa Rosa de Calamuchita (15:30 hs) • 3 min Pitch + 2 min Preguntas',
+        lblTimerHdr: '⏱️ Cronómetro Oficial Santa Rosa (15:30 hs)',
+        modePitch: 'MODO PRESENTACIÓN (03:00 MIN)',
+        modeQa: 'MODO PREGUNTAS DEL JURADO (02:00 MIN)',
+        btnStart: '▶ Iniciar / Pausar',
+        btnReset: '↺ Reiniciar 03:00',
+        btnModeQa: '❓ Pasar a Rueda de Preguntas (02:00)',
+        teleTitle: '🎙️ Guion Sincronizado de 3:00 Minutos (Se ilumina automáticamente con el reloj)',
+        qaTitle: '🛡️ Las 6 Preguntas Clave del Jurado (2:00 min Q&A) — Respuestas Cortas y Contundentes',
+        tips: '<strong>Regla de Oro para las 15:30 hs:</strong> Compartí pantalla con 3 pestañas ya abiertas: 1) Consola SCADA (ES), 2) Emulador ESP32 (pestaña 6 Nodos LoRa), y 3) Simulador LoRa 30 km + Chata OLED.',
+        steps: [
+          {
+            start: 0, end: 30, time: '0:00 – 0:30',
+            who: 'Orador 1 (Maxi — Apertura e Impacto Regional)',
+            text: '“Buenas tardes jurado de Santa Rosa de Calamuchita. Somos el equipo INANNA COMPANY, desde Río Cuarto: Fabio Medina Rojas, Agustín Debia e Iván Coria. En Córdoba enfrentamos dos realidades críticas: sequía y calor extremo que golpean al maíz y la soja en la llanura, y heladas tardías o falta total de señal celular en los valles de Calamuchita. Para el desafío Field Shift creamos TERRA-SHIFT SCADA: una plataforma abierta que une satélites de la NASA en vivo con mecatrónica rural autónoma.”',
+            act: '📺 Mostrar: Consola SCADA Principal (Mapa Satelital NASA GIBS sobre Córdoba)'
+          },
+          {
+            start: 30, end: 75, time: '0:30 – 1:15',
+            who: 'Orador 2 (Agustín — Ciencia NASA + Productor con Solo una PC)',
+            text: '“Primero pensamos en la inclusión total: el pequeño productor familiar que solo tiene una PC y cero sensores hace clic en su lote y consulta 20 años de NASA POWER, humedad radicular SMAP y proyecciones CMIP6 2030-2050. El motor calcula al instante qué cultivo alternativo conviene rotar —como sorgo, garbanzo, olivo o vid—, su calendario de 12 meses de heladas y cuánta agua de acuífero ahorra.”',
+            act: '📺 Mostrar: Matriz de Rotación de Cultivos + Calendario Fenológico 12 Meses'
+          },
+          {
+            start: 75, end: 125, time: '1:15 – 2:05',
+            who: 'Orador 1 (Maxi — Seguridad Industrial 4–20 mA NAMUR NE43)',
+            text: '“Pero en el campo real los sensores se cortan. Un sensor común de voltaje lee 0 voltios cuando un animal corta el cable, engañando al riego para que inunde el lote y queme la bomba. Nosotros compilamos firmware C++ real en ESP32 con lazo industrial 4 a 20 mA y norma NAMUR NE43: debajo de 3.6 mA detecta cable cortado en 4 milisegundos, enclava la bomba y conmuta automáticamente a la humedad satelital NASA SMAP como respaldo.”',
+            act: '📺 Mostrar: Emulador ESP32 (Apretar botón ✂️ Cable Cortado <3.6 mA en vivo)'
+          },
+          {
+            start: 125, end: 160, time: '2:05 – 2:40',
+            who: 'Orador 3 (Iván — Ecosistema Solar + LoRa 30 km Sin Señal)',
+            text: '“Y para lotes sin luz ni 4G diseñamos una misma placa madre Solar + LiFePO4 + ESP32 + LoRa 915 MHz que alimenta 6 equipos modulares hasta 30 km: centinela de heladas en hondonadas serranas, electroválvulas biestables de consumo cero con corte por caño roto, sonda NPK RS485, nivel de tanque australiano, repetidora solar de cumbre con pantalla OLED 12V en la camioneta, y lanza de CO₂ para silobolsas en Río Cuarto.”',
+            act: '📺 Mostrar: Simulador LoRa 30 km + Pantalla OLED 12V de la Chata'
+          },
+          {
+            start: 160, end: 180, time: '2:40 – 3:00',
+            who: 'Cierre Conjunto (Maxi — Entregables 100% Abiertos)',
+            text: '“Todo es 100% funcional hoy mismo en inglés, español y portugués: web app en vivo, binarios .bin compilados listos para flashear en ESP32 y 4 manuales técnicos. Con datos de la NASA desde el espacio y mecatrónica argentina en la raíz, ningún productor vuelve a sembrar ni regar a ciegas. ¡Muchas gracias!”',
+            act: '📺 Mostrar: Cierre con los 3 Escalones (Pequeño Productor → Cooperativa → Agroindustria)'
+          }
+        ],
+        qa: [
+          {
+            q: '1. ¿Cómo se unen exactamente los datos de la NASA con el ESP32?',
+            a: 'En doble vía: NASA POWER (GWETROOT/T2M/PRECTOT) y MODIS NDVI fijan el balance hídrico macro y detectan manchones amarillos; el ESP32 ajusta en suelo real y, si se corta un sensor (<3.6 mA NAMUR NE43), usa el dato orbital NASA cacheado para no destruir ni inundar el cultivo.'
+          },
+          {
+            q: '2. ¿Cómo lo usa un pequeño productor familiar que NO puede comprar hardware?',
+            a: 'Con el Escalón 1 (Modo Solo PC, costo cero): entra desde cualquier computadora o celular, marca su coordenada rural, simula rotaciones de cultivo frente al cambio climático 2030/2050 e imprime su plan agronómico PDF sin comprar un solo sensor.'
+          },
+          {
+            q: '3. ¿Qué pasa en Calamuchita si hay un cerro en el medio y cero señal celular?',
+            a: 'No usamos 4G ni routers: los nodos transmiten en LoRa 915 MHz y la Posta Repetidora Solar #5 (cajita IP67 de 300 g con panel de 5W en una loma) salta los paquetes por arriba del cerro hasta 30 km directo al casco o a la pantalla OLED 12V de la chata.'
+          },
+          {
+            q: '4. ¿Una electroválvula en el medio del campo no agota la batería solar?',
+            a: 'Una válvula común sí; por eso usamos Electroválvulas Biestables (Latch): abren con un pulso de apenas 50 milisegundos (puente H DRV8871) y quedan abiertas horas retenidas por un imán permanente consumiendo 0.00 mA.'
+          },
+          {
+            q: '5. ¿El código del ESP32 es real o solo una simulación visual?',
+            a: '100% C++ real y compilado: en el repositorio están tanto el código fuente editable (.ino) para Gateway y Nodo Solar como los binarios precompilados (.merged.bin) verificados con arduino-cli listos para grabar por USB en 1 clic.'
+          },
+          {
+            q: '6. ¿La resolución espacial del satélite NASA alcanza para un lote chico?',
+            a: 'Justamente ahí brilla nuestra arquitectura híbrida: NASA POWER y GIBS (MODIS 250 m / SMAP 9 km) dan la tendencia climática multidecadal regional que ningún sensor local tiene, mientras que los lazos 4–20 mA y RS485 corrigen el microclima exacto de la hondonada o la raíz.'
+          }
+        ]
+      },
+      en: {
+        hdrTitle: '3:00 MIN JURY PITCH COACH & 2:00 Q&A DEFENSE',
+        hdrSub: 'Santa Rosa de Calamuchita Finals (15:30 ART) • 3 min Pitch + 2 min Q&A',
+        lblTimerHdr: '⏱️ Official Jury Stopwatch (3:00 + 2:00)',
+        modePitch: 'PRESENTATION MODE (03:00 MIN)',
+        modeQa: 'JURY Q&A MODE (02:00 MIN)',
+        btnStart: '▶ Start / Pause',
+        btnReset: '↺ Reset 03:00',
+        btnModeQa: '❓ Switch to 2:00 Q&A Timer',
+        teleTitle: '🎙️ Synchronized 3:00 Minute Script (Auto-highlights with stopwatch)',
+        qaTitle: '🛡️ Top 6 Jury Questions (2:00 min Q&A) — Concise Knockout Answers',
+        tips: '<strong>Golden Rule:</strong> Keep 3 tabs open when sharing screen: 1) Main SCADA Console, 2) ESP32 Emulator, and 3) 30 km Solar LoRa + 12V Cab OLED Simulator.',
+        steps: [
+          {
+            start: 0, end: 30, time: '0:00 – 0:30',
+            who: 'Speaker 1 (Maxi — Hook & Córdoba Problem)',
+            text: '“Good afternoon judges. We are Team INANNA COMPANY from Río Cuarto: Fabio Medina Rojas, Agustín Debia, and Iván Coria. Farmers across Córdoba face severe heatwaves and drought on the plains, plus sudden frost pockets and zero cell coverage in Calamuchita valleys. For Field Shift, we built TERRA-SHIFT SCADA: fusing live NASA satellites with rugged off-grid rural mechatronics.”',
+            act: '📺 Show: Main SCADA Console (NASA GIBS Satellite Map)'
+          },
+          {
+            start: 30, end: 75, time: '0:30 – 1:15',
+            who: 'Speaker 2 (Agustín — NASA Data & PC-Only Smallholder Tier)',
+            text: '“First, full inclusion: a family farmer with only a PC and zero sensors clicks any plot to pull 20-year NASA POWER climatology, SMAP root moisture, and CMIP6 2030–2050 projections, instantly ranking resilient crop shifts like sorghum, chickpea, olive, or vine plus a 12-month calendar.”',
+            act: '📺 Show: Crop Shift Matrix + 12-Month Phenology Calendar'
+          },
+          {
+            start: 75, end: 125, time: '1:15 – 2:05',
+            who: 'Speaker 1 (Maxi — 4–20 mA NAMUR NE43 Safety)',
+            text: '“Second, industrial reliability: cheap voltage sensors read zero when wildlife cuts a wire, tricking pumps into flooding fields. Our compiled ESP32 C++ firmware runs 4–20 mA loops with NAMUR NE43: below 3.6 mA it locks the pump in 4 ms and fails over to NASA SMAP orbital soil moisture.”',
+            act: '📺 Show: ESP32 Emulator (Click ✂️ Cut Wire <3.6 mA live)'
+          },
+          {
+            start: 125, end: 160, time: '2:05 – 2:40',
+            who: 'Speaker 3 (Iván — 6 Solar + LoRa 30 km Off-Grid Devices)',
+            text: '“Third, for zero-signal farms, one universal 5W Solar + LiFePO4 + ESP32 + LoRa 915 MHz board powers 6 modular nodes across 30 km: valley frost sentinel, zero-power bi-stable latch valves, RS485 NPK soil probe, tank guard, hilltop repeater with a 12V pickup cab OLED, and a CO₂ silobag spear.”',
+            act: '📺 Show: 30 km Solar LoRa + 12V Cab OLED Simulator'
+          },
+          {
+            start: 160, end: 180, time: '2:40 – 3:00',
+            who: 'All (Closing & Live Open-Source Proof)',
+            text: '“Everything is 100% live today in English, Spanish, and Portuguese—including compiled ESP32 .bin binaries and 4 engineering manuals. With NASA in orbit and mechatronics in the soil, no farmer ever irrigates or plants blind again. Thank you!”',
+            act: '📺 Show: 3 Inclusive Tiers & Team Closing'
+          }
+        ],
+        qa: [
+          { q: '1. How do NASA data and ESP32 hardware actually fuse?', a: 'NASA POWER & MODIS NDVI provide macro climate projections and canopy anomaly alerts, while ground 4–20 mA / RS485 loops refine microclimate control—and if a cable snaps (<3.6 mA), the gateway automatically falls back to cached NASA GWETROOT.' },
+          { q: '2. Can a small farmer with zero budget for sensors use this?', a: 'Yes! Tier 1 runs 100% free on any PC or phone browser using NASA orbital APIs and PDF rotation plans with zero hardware required.' },
+          { q: '3. How does LoRa cross Calamuchita hills without cell towers?', a: 'Solar Hilltop Repeater #5 (a 300 g IP67 5W box on a ridge pole) relays 915 MHz AES-128 packets over mountain crests up to 30 km to the farmhouse and 12V pickup cab OLED.' },
+          { q: '4. Won’t irrigation valves drain small solar batteries?', a: 'We use 9V/12V bi-stable latching solenoids driven by a 50 ms H-bridge pulse (DRV8871), holding open magnetically at 0.00 mA continuous draw.' },
+          { q: '5. Is the ESP32 code actually compiled?', a: 'Yes—both editable .ino C++ sketches and pre-compiled .merged.bin binaries verified with arduino-cli are included in our repository.' },
+          { q: '6. Why include a Silobag CO₂ spear?', a: 'In southern Córdoba (Río Cuarto), harvests sit in remote off-grid silobags; biological CO₂ spikes detect water ingress weeks before grain spoils.' }
+        ]
+      },
+      pt: {
+        hdrTitle: 'TREINADOR DE PITCH 3:00 MIN + DEFESA Q&A JURADO',
+        hdrSub: 'Final Santa Rosa de Calamuchita (15:30 ART) • 3 min Pitch + 2 min Perguntas',
+        lblTimerHdr: '⏱️ Cronômetro Oficial do Júri (3:00 + 2:00)',
+        modePitch: 'MODO APRESENTAÇÃO (03:00 MIN)',
+        modeQa: 'MODO PERGUNTAS DO JÚRI (02:00 MIN)',
+        btnStart: '▶ Iniciar / Pausar',
+        btnReset: '↺ Reiniciar 03:00',
+        btnModeQa: '❓ Mudar para Perguntas Q&A (02:00)',
+        teleTitle: '🎙️ Roteiro Sincronizado de 3:00 Minutos (Destaca ao vivo com o relógio)',
+        qaTitle: '🛡️ As 6 Perguntas do Júri (2:00 min Q&A) — Respostas Diretas',
+        tips: '<strong>Regra de Ouro:</strong> Deixe 3 abas abertas: 1) Console SCADA, 2) Emulador ESP32 e 3) Simulador LoRa 30 km + OLED 12V.',
+        steps: [
+          { start: 0, end: 30, time: '0:00 – 0:30', who: 'Orador 1 (Maxi — Abertura)', text: '“Boa tarde jurados. Somos a Equipe INANNA COMPANY de Río Cuarto. Criamos o TERRA-SHIFT SCADA para unir satélites da NASA ao vivo com mecatrônica rural autônoma contra secas, geadas de baixada e falta de sinal no campo.”', act: '📺 Mostrar: Console SCADA Principal' },
+          { start: 30, end: 75, time: '0:30 – 1:15', who: 'Orador 2 (Agustín — Ciência NASA + Modo Só PC)', text: '“O pequeno produtor que tem apenas um PC consulta gratuitamente 20 anos de NASA POWER, umidade SMAP e projeções CMIP6 2030–2050 para planejar rotações resilientes como sorgo, grão-de-bico, oliveira e videira.”', act: '📺 Mostrar: Matriz de Rotação + Calendário 12 Meses' },
+          { start: 75, end: 125, time: '1:15 – 2:05', who: 'Orador 1 (Maxi — Laço 4–20 mA NAMUR NE43)', text: '“No campo real, compilamos firmware C++ em ESP32 com laço industrial 4–20 mA e norma NAMUR NE43: abaixo de 3.6 mA trava a bomba em 4 ms contra cabo rompido e assume o backup orbital NASA SMAP.”', act: '📺 Mostrar: Emulador ESP32 (Cabo Rompido <3.6 mA)' },
+          { start: 125, end: 160, time: '2:05 – 2:40', who: 'Orador 3 (Iván — 6 Nós Solares LoRa 30 km)', text: '“Para fazendas sem 4G, uma única placa Solar + LiFePO4 + ESP32 + LoRa 915 MHz alimenta 6 nós até 30 km: geada, válvula latch 0.00 mA, NPK RS485, reservatório, repetidora de topo com OLED 12V no trator e lança CO₂ para silobolsas.”', act: '📺 Mostrar: Simulador LoRa 30 km + OLED 12V' },
+          { start: 160, end: 180, time: '2:40 – 3:00', who: 'Encerramento', text: '“Tudo está 100% funcional em EN, ES e PT, com binários .bin compilados e 4 manuais técnicos. Com a NASA em órbita e mecatrônica na raiz, nenhum produtor planta ou irriga às cegas. Muito obrigado!”', act: '📺 Mostrar: 3 Níveis de Adoção Inclusiva' }
+        ],
+        qa: [
+          { q: '1. Como os dados da NASA se fundem ao ESP32?', a: 'NASA POWER e MODIS NDVI guiam o balanço hídrico macro e anomalias; os sensores 4–20 mA refinam o solo, e em caso de cabo rompido (<3.6 mA), o gateway usa o dado orbital NASA SMAP em cache.' },
+          { q: '2. E o pequeno agricultor sem recursos para sensores?', a: 'Usa o Nível 1 (Modo Só PC, custo zero): acessa dados orbitais da NASA, matriz de culturas e exporta o plano em PDF sem nenhum hardware.' },
+          { q: '3. Como o sinal vence os morros sem celular?', a: 'A Repetidora Solar de Topo #5 (5W IP67) salta pacotes LoRa 915 MHz por cima da serra até 30 km para a sede e o painel OLED 12V da caminhonete.' },
+          { q: '4. Válvulas não esgotam a bateria solar?', a: 'Usamos válvulas biestáveis (Latch) acionadas por pulso de 50 ms (DRV8871), mantendo-se abertas por ímã com consumo de 0.00 mA.' },
+          { q: '5. O firmware ESP32 é compilado de verdade?', a: 'Sim! Código C++ (.ino) e binários .merged.bin compilados via arduino-cli prontos para gravação USB.' },
+          { q: '6. Por que monitorar CO₂ em silobolsas?', a: 'Detecta infiltração e fermentação biológica semanas antes do apodrecimento de grãos em lotes isolados.' }
+        ]
+      }
+    };
+
+    const qL = new URLSearchParams(window.location.search).get('lang') || localStorage.getItem('inanna_lang');
+    let curLang = ['en', 'es', 'pt'].includes(qL) ? qL : 'es';
+    let totalSec = 180;
+    let remSec = 180;
+    let timerId = null;
+
+    function fmt(s) {
+      const m = Math.floor(s / 60);
+      const r = s % 60;
+      return `${String(m).padStart(2, '0')}:${String(r).padStart(2, '0')}`;
+    }
+
+    function updateClockUI() {
+      const elapsed = totalSec - remSec;
+      const dig = document.getElementById('clockDigits');
+      dig.textContent = fmt(remSec);
+      dig.style.color = remSec <= 15 ? '#ef4444' : (remSec <= 35 ? '#fbbf24' : '#4ade80');
+      document.getElementById('progBar').style.width = `${(remSec / totalSec) * 100}%`;
+
+      if (totalSec === 180) {
+        document.querySelectorAll('.step-card').forEach((el, idx) => {
+          const st = PITCH_I18N[curLang].steps[idx];
+          const active = elapsed >= st.start && (elapsed < st.end || (idx === 4 && elapsed >= 160));
+          el.classList.toggle('active-step', active);
+        });
+      }
+    }
+
+    function toggleClock() {
+      if (timerId) {
+        clearInterval(timerId);
+        timerId = null;
+        return;
+      }
+      timerId = setInterval(() => {
+        if (remSec > 0) {
+          remSec--;
+          updateClockUI();
+        } else {
+          clearInterval(timerId);
+          timerId = null;
+        }
+      }, 1000);
+    }
+
+    function resetClock(sec) {
+      if (timerId) { clearInterval(timerId); timerId = null; }
+      totalSec = sec;
+      remSec = sec;
+      renderAll();
+    }
+
+    function renderAll() {
+      const t = PITCH_I18N[curLang];
+      document.documentElement.lang = curLang;
+      document.getElementById('hdrTitle').textContent = t.hdrTitle;
+      document.getElementById('hdrSub').textContent = t.hdrSub;
+      document.getElementById('brandHome').href = `../index.html?lang=${curLang}`;
+      document.getElementById('lblTimerHdr').textContent = t.lblTimerHdr;
+      document.getElementById('clockModeLbl').textContent = totalSec === 180 ? t.modePitch : t.modeQa;
+      document.getElementById('btnStartPause').textContent = t.btnStart;
+      document.getElementById('btnReset').textContent = t.btnReset;
+      document.getElementById('btnModeQa').textContent = t.btnModeQa;
+      document.getElementById('teleTitle').textContent = t.teleTitle;
+      document.getElementById('qaTitle').textContent = t.qaTitle;
+      document.getElementById('tipsBox').innerHTML = t.tips;
+
+      document.getElementById('stepsContainer').innerHTML = t.steps.map(s => `
+        <div class="step-card">
+          <div class="step-head">
+            <span class="step-time">${s.time}</span>
+            <span class="step-speaker">${s.who}</span>
+          </div>
+          <div class="step-script">${s.text}</div>
+          <div class="step-action">${s.act}</div>
+        </div>
+      `).join('');
+
+      document.getElementById('qaContainer').innerHTML = t.qa.map(item => `
+        <div class="qa-card">
+          <div class="qa-q">${item.q}</div>
+          <div class="qa-a">${item.a}</div>
+        </div>
+      `).join('');
+
+      document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.dataset.lang === curLang));
+      updateClockUI();
+    }
+
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        curLang = btn.dataset.lang;
+        localStorage.setItem('inanna_lang', curLang);
+        renderAll();
+      });
+    });
+
+    renderAll();
+  </script>
+  <script src="../js/suite-nav.js?v=nav9"></script>
+</body>
+</html>

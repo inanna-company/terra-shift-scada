@@ -839,6 +839,13 @@ function applyTranslations() {
   if (loraEcoLink) {
     loraEcoLink.textContent = lang === 'es' ? '📡 6 Nodos LoRa' : (lang === 'pt' ? '📡 6 Nós LoRa' : '📡 6 LoRa Devices');
   }
+  const btnEcoLiveSim = document.getElementById('btnEcoLiveSim');
+  if (btnEcoLiveSim) {
+    btnEcoLiveSim.href = `lora/index.html?lang=${lang}`;
+    btnEcoLiveSim.textContent = lang === 'es'
+      ? '📡 Simular LoRa 30 km + OLED Chata 12V'
+      : (lang === 'pt' ? '📡 Simular LoRa 30 km + OLED Cabine 12V' : '📡 Simulate 30 km LoRa + 12V Cab OLED');
+  }
   const promoBtnEsp = document.getElementById('promoBtnEsp');
   if (promoBtnEsp) promoBtnEsp.href = `esp32/index.html?lang=${lang}`;
   const promoBtnFull = document.getElementById('promoBtnFull');

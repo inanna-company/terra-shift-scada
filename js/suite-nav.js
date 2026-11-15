@@ -9,37 +9,40 @@
       back: '⬅ Back',
       scada: '🛰️ Main SCADA',
       esp32: '🔌 ESP32 Emulator',
+      loraSim: '📡 30km LoRa + Cab OLED',
       video: '🎬 29s Video',
       deck: '📊 7-Slide Deck',
       manuals: '📚 Manuals (4)',
-      lora: '📡 6 LoRa Devices',
+      pitch: '🎤 3-Min Pitch Coach',
       jumpTitle: 'SUITE NAVIGATION:'
     },
     es: {
       back: '⬅ Volver Atrás',
       scada: '🛰️ Consola SCADA',
       esp32: '🔌 Emulador ESP32',
+      loraSim: '📡 LoRa 30km + Chata OLED',
       video: '🎬 Video 29s',
       deck: '📊 7 Diapositivas',
       manuals: '📚 Manuales (4)',
-      lora: '📡 6 Nodos LoRa',
+      pitch: '🎤 Pitch 3:00 + Q&A',
       jumpTitle: 'NAVEGACIÓN RÁPIDA:'
     },
     pt: {
       back: '⬅ Voltar',
       scada: '🛰️ Console SCADA',
       esp32: '🔌 Emulador ESP32',
+      loraSim: '📡 LoRa 30km + OLED 12V',
       video: '🎬 Vídeo 29s',
       deck: '📊 7 Slides',
       manuals: '📚 Manuais (4)',
-      lora: '📡 6 Nós LoRa',
+      pitch: '🎤 Pitch 3:00 + Q&A',
       jumpTitle: 'NAVEGAÇÃO RÁPIDA:'
     }
   };
 
   function getPrefix() {
     const p = window.location.pathname.replace(/\\/g, '/');
-    if (p.includes('/esp32/') || p.includes('/video/') || p.includes('/presentation/') || p.includes('/manuals/')) {
+    if (p.includes('/esp32/') || p.includes('/video/') || p.includes('/presentation/') || p.includes('/manuals/') || p.includes('/lora/') || p.includes('/pitch/')) {
       return '../';
     }
     return './';
@@ -47,11 +50,12 @@
 
   function getActivePage() {
     const p = window.location.pathname.replace(/\\/g, '/');
-    const doc = new URLSearchParams(window.location.search).get('doc');
     if (p.includes('/esp32/')) return 'esp32';
+    if (p.includes('/lora/')) return 'loraSim';
+    if (p.includes('/pitch/')) return 'pitch';
     if (p.includes('/video/')) return 'video';
     if (p.includes('/presentation/')) return 'deck';
-    if (p.includes('/manuals/')) return doc === 'm4' ? 'lora' : 'manuals';
+    if (p.includes('/manuals/')) return 'manuals';
     return 'scada';
   }
 
@@ -164,10 +168,11 @@
     const items = [
       { id: 'scada',   lbl: t.scada,   href: `${pre}index.html?lang=${lang}` },
       { id: 'esp32',   lbl: t.esp32,   href: `${pre}esp32/index.html?lang=${lang}` },
+      { id: 'loraSim', lbl: t.loraSim, href: `${pre}lora/index.html?lang=${lang}` },
       { id: 'video',   lbl: t.video,   href: `${pre}video/index.html?lang=${lang}` },
       { id: 'deck',    lbl: t.deck,    href: `${pre}presentation/deck_7_slides.html?lang=${lang}` },
       { id: 'manuals', lbl: t.manuals, href: `${pre}manuals/index.html?lang=${lang}` },
-      { id: 'lora',    lbl: t.lora,    href: `${pre}manuals/index.html?doc=m4&lang=${lang}` }
+      { id: 'pitch',   lbl: t.pitch,   href: `${pre}pitch/index.html?lang=${lang}` }
     ];
 
     const backBtn = `<button type="button" class="inanna-suite-btn back-btn" data-suite-back="1">${t.back}</button>`;

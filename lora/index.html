@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>30 km Solar LoRa + 12V Cab OLED Simulator — TERRA-SHIFT SCADA</title>
+  <link rel="icon" type="image/jpeg" href="../assets/inanna-isotipo.jpg" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #080c12;
+      --panel: #121923;
+      --panel-dark: #0b1017;
+      --border: rgba(0, 184, 230, 0.28);
+      --cyan: #00b8e6;
+      --blue: #1890ff;
+      --green: #22c55e;
+      --amber: #f59e0b;
+      --red: #ef4444;
+      --text: #f1f5f9;
+      --muted: #94a3b8;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: radial-gradient(circle at 15% 0%, #102033 0%, var(--bg) 62%);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+    }
+    .topbar {
+      background: rgba(11, 16, 24, 0.95);
+      border-bottom: 1px solid var(--border);
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .brand { display: flex; align-items: center; gap: 11px; text-decoration: none; color: inherit; }
+    .brand img { width: 38px; height: 38px; border-radius: 8px; border: 1px solid var(--cyan); }
+    .brand-t1 { font-weight: 800; font-size: 0.96rem; letter-spacing: 0.02em; color: #fff; }
+    .brand-t2 { font-size: 0.72rem; color: var(--cyan); font-family: 'JetBrains Mono', monospace; }
+    .ctrl-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .lang-group { display: flex; background: #0d141d; border: 1px solid var(--border); border-radius: 7px; overflow: hidden; }
+    .lang-btn {
+      background: transparent; color: var(--muted); border: none; padding: 6px 10px;
+      font-weight: 700; font-size: 0.74rem; cursor: pointer;
+    }
+    .lang-btn.active { background: var(--blue); color: #fff; }
+    .btn-act {
+      background: #162231; color: #e2e8f0; border: 1px solid var(--border);
+      padding: 6px 12px; border-radius: 7px; font-size: 0.76rem; font-weight: 700;
+      cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;
+    }
+    .btn-act:hover { border-color: var(--cyan); color: #fff; }
+    .btn-act.primary { background: linear-gradient(135deg, #059669, #10b981); border: none; color: #fff; }
+
+    .wrap {
+      max-width: 1520px;
+      margin: 0 auto;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 14px 16px;
+      box-shadow: 0 14px 32px rgba(0,0,0,0.45);
+    }
+    .panel-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+    .panel-title { font-size: 0.92rem; font-weight: 800; color: #fff; }
+    .badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.69rem;
+      padding: 4px 9px;
+      border-radius: 999px;
+      font-weight: 700;
+      background: rgba(0, 184, 230, 0.14);
+      border: 1px solid rgba(0, 184, 230, 0.4);
+      color: #7dd3fc;
+    }
+    canvas#ridgeCanvas {
+      width: 100%;
+      height: 235px;
+      background: linear-gradient(180deg, #06101c 0%, #0d1c2c 65%, #111920 100%);
+      border-radius: 10px;
+      border: 1px solid #1e3246;
+      display: block;
+    }
+    .topo-bar {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .mode-pill {
+      background: #0e1722;
+      color: #cbd5e1;
+      border: 1px solid #283c52;
+      padding: 7px 12px;
+      border-radius: 8px;
+      font-size: 0.76rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .mode-pill.active {
+      background: rgba(24, 144, 255, 0.22);
+      border-color: var(--cyan);
+      color: #fff;
+    }
+
+    .main-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 16px;
+      align-items: start;
+    }
+    @media (max-width: 1080px) {
+      .main-grid { grid-template-columns: 1fr; }
+    }
+    .nodes-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+    @media (max-width: 680px) {
+      .nodes-grid { grid-template-columns: 1fr; }
+    }
+    .node-card {
+      background: var(--panel-dark);
+      border: 1px solid #223244;
+      border-radius: 11px;
+      padding: 11px 12px;
+      cursor: pointer;
+      transition: all 0.16s ease;
+      text-align: left;
+      color: var(--text);
+    }
+    .node-card:hover { border-color: var(--cyan); transform: translateY(-1px); }
+    .node-card.selected {
+      border-color: var(--cyan);
+      background: linear-gradient(155deg, #102336 0%, #0b141e 100%);
+      box-shadow: 0 0 16px rgba(0, 184, 230, 0.24);
+    }
+    .node-card.alert-state {
+      border-color: var(--amber);
+      box-shadow: 0 0 18px rgba(245, 158, 11, 0.28);
+    }
+    .nc-top { display: flex; justify-content: space-between; align-items: center; gap: 6px; margin-bottom: 5px; }
+    .nc-title { font-size: 0.82rem; font-weight: 800; color: #fff; }
+    .nc-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      padding: 2px 6px;
+      border-radius: 5px;
+      background: rgba(34,197,94,0.14);
+      color: #86efac;
+      border: 1px solid rgba(34,197,94,0.35);
+    }
+    .nc-desc { font-size: 0.74rem; color: var(--muted); line-height: 1.38; margin-bottom: 8px; }
+    .nc-foot {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--cyan);
+    }
+
+    /* 12V PICKUP / TRACTOR CAB OLED HARDWARE BEZEL */
+    .cab-bezel {
+      background: linear-gradient(180deg, #1b222c 0%, #0e1319 100%);
+      border: 3px solid #2e3b4b;
+      border-radius: 18px;
+      padding: 16px;
+      box-shadow: inset 0 2px 6px rgba(255,255,255,0.08), 0 18px 40px rgba(0,0,0,0.65);
+    }
+    .cab-screws {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      color: #94a3b8;
+      margin-bottom: 8px;
+    }
+    .oled-glass {
+      background: #03070b;
+      border: 2px solid #00b8e6;
+      border-radius: 10px;
+      padding: 14px;
+      font-family: 'JetBrains Mono', monospace;
+      box-shadow: inset 0 0 24px rgba(0, 184, 230, 0.16);
+      position: relative;
+    }
+    .oled-top {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.72rem;
+      color: #38bdf8;
+      border-bottom: 1px dashed rgba(56, 189, 248, 0.35);
+      padding-bottom: 6px;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .oled-node-name {
+      font-size: 0.94rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 6px;
+    }
+    .oled-big-val {
+      font-size: 1.45rem;
+      font-weight: 700;
+      color: #00f0ff;
+      text-shadow: 0 0 10px rgba(0, 240, 255, 0.45);
+      margin-bottom: 8px;
+    }
+    .oled-alert-box {
+      padding: 8px 10px;
+      border-radius: 7px;
+      font-size: 0.76rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      line-height: 1.38;
+    }
+    .oled-ok { background: rgba(34,197,94,0.14); border: 1px solid #22c55e; color: #86efac; }
+    .oled-warn { background: rgba(245,158,11,0.18); border: 1px solid #f59e0b; color: #fde68a; }
+    .oled-crit { background: rgba(239,68,68,0.2); border: 1px solid #ef4444; color: #fecaca; }
+
+    .oled-meta-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 7px;
+      font-size: 0.71rem;
+      color: #cbd5e1;
+    }
+    .oled-meta-cell {
+      background: rgba(15, 28, 42, 0.75);
+      border: 1px solid rgba(56, 189, 248, 0.22);
+      border-radius: 6px;
+      padding: 6px 8px;
+    }
+    .cab-buttons {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 12px;
+    }
+    .cab-hw-btn {
+      padding: 9px 10px;
+      border-radius: 8px;
+      font-weight: 800;
+      font-size: 0.76rem;
+      cursor: pointer;
+      border: 1px solid #334155;
+      background: #172230;
+      color: #f8fafc;
+    }
+    .cab-hw-btn.fire {
+      background: linear-gradient(135deg, #d97706, #f59e0b);
+      border: none;
+      color: #080c12;
+    }
+    .cab-hw-btn.norm {
+      background: linear-gradient(135deg, #0284c7, #00b8e6);
+      border: none;
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="topbar">
+    <a href="../index.html" class="brand" id="brandHome">
+      <img src="../assets/inanna-isotipo.jpg" alt="Team INANNA" />
+      <div>
+        <div class="brand-t1" id="hdrTitle">30 KM SOLAR LORA + 12V TRACTOR/PICKUP CAB SIMULATOR</div>
+        <div class="brand-t2" id="hdrSub">6 Off-Grid ESP32 Solar Devices • Mountain Repeater Hop • Zero Cell Signal</div>
+      </div>
+    </a>
+    <div class="ctrl-row">
+      <div class="lang-group" role="group">
+        <button class="lang-btn active" data-lang="en">EN</button>
+        <button class="lang-btn" data-lang="es">ES</button>
+        <button class="lang-btn" data-lang="pt">PT</button>
+      </div>
+      <button class="btn-act primary" id="btnAutoTour" onclick="toggleTour()">▶ Auto-Demo All 6 Nodes</button>
+      <a class="btn-act" id="btnPitchLink" href="../pitch/index.html" style="border-color:rgba(245,158,11,0.55);color:#fde68a;">🎤 3-Min Pitch Coach</a>
+      <a class="btn-act" id="btnReportLink" href="../manuals/index.html?doc=m4">📕 Printable Report 04</a>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <!-- TOPOGRAPHICAL RF LINK SIMULATOR -->
+    <section class="panel">
+      <div class="panel-head">
+        <div class="panel-title" id="topoTitle">🏔️ Live RF Terrain Profile: Hidden Valley → Solar Hilltop Repeater (915 MHz) → 12V Cab &amp; Farmhouse SCADA</div>
+        <span class="badge" id="topoBadge">📵 0G / NO CELLULAR • LoRa SF10 +17 dBm • 28.4 km</span>
+      </div>
+      <canvas id="ridgeCanvas" width="1440" height="235"></canvas>
+      <div class="topo-bar">
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <button class="mode-pill active" id="btnTopoRidge" onclick="setTerrain('ridge')">🏔️ Calamuchita Valley + Hilltop Repeater #5 (28.4 km)</button>
+          <button class="mode-pill" id="btnTopoBlocked" onclick="setTerrain('blocked')">🚫 Turn OFF Repeater #5 (Hill Blocks Direct Signal)</button>
+          <button class="mode-pill" id="btnTopoPlains" onclick="setTerrain('plains')">🌾 Río Cuarto Plains Direct LoRa (14.2 km Silobag)</button>
+        </div>
+        <label style="font-size:0.76rem;color:#cbd5e1;display:flex;align-items:center;gap:6px;cursor:pointer;">
+          <input type="checkbox" id="chkBeep" checked />
+          <span id="lblBeep">🔊 12V Cab Alert Beep</span>
+        </label>
+      </div>
+    </section>
+
+    <div class="main-grid">
+      <!-- LEFT: 6 CLICKABLE SOLAR + LORA FIELD NODES -->
+      <section class="panel">
+        <div class="panel-head">
+          <div class="panel-title" id="gridTitle">☀️ Click Any Solar + LoRa ESP32 Field Node to Inspect or Trigger Emergency</div>
+          <span class="badge" id="gridBadge">UNIVERSAL 5W SOLAR + LiFePO₄ + 15 µA SLEEP</span>
+        </div>
+        <div class="nodes-grid" id="nodesContainer"></div>
+      </section>
+
+      <!-- RIGHT: 12V PICKUP / TRACTOR CAB OLED MONITOR -->
+      <section class="cab-bezel">
+        <div class="cab-screws">
+          <span>⊕ INANNA CAB-MONITOR 12V DC (CHATA / TRACTOR)</span>
+          <span id="cabCellStatus" style="color:#fca5a5;">📵 CELL: NO SERVICE</span>
+        </div>
+
+        <div class="oled-glass">
+          <div class="oled-top">
+            <span id="oledFreq">LoRa 915.0 MHz • AES-128</span>
+            <span id="oledRssi">RSSI: -82 dBm (28.4 km)</span>
+          </div>
+          <div class="oled-node-name" id="oledNodeTitle">❄️ #1 Frost &amp; Inversion Sentinel</div>
+          <div class="oled-big-val" id="oledPrimaryVal">40cm: +3.4 °C | 1.8m: +4.1 °C</div>
+          <div id="oledStatusBox" class="oled-alert-box oled-ok">
+            STATUS OK: Canopy above dew point. Anti-frost sprinkler in standby.
+          </div>
+
+          <div class="oled-meta-grid">
+            <div class="oled-meta-cell">
+              <div style="color:#64748b;" id="lblOledNasa">NASA ORBITAL FUSION</div>
+              <div style="color:#93c5fd;font-weight:700;margin-top:2px;" id="valOledNasa">POWER T2M_MIN +4.8 °C</div>
+            </div>
+            <div class="oled-meta-cell">
+              <div style="color:#64748b;" id="lblOledSolar">SOLAR + LiFePO₄ BUS</div>
+              <div style="color:#86efac;font-weight:700;margin-top:2px;" id="valOledSolar">3.34 V (96%) • 15 µA</div>
+            </div>
+            <div class="oled-meta-cell">
+              <div style="color:#64748b;" id="lblOledActuator">AUTONOMOUS ACTION</div>
+              <div style="color:#fde68a;font-weight:700;margin-top:2px;" id="valOledAct">Local Loop Armed</div>
+            </div>
+            <div class="oled-meta-cell">
+              <div style="color:#64748b;" id="lblOledModbus">GATEWAY MODBUS REG</div>
+              <div style="color:#00b8e6;font-weight:700;margin-top:2px;" id="valOledModbus">Reg 30011 = 340 (OK)</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="cab-buttons">
+          <button class="cab-hw-btn fire" id="btnTriggerAlert" onclick="setNodeAlert(true)">⚡ Simulate Field Emergency!</button>
+          <button class="cab-hw-btn norm" id="btnRestoreNorm" onclick="setNodeAlert(false)">🟢 Restore Nominal State</button>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    const LORA_I18N = {
+      en: {
+        hdrTitle: '30 KM SOLAR LORA + 12V TRACTOR/PICKUP CAB SIMULATOR',
+        hdrSub: '6 Off-Grid ESP32 Solar Devices • Mountain Repeater Hop • Zero Cell Signal',
+        autoStart: '▶ Auto-Demo All 6 Nodes',
+        autoStop: '⏹ Stop Auto-Demo',
+        btnPitch: '🎤 3-Min Pitch Coach',
+        btnReport: '📕 Printable Report 04',
+        topoTitle: '🏔️ Live RF Terrain Profile: Hidden Valley → Solar Hilltop Repeater (915 MHz) → 12V Cab & Farmhouse SCADA',
+        topoBadge: '📵 0G / NO CELLULAR • LoRa SF10 +17 dBm • 28.4 km',
+        btnTopoRidge: '🏔️ Calamuchita Valley + Hilltop Repeater #5 (28.4 km)',
+        btnTopoBlocked: '🚫 Turn OFF Repeater #5 (Hill Blocks Direct Signal)',
+        btnTopoPlains: '🌾 Río Cuarto Plains Direct LoRa (14.2 km Silobag)',
+        lblBeep: '🔊 12V Cab Alert Beep',
+        gridTitle: '☀️ Click Any Solar + LoRa ESP32 Field Node to Inspect or Trigger Emergency',
+        gridBadge: 'UNIVERSAL 5W SOLAR + LiFePO₄ + 15 µA SLEEP',
+        cabCell: '📵 CELL: 0 BARS (OFF-GRID)',
+        lblOledNasa: 'NASA ORBITAL FUSION',
+        lblOledSolar: 'SOLAR + LiFePO₄ BUS',
+        lblOledActuator: 'AUTONOMOUS ACTION',
+        lblOledModbus: 'GATEWAY MODBUS REG',
+        btnTrigger: '⚡ Simulate Field Emergency!',
+        btnRestore: '🟢 Restore Nominal State',
+        canvasLabels: ['HIDDEN VALLEY NODE', 'SIERRA RIDGE', 'SOLAR REPEATER #5 (5W)', '12V PICKUP CAB + GATEWAY', 'NASA ORBITAL'],
+        blockedMsg: '⚠️ REPEATER #5 OFF: Mountain ridge blocks direct 915 MHz packet! Turn Repeater #5 ON to jump 28.4 km.',
+        nodes: [
+          {
+            title: '❄️ #1 Frost & Thermal Inversion',
+            tag: '2× PT100 4–20mA',
+            desc: 'Detects cold air pooling in mountain hollows (40 cm vs 1.80 m) + Reed Switch wind/rain wakeup.',
+            dist: '15.2 km LoRa',
+            nomVal: '40cm: +3.4 °C | 1.8m: +4.1 °C',
+            alrVal: '40cm: -2.1 °C | 1.8m: +2.8 °C',
+            nomMsg: 'NOMINAL: Canopy safely above dew point. Anti-frost irrigation on standby.',
+            alrMsg: 'CRITICAL FROST INVERSION! Cold pocket (-2.1 °C) at 40 cm -> Auto-starting anti-frost sprinkler & alerting cab!',
+            nasa: 'NASA POWER T2M Macro +3.5 °C',
+            solar: '3.34 V (96%) • 15 µA',
+            nomAct: 'Frost Valve: STANDBY',
+            alrAct: 'GPIO26 Anti-Frost ON!',
+            regNom: 'Reg 30011 = +340',
+            regAlr: 'Reg 30011 = -210 (ALM)'
+          },
+          {
+            title: '🚰 #2 Bi-Stable Latch Valve + Flow',
+            tag: '0.00 mA HOLD',
+            desc: '9V/12V bi-stable solenoid opens/closes with a 50 ms H-bridge pulse (DRV8871) + broken pipe flow guard.',
+            dist: '11.8 km LoRa',
+            nomVal: 'Hold: 0.00 mA | Flow: 18.2 m³/h',
+            alrVal: 'PIPE BURST! Flow: 41.6 m³/h (2.3×)',
+            nomMsg: 'NOMINAL: Bi-stable magnet holding drip line open at 0.00 mA battery draw.',
+            alrMsg: 'BROKEN MAINLINE DETECTED (2.3× flow spike)! Sending 50 ms reverse pulse to shut branch & save tank!',
+            nasa: 'SMAP GWETROOT 44.8%',
+            solar: '3.36 V (98%) • 0 mA Hold',
+            nomAct: 'DRV8871 Pulse: OPEN',
+            alrAct: '50ms Reverse SHUTOFF!',
+            regNom: 'Reg 30012 = 1820',
+            regAlr: 'Reg 00004 = CLOSED!'
+          },
+          {
+            title: '🧪 #3 Soil NPK + EC + pH (RS485)',
+            tag: 'MODBUS IP68',
+            desc: 'Subsurface NPK, Electrical Conductivity (salinity), and pH probe wired to MAX485 port.',
+            dist: '16.5 km LoRa',
+            nomVal: 'pH 6.7 | EC 1.3 dS/m | N: OK',
+            alrVal: 'SALINITY! EC 4.7 dS/m | pH 8.1',
+            nomMsg: 'NOMINAL: Balanced root-zone salinity and NPK nutrients for chickpea/sorghum rotation.',
+            alrMsg: 'SALINITY ALERT! NASA MODIS NDVI yellowing confirmed as well-water salt buildup (EC 4.7 dS/m), NOT nitrogen lack!',
+            nasa: 'MODIS NDVI Drop 0.68→0.49',
+            solar: '3.33 V (94%) • RS485',
+            nomAct: 'Fertigation: OPTIMAL',
+            alrAct: 'Leaching Flush Advised',
+            regNom: 'Reg 30014 = 130',
+            regAlr: 'Reg 30014 = 470 (SALT)'
+          },
+          {
+            title: '🌊 #4 Tank & Borehole Level',
+            tag: '4–20mA + NAMUR',
+            desc: 'Submersible stainless hydrostatic sensor in Australian tank & deep well with <3.6 mA cut guard.',
+            dist: '8.9 km LoRa',
+            nomVal: '15.20 mA (70.0% Tank Level)',
+            alrVal: '4.48 mA (3.0% CRITICAL LOW!)',
+            nomMsg: 'NOMINAL: Livestock troughs & irrigation reserve full. Live-zero NAMUR NE43 healthy.',
+            alrMsg: 'DYNAMIC DRAWDOWN ALERT! Borehole water near pump intake -> Locking VFD before dry-run cavitation!',
+            nasa: 'PRECTOT Deficit -38%',
+            solar: '3.35 V (97%) • 24V Boost',
+            nomAct: 'Submersible Pump: OK',
+            alrAct: 'CAVITATION INTERLOCK!',
+            regNom: 'Reg 30016 = 7000',
+            regAlr: 'Reg 00002 = LOCKED!'
+          },
+          {
+            title: '🏔️ #5 Hilltop Solar Mesh Repeater',
+            tag: '30 KM RIDGE HOP',
+            desc: '300 g IP67 pole-mounted ESP32 + LoRa 915 MHz + 5W solar relay jumping hidden valleys over hills.',
+            dist: '28.4 km Bridge',
+            nomVal: 'Relaying 6/6 Nodes • -82 dBm',
+            alrVal: 'STORM BURST: 42 pkts/min OK',
+            nomMsg: 'NOMINAL: Bridging hidden Calamuchita valley packets over 420 m ridge to pickup cab & farmhouse.',
+            alrMsg: 'HIGH-PRIORITY RELAY: Forwarding emergency frost & valve shutoff packets across 28.4 km with zero packet loss!',
+            nasa: 'SRTM Elevation +1,140 m',
+            solar: '5W Panel • 3.38 V (99%)',
+            nomAct: 'AES-128 Mesh Active',
+            alrAct: 'Priority Burst Hop!',
+            regNom: 'Reg 30018 = -82 dBm',
+            regAlr: 'Reg 30018 = PRIORITY'
+          },
+          {
+            title: '🌾 #6 Silobag CO₂ & Grain Lance',
+            tag: '100% RÍO CUARTO',
+            desc: 'Solar spear inside remote corn/soy/chickpea silobags tracking biological CO₂ & intergranular moisture.',
+            dist: '14.2 km LoRa',
+            nomVal: 'CO₂: 430 ppm | Grain H: 13.1%',
+            alrVal: 'SPOILAGE! CO₂: 1,920 ppm | 17.8%',
+            nomMsg: 'NOMINAL: Dry stored grain in remote lot. Zero biological fermentation detected.',
+            alrMsg: 'SILOBAG BREACH / FERMENTATION! CO₂ surged to 1,920 ppm (water ingress from wildlife tear) -> Save harvest now!',
+            nasa: 'GIBS Rain Storm 48h Ago',
+            solar: '3.32 V (93%) • Spear IP67',
+            nomAct: '220 t Grain Protected',
+            alrAct: 'DISPATCH EXTRACTOR!',
+            regNom: 'Reg 30020 = 430 ppm',
+            regAlr: 'Reg 30020 = 1920 ALM!'
+          }
+        ]
+      },
+      es: {
+        hdrTitle: 'SIMULADOR SOLAR LORA 30 KM + PANTALLA OLED 12V EN CHATA/TRACTOR',
+        hdrSub: '6 Dispositivos Solares ESP32 Sin Señal • Salto de Cumbre • Cero Internet/4G',
+        autoStart: '▶ Auto-Simular los 6 Nodos',
+        autoStop: '⏹ Detener Demo',
+        btnPitch: '🎤 Entrenador Pitch 3 Min',
+        btnReport: '📕 Informe Imprimible 04',
+        topoTitle: '🏔️ Perfil Topográfico RF en Vivo: Valle Oculto → Repetidora Solar de Cumbre (915 MHz) → Chata 12V y Casco',
+        topoBadge: '📵 SIN SEÑAL 4G • LoRa SF10 +17 dBm • 28.4 km',
+        btnTopoRidge: '🏔️ Valle Calamuchita + Repetidora Cumbre #5 (28.4 km)',
+        btnTopoBlocked: '🚫 Apagar Repetidora #5 (El Cerro Bloquea Señal Directa)',
+        btnTopoPlains: '🌾 Llanura Río Cuarto LoRa Directo (14.2 km Silobolsa)',
+        lblBeep: '🔊 Alerta Sonora en Cabina 12V',
+        gridTitle: '☀️ Hacé Clic en Cualquier Nodo Solar + LoRa ESP32 para Inspeccionar o Disparar Alerta',
+        gridBadge: 'PLACA UNIVERSAL SOLAR 5W + LiFePO₄ + SUEÑO 15 µA',
+        cabCell: '📵 CELULAR: SIN SERVICIO',
+        lblOledNasa: 'FUSIÓN ORBITAL NASA',
+        lblOledSolar: 'BUS SOLAR + LiFePO₄',
+        lblOledActuator: 'ACCIÓN AUTÓNOMA',
+        lblOledModbus: 'REGISTRO MODBUS CASCO',
+        btnTrigger: '⚡ ¡Disparar Emergencia de Campo!',
+        btnRestore: '🟢 Restaurar Estado Normal',
+        canvasLabels: ['NODO EN HONDONADA', 'CERRO SERRANO', 'REPETIDORA SOLAR #5 (5W)', 'CHATA 12V + CASCO SCADA', 'SATÉLITE NASA'],
+        blockedMsg: '⚠️ REPETIDORA #5 APAGADA: ¡El cerro bloquea la línea de vista directa! Encendé la Posta #5 para saltar 28.4 km.',
+        nodes: [
+          {
+            title: '❄️ #1 Centinela Heladas e Inversión',
+            tag: '2× PT100 4–20mA',
+            desc: 'Detecta aire helado embolsado en hondonadas (40 cm vs 1.80 m) + anemómetro/pluviómetro Reed Switch.',
+            dist: '15.2 km LoRa',
+            nomVal: '40cm: +3.4 °C | 1.8m: +4.1 °C',
+            alrVal: '40cm: -2.1 °C | 1.8m: +2.8 °C',
+            nomMsg: 'NORMAL: Floración sobre punto de rocío. Riego anti-helada en espera.',
+            alrMsg: '¡HELADA POR INVERSIÓN TÉRMICA! Bolsón de -2.1 °C a 40 cm del suelo -> ¡Activa solo riego anti-helada y avisa al casco!',
+            nasa: 'NASA POWER Macro +3.5 °C',
+            solar: '3.34 V (96%) • 15 µA',
+            nomAct: 'Riego Helada: ESPERA',
+            alrAct: '¡GPIO26 Riego ACTIVO!',
+            regNom: 'Reg 30011 = +340',
+            regAlr: 'Reg 30011 = -210 (ALM)'
+          },
+          {
+            title: '🚰 #2 Electroválvula Latch + Caudal',
+            tag: '0.00 mA RETENCIÓN',
+            desc: 'Válvula biestable abre/cierra con pulso de 50 ms (DRV8871) consumiendo 0.00 mA + detector de caño roto.',
+            dist: '11.8 km LoRa',
+            nomVal: 'Imán: 0.00 mA | Caudal: 18.2 m³/h',
+            alrVal: '¡CAÑO ROTO! Caudal: 41.6 m³/h (2.3×)',
+            nomMsg: 'NORMAL: Imán biestable mantiene goteo abierto gastando 0.00 mA de batería solar.',
+            alrMsg: '¡ROTURA DE MANGUERA (caudal ×2.3 por animal/rotura)! Pulso inverso de 50 ms cierra sola la rama para no vaciar el tanque.',
+            nasa: 'SMAP GWETROOT 44.8%',
+            solar: '3.36 V (98%) • 0 mA Hold',
+            nomAct: 'Pulso DRV8871: ABIERTA',
+            alrAct: '¡CIERRE 50ms AUTÓNOMO!',
+            regNom: 'Reg 30012 = 1820',
+            regAlr: 'Reg 00004 = ¡CERRADA!'
+          },
+          {
+            title: '🧪 #3 Salud Suelo NPK+EC+pH (RS485)',
+            tag: 'MODBUS IP68',
+            desc: 'Sonda subterránea IP68 (Humedad + EC Salinidad + pH + NPK) directa al puerto RS485 MAX485.',
+            dist: '16.5 km LoRa',
+            nomVal: 'pH 6.7 | EC 1.3 dS/m | NPK: OK',
+            alrVal: '¡SALINIDAD! EC 4.7 dS/m | pH 8.1',
+            nomMsg: 'NORMAL: Conductividad y nutrientes óptimos para rotación a garbanzo/sorgo.',
+            alrMsg: '¡DIAGNÓSTICO CRUZADO NASA! El manchón amarillo de MODIS NDVI es salinización por agua dura (EC 4.7), ¡no falta de nitrógeno!',
+            nasa: 'MODIS NDVI 0.68→0.49',
+            solar: '3.33 V (94%) • RS485',
+            nomAct: 'Fertirriego: ÓPTIMO',
+            alrAct: 'Lavado de Sales Sugerido',
+            regNom: 'Reg 30014 = 130',
+            regAlr: 'Reg 30014 = 470 (SAL)'
+          },
+          {
+            title: '🌊 #4 Tanque Australiano y Pozo',
+            tag: '4–20mA + NAMUR',
+            desc: 'Transmisor hidrostático sumergible inoxidable en aguada lejana y caño camisa de perforación.',
+            dist: '8.9 km LoRa',
+            nomVal: '15.20 mA (70.0% Nivel Tanque)',
+            alrVal: '4.48 mA (¡3.0% NIVEL CRÍTICO!)',
+            nomMsg: 'NORMAL: Aguada para hacienda y reserva llenas. Lazo NAMUR NE43 sano.',
+            alrMsg: '¡BAJÓ LA NAPA / TANQUE VACÍO! Bloquea arranque de bomba sumergible antes de chupar aire (cavitación) y quemarse.',
+            nasa: 'Déficit PRECTOT -38%',
+            solar: '3.35 V (97%) • Boost 24V',
+            nomAct: 'Bomba Pozo: HABILITADA',
+            alrAct: '¡BLOQUEO ANTI-SECO!',
+            regNom: 'Reg 30016 = 7000',
+            regAlr: 'Reg 00002 = ¡ENCLAVADO!'
+          },
+          {
+            title: '🏔️ #5 Posta Repetidora + Chata OLED',
+            tag: 'SALTO 30 KM',
+            desc: 'Cajita IP67 de 300 g en poste/loma (Solar 5W + LoRa) que salta paquetes por arriba del cerro.',
+            dist: '28.4 km Salto',
+            nomVal: 'Saltando 6/6 Nodos • -82 dBm',
+            alrVal: 'RÁFAGA ALERTA: 42 paq/min OK',
+            nomMsg: 'NORMAL: Enlazando valle oculto de Calamuchita por arriba del filo serrano hasta la chata y el casco.',
+            alrMsg: '¡RETRANSMISIÓN PRIORITARIA! Saltando alarma crítica a 28.4 km sin perder un solo paquete y sin señal celular.',
+            nasa: 'Cota SRTM +1,140 msnm',
+            solar: 'Panel 5W • 3.38 V (99%)',
+            nomAct: 'Malla AES-128 Activa',
+            alrAct: '¡Salto Prioritario!',
+            regNom: 'Reg 30018 = -82 dBm',
+            regAlr: 'Reg 30018 = PRIORIDAD'
+          },
+          {
+            title: '🌾 #6 Lanza Centinela de Silobolsa',
+            tag: '100% RÍO CUARTO',
+            desc: 'Lanza solar CO₂ + humedad intergranular para maíz, soja, sorgo y garbanzo en lotes aislados.',
+            dist: '14.2 km LoRa',
+            nomVal: 'CO₂: 430 ppm | Grano H: 13.1%',
+            alrVal: '¡FERMENTACIÓN! CO₂: 1,920 ppm',
+            nomMsg: 'NORMAL: Grano seco y estable en silobolsa lejano. Sin actividad biológica.',
+            alrMsg: '¡ROTURA POR PELUDO/AGUA EN SILOBOLSA! CO₂ subió a 1,920 ppm semanas antes de pudrirse -> ¡Embolsar/extraer a tiempo!',
+            nasa: 'Tormenta GIBS hace 48h',
+            solar: '3.32 V (93%) • Lanza IP67',
+            nomAct: '220 t Grano Seguro',
+            alrAct: '¡REVISAR SILOBOLSA YA!',
+            regNom: 'Reg 30020 = 430 ppm',
+            regAlr: 'Reg 30020 = ¡1920 ALM!'
+          }
+        ]
+      },
+      pt: {
+        hdrTitle: 'SIMULADOR SOLAR LORA 30 KM + TELA OLED 12V NA CAMINHONETE/TRATOR',
+        hdrSub: '6 Dispositivos Solares ESP32 Sem Sinal • Repetidora de Topo • Zero Internet/4G',
+        autoStart: '▶ Auto-Simular os 6 Nós',
+        autoStop: '⏹ Parar Demo',
+        btnPitch: '🎤 Treinador Pitch 3 Min',
+        btnReport: '📕 Relatório Imprimível 04',
+        topoTitle: '🏔️ Perfil Topográfico RF ao Vivo: Vale Oculto → Repetidora Solar de Topo (915 MHz) → Cabine 12V e Sede',
+        topoBadge: '📵 SEM SINAL 4G • LoRa SF10 +17 dBm • 28.4 km',
+        btnTopoRidge: '🏔️ Vale Serrano + Repetidora de Topo #5 (28.4 km)',
+        btnTopoBlocked: '🚫 Desligar Repetidora #5 (Morro Bloqueia Sinal Direto)',
+        btnTopoPlains: '🌾 Planície Río Cuarto LoRa Direto (14.2 km Silobolsa)',
+        lblBeep: '🔊 Alerta Sonoro na Cabine 12V',
+        gridTitle: '☀️ Clique em Qualquer Nó Solar + LoRa ESP32 para Inspecionar ou Disparar Alerta',
+        gridBadge: 'PLACA UNIVERSAL SOLAR 5W + LiFePO₄ + SLEEP 15 µA',
+        cabCell: '📵 CELULAR: SEM SERVIÇO',
+        lblOledNasa: 'FUSÃO ORBITAL NASA',
+        lblOledSolar: 'BUS SOLAR + LiFePO₄',
+        lblOledActuator: 'AÇÃO AUTÔNOMA',
+        lblOledModbus: 'REGISTRADOR MODBUS SEDE',
+        btnTrigger: '⚡ Disparar Emergência de Campo!',
+        btnRestore: '🟢 Restaurar Estado Nominal',
+        canvasLabels: ['NÓ NA BAIXADA', 'SERRA / MORRO', 'REPETIDORA SOLAR #5 (5W)', 'TRATOR 12V + SEDE SCADA', 'SATÉLITE NASA'],
+        blockedMsg: '⚠️ REPETIDORA #5 DESLIGADA: O morro bloqueia a visada direta! Ligue a Repetidora #5 para saltar 28.4 km.',
+        nodes: [
+          {
+            title: '❄️ #1 Sentinela de Geada e Inversão',
+            tag: '2× PT100 4–20mA',
+            desc: 'Detecta bolsões de ar gelado em baixadas (40 cm vs 1.80 m) + anemômetro/pluviômetro Reed Switch.',
+            dist: '15.2 km LoRa',
+            nomVal: '40cm: +3.4 °C | 1.8m: +4.1 °C',
+            alrVal: '40cm: -2.1 °C | 1.8m: +2.8 °C',
+            nomMsg: 'NOMINAL: Florada acima do ponto de orvalho. Irrigação antigeada em espera.',
+            alrMsg: 'GEADA POR INVERSÃO TÉRMICA! Bolsão de -2.1 °C a 40 cm -> Aciona sozinho a irrigação antigeada e alerta a sede!',
+            nasa: 'NASA POWER Macro +3.5 °C',
+            solar: '3.34 V (96%) • 15 µA',
+            nomAct: 'Irrigação Geada: ESPERA',
+            alrAct: 'GPIO26 Antigeada LIGADO!',
+            regNom: 'Reg 30011 = +340',
+            regAlr: 'Reg 30011 = -210 (ALM)'
+          },
+          {
+            title: '🚰 #2 Válvula Latch Biestável + Vazão',
+            tag: '0.00 mA RETENÇÃO',
+            desc: 'Solenoide biestável abre/fecha com pulso de 50 ms (DRV8871) gastando 0.00 mA + proteção de cano rompido.',
+            dist: '11.8 km LoRa',
+            nomVal: 'Ímã: 0.00 mA | Vazão: 18.2 m³/h',
+            alrVal: 'CANO ROMPIDO! Vazão: 41.6 m³/h (2.3×)',
+            nomMsg: 'NOMINAL: Ímã interno mantém gotejamento aberto consumindo 0.00 mA da bateria solar.',
+            alrMsg: 'TUBULAÇÃO ROMPIDA (vazão ×2.3)! Pulso reverso de 50 ms fecha o ramal sozinho para não esvaziar o reservatório!',
+            nasa: 'SMAP GWETROOT 44.8%',
+            solar: '3.36 V (98%) • 0 mA Hold',
+            nomAct: 'Pulso DRV8871: ABERTA',
+            alrAct: 'FECHAMENTO 50ms AUTO!',
+            regNom: 'Reg 30012 = 1820',
+            regAlr: 'Reg 00004 = FECHADA!'
+          },
+          {
+            title: '🧪 #3 Saúde do Solo NPK+EC+pH (RS485)',
+            tag: 'MODBUS IP68',
+            desc: 'Sonda agrícola IP68 (Umidade + Condutividade EC + pH + NPK) ligada direto na porta RS485 MAX485.',
+            dist: '16.5 km LoRa',
+            nomVal: 'pH 6.7 | EC 1.3 dS/m | NPK: OK',
+            alrVal: 'SALINIDADE! EC 4.7 dS/m | pH 8.1',
+            nomMsg: 'NOMINAL: Salinidade e nutrientes equilibrados para rotação de culturas.',
+            alrMsg: 'FUSÃO NASA MODIS NDVI! Mancha amarela confirmada como salinização por água dura (EC 4.7), e não falta de nitrogênio!',
+            nasa: 'MODIS NDVI 0.68→0.49',
+            solar: '3.33 V (94%) • RS485',
+            nomAct: 'Fertirrigação: IDEAL',
+            alrAct: 'Manejo Salino Sugerido',
+            regNom: 'Reg 30014 = 130',
+            regAlr: 'Reg 30014 = 470 (SAL)'
+          },
+          {
+            title: '🌊 #4 Reservatório e Nível de Poço',
+            tag: '4–20mA + NAMUR',
+            desc: 'Transmissor hidrostático submersível inox em bebedouro distante e poço artesiano profundo.',
+            dist: '8.9 km LoRa',
+            nomVal: '15.20 mA (70.0% Reservatório)',
+            alrVal: '4.48 mA (3.0% NÍVEL CRÍTICO!)',
+            nomMsg: 'NOMINAL: Bebedouro do gado e reserva cheios. Laço NAMUR NE43 íntegro.',
+            alrMsg: 'NÍVEL DINÂMICO CRÍTICO! Bloqueia partida da bomba submersa antes de cavitar a seco e queimar o motor!',
+            nasa: 'Déficit PRECTOT -38%',
+            solar: '3.35 V (97%) • Boost 24V',
+            nomAct: 'Bomba Poço: PRONTA',
+            alrAct: 'BLOQUEIO ANTISSECO!',
+            regNom: 'Reg 30016 = 7000',
+            regAlr: 'Reg 00002 = TRAVADO!'
+          },
+          {
+            title: '🏔️ #5 Repetidora Solar + OLED Trator',
+            tag: 'SALTO 30 KM',
+            desc: 'Caixa IP67 de 300 g no alto do morro (Solar 5W + LoRa) saltando pacotes do vale oculto.',
+            dist: '28.4 km Salto',
+            nomVal: 'Retransmitindo 6/6 • -82 dBm',
+            alrVal: 'RAJADA ALERTA: 42 pkt/min OK',
+            nomMsg: 'NOMINAL: Saltando telemetria do vale oculto por cima da serra até a caminhonete e a sede.',
+            alrMsg: 'RETRANSMISSÃO PRIORITÁRIA: Saltando pacote crítico a 28.4 km sem perda de dados e sem sinal celular!',
+            nasa: 'Altitude SRTM +1,140 m',
+            solar: 'Painel 5W • 3.38 V (99%)',
+            nomAct: 'Malha AES-128 Ativa',
+            alrAct: 'Salto Prioritário!',
+            regNom: 'Reg 30018 = -82 dBm',
+            regAlr: 'Reg 30018 = PRIORIDADE'
+          },
+          {
+            title: '🌾 #6 Lança Sentinela de Silobolsa',
+            tag: 'CO₂ + GRÃOS',
+            desc: 'Lança solar CO₂ + umidade intergranular em silobolsas de milho, soja, sorgo e grão-de-bico.',
+            dist: '14.2 km LoRa',
+            nomVal: 'CO₂: 430 ppm | Grão U: 13.1%',
+            alrVal: 'FERMENTAÇÃO! CO₂: 1,920 ppm',
+            nomMsg: 'NOMINAL: Grãos secos e seguros em lote isolado. Sem atividade biológica.',
+            alrMsg: 'RASGO / INFILTRAÇÃO NO SILOBOLSA! CO₂ subiu a 1,920 ppm semanas antes da perda -> Salve a safra a tempo!',
+            nasa: 'Chuva GIBS há 48h',
+            solar: '3.32 V (93%) • Lança IP67',
+            nomAct: '220 t Grão Protegido',
+            alrAct: 'VISTORIAR SILOBOLSA!',
+            regNom: 'Reg 30020 = 430 ppm',
+            regAlr: 'Reg 30020 = 1920 ALM!'
+          }
+        ]
+      }
+    };
+
+    const qLang = new URLSearchParams(window.location.search).get('lang') || localStorage.getItem('inanna_lang');
+    let curLang = ['en', 'es', 'pt'].includes(qLang) ? qLang : 'en';
+    let selIdx = 0;
+    let nodeAlerts = [false, false, false, false, false, false];
+    let terrainMode = 'ridge'; // 'ridge' | 'blocked' | 'plains'
+    let phase = 0;
+    let tourTimer = null;
+
+    function playCabBeep() {
+      const chk = document.getElementById('chkBeep');
+      if (!chk || !chk.checked) return;
+      try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = ctx.createOscillator();
+        const g = ctx.createGain();
+        osc.type = 'square';
+        osc.frequency.setValueAtTime(880, ctx.currentTime);
+        osc.frequency.setValueAtTime(1174, ctx.currentTime + 0.09);
+        g.gain.setValueAtTime(0.05, ctx.currentTime);
+        g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.22);
+        osc.connect(g); g.connect(ctx.destination);
+        osc.start(); osc.stop(ctx.currentTime + 0.23);
+      } catch (e) {}
+    }
+
+    function selectNode(idx) {
+      selIdx = idx;
+      if (idx === 5 && terrainMode === 'ridge') {
+        // Keep user choice or show seamless RF
+      }
+      renderAll();
+    }
+
+    function setNodeAlert(flag) {
+      nodeAlerts[selIdx] = flag;
+      if (flag) playCabBeep();
+      renderAll();
+    }
+
+    function setTerrain(mode) {
+      terrainMode = mode;
+      renderAll();
+    }
+
+    function toggleTour() {
+      if (tourTimer) {
+        clearInterval(tourTimer);
+        tourTimer = null;
+        renderAll();
+        return;
+      }
+      selIdx = 0;
+      nodeAlerts[0] = true;
+      playCabBeep();
+      renderAll();
+      tourTimer = setInterval(() => {
+        nodeAlerts[selIdx] = false;
+        selIdx = (selIdx + 1) % 6;
+        nodeAlerts[selIdx] = true;
+        terrainMode = (selIdx === 5) ? 'plains' : 'ridge';
+        playCabBeep();
+        renderAll();
+      }, 3400);
+    }
+
+    function renderAll() {
+      const t = LORA_I18N[curLang];
+      document.documentElement.lang = curLang;
+      document.getElementById('hdrTitle').textContent = t.hdrTitle;
+      document.getElementById('hdrSub').textContent = t.hdrSub;
+      document.getElementById('brandHome').href = `../index.html?lang=${curLang}`;
+      document.getElementById('btnAutoTour').textContent = tourTimer ? t.autoStop : t.autoStart;
+      document.getElementById('btnPitchLink').textContent = t.btnPitch;
+      document.getElementById('btnPitchLink').href = `../pitch/index.html?lang=${curLang}`;
+      document.getElementById('btnReportLink').textContent = t.btnReport;
+      document.getElementById('btnReportLink').href = `../manuals/index.html?doc=m4&lang=${curLang}`;
+
+      document.getElementById('topoTitle').textContent = t.topoTitle;
+      document.getElementById('topoBadge').textContent = t.topoBadge;
+      document.getElementById('btnTopoRidge').textContent = t.btnTopoRidge;
+      document.getElementById('btnTopoBlocked').textContent = t.btnTopoBlocked;
+      document.getElementById('btnTopoPlains').textContent = t.btnTopoPlains;
+      document.getElementById('btnTopoRidge').classList.toggle('active', terrainMode === 'ridge');
+      document.getElementById('btnTopoBlocked').classList.toggle('active', terrainMode === 'blocked');
+      document.getElementById('btnTopoPlains').classList.toggle('active', terrainMode === 'plains');
+      document.getElementById('lblBeep').textContent = t.lblBeep;
+
+      document.getElementById('gridTitle').textContent = t.gridTitle;
+      document.getElementById('gridBadge').textContent = t.gridBadge;
+      document.getElementById('cabCellStatus').textContent = t.cabCell;
+      document.getElementById('lblOledNasa').textContent = t.lblOledNasa;
+      document.getElementById('lblOledSolar').textContent = t.lblOledSolar;
+      document.getElementById('lblOledActuator').textContent = t.lblOledActuator;
+      document.getElementById('lblOledModbus').textContent = t.lblOledModbus;
+      document.getElementById('btnTriggerAlert').textContent = t.btnTrigger;
+      document.getElementById('btnRestoreNorm').textContent = t.btnRestore;
+
+      // Render 6 Node Cards
+      const grid = document.getElementById('nodesContainer');
+      grid.innerHTML = t.nodes.map((n, i) => {
+        const isSel = i === selIdx;
+        const isAlr = nodeAlerts[i];
+        return `
+          <button type="button" class="node-card ${isSel ? 'selected' : ''} ${isAlr ? 'alert-state' : ''}" onclick="selectNode(${i})">
+            <div class="nc-top">
+              <span class="nc-title">${n.title}</span>
+              <span class="nc-tag" style="${isAlr ? 'background:rgba(239,68,68,0.2);color:#fecaca;border-color:#ef4444;' : ''}">${isAlr ? '⚠️ ALERT' : n.tag}</span>
+            </div>
+            <div class="nc-desc">${n.desc}</div>
+            <div class="nc-foot">
+              <span>📡 ${n.dist}</span>
+              <span style="color:${isAlr ? '#fbbf24' : '#86efac'};">${isAlr ? n.alrVal : n.nomVal}</span>
+            </div>
+          </button>
+        `;
+      }).join('');
+
+      // Render 12V Cab OLED Screen
+      const cur = t.nodes[selIdx];
+      const alr = nodeAlerts[selIdx];
+      document.getElementById('oledNodeTitle').textContent = cur.title;
+      if (terrainMode === 'blocked') {
+        document.getElementById('oledRssi').textContent = 'RSSI: NO LOS (BLOCKED)';
+        document.getElementById('oledPrimaryVal').textContent = '--- NO RF PACKET ---';
+        document.getElementById('oledPrimaryVal').style.color = '#f87171';
+        const sb = document.getElementById('oledStatusBox');
+        sb.className = 'oled-alert-box oled-warn';
+        sb.textContent = t.blockedMsg;
+      } else {
+        document.getElementById('oledRssi').textContent = terrainMode === 'plains' ? 'RSSI: -76 dBm (14.2 km)' : 'RSSI: -82 dBm (28.4 km Hop)';
+        document.getElementById('oledPrimaryVal').textContent = alr ? cur.alrVal : cur.nomVal;
+        document.getElementById('oledPrimaryVal').style.color = alr ? '#fbbf24' : '#00f0ff';
+        const sb = document.getElementById('oledStatusBox');
+        sb.className = 'oled-alert-box ' + (alr ? 'oled-crit' : 'oled-ok');
+        sb.textContent = alr ? cur.alrMsg : cur.nomMsg;
+      }
+      document.getElementById('valOledNasa').textContent = cur.nasa;
+      document.getElementById('valOledSolar').textContent = cur.solar;
+      document.getElementById('valOledAct').textContent = alr ? cur.alrAct : cur.nomAct;
+      document.getElementById('valOledModbus').textContent = alr ? cur.regAlr : cur.regNom;
+
+      document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.dataset.lang === curLang));
+    }
+
+    function drawRidge() {
+      const c = document.getElementById('ridgeCanvas');
+      const ctx = c.getContext('2d');
+      const w = c.width, h = c.height;
+      ctx.clearRect(0, 0, w, h);
+      const t = LORA_I18N[curLang];
+      const alr = nodeAlerts[selIdx];
+
+      // NASA Orbital Satellite top-right
+      const satX = w * 0.68, satY = 28;
+      ctx.fillStyle = '#38bdf8';
+      ctx.fillRect(satX - 16, satY - 6, 32, 12);
+      ctx.fillStyle = '#1d4ed8';
+      ctx.fillRect(satX - 42, satY - 4, 22, 8);
+      ctx.fillRect(satX + 20, satY - 4, 22, 8);
+      ctx.fillStyle = '#93c5fd';
+      ctx.font = '700 12px JetBrains Mono, monospace';
+      ctx.fillText(t.canvasLabels[4], satX + 50, satY + 4);
+
+      // Dashed orbital beam
+      ctx.strokeStyle = 'rgba(56, 189, 248, 0.25)';
+      ctx.setLineDash([6, 6]);
+      ctx.beginPath(); ctx.moveTo(satX, satY + 10); ctx.lineTo(170, 175); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(satX, satY + 10); ctx.lineTo(w - 210, 172); ctx.stroke();
+      ctx.setLineDash([]);
+
+      // Terrain silhouette
+      ctx.beginPath();
+      ctx.moveTo(0, h);
+      if (terrainMode === 'plains') {
+        ctx.lineTo(0, 182);
+        ctx.quadraticCurveTo(w * 0.5, 170, w, 182);
+      } else {
+        ctx.lineTo(0, 165);
+        ctx.quadraticCurveTo(180, 195, 340, 178);
+        ctx.quadraticCurveTo(510, 48, 620, 54); // Calamuchita Mountain Peak!
+        ctx.quadraticCurveTo(760, 62, 930, 172);
+        ctx.lineTo(w, 178);
+      }
+      ctx.lineTo(w, h);
+      ctx.closePath();
+      const grad = ctx.createLinearGradient(0, 50, 0, h);
+      grad.addColorStop(0, '#1e3a2f');
+      grad.addColorStop(1, '#0b1512');
+      ctx.fillStyle = grad;
+      ctx.fill();
+      ctx.strokeStyle = '#34d399';
+      ctx.lineWidth = 2;
+      ctx.stroke();
+
+      const nX = 165, nY = terrainMode === 'plains' ? 172 : 178;
+      const rX = 585, rY = 48;
+      const gX = w - 210, gY = terrainMode === 'plains' ? 172 : 170;
+
+      // Node Box (Left)
+      ctx.fillStyle = alr ? '#7c2d12' : '#0f293d';
+      ctx.strokeStyle = alr ? '#f59e0b' : '#00b8e6';
+      ctx.fillRect(nX - 65, nY - 34, 135, 30);
+      ctx.strokeRect(nX - 65, nY - 34, 135, 30);
+      ctx.fillStyle = '#fff';
+      ctx.font = '700 12px Inter, sans-serif';
+      ctx.fillText(`#${selIdx + 1} ESP32 Solar`, nX - 54, nY - 15);
+      ctx.fillStyle = '#94a3b8';
+      ctx.font = '600 11px JetBrains Mono, monospace';
+      ctx.fillText(t.canvasLabels[0], nX - 65, nY + 18);
+
+      // Pickup Cab + Farmhouse Gateway (Right)
+      ctx.fillStyle = '#112638';
+      ctx.strokeStyle = '#00b8e6';
+      ctx.fillRect(gX - 85, gY - 36, 185, 32);
+      ctx.strokeRect(gX - 85, gY - 36, 185, 32);
+      ctx.fillStyle = '#38bdf8';
+      ctx.font = '700 12px JetBrains Mono, monospace';
+      ctx.fillText('🛻 OLED 12V + SCADA', gX - 74, gY - 16);
+      ctx.fillStyle = '#94a3b8';
+      ctx.fillText(t.canvasLabels[3], gX - 85, gY + 18);
+
+      if (terrainMode !== 'plains') {
+        // Hilltop Repeater #5
+        const repOn = terrainMode === 'ridge';
+        ctx.fillStyle = repOn ? '#0c2d24' : '#2d1215';
+        ctx.strokeStyle = repOn ? '#22c55e' : '#ef4444';
+        ctx.fillRect(rX - 80, rY - 34, 165, 28);
+        ctx.strokeRect(rX - 80, rY - 34, 165, 28);
+        ctx.fillStyle = repOn ? '#86efac' : '#fca5a5';
+        ctx.font = '700 11.5px JetBrains Mono, monospace';
+        ctx.fillText(repOn ? t.canvasLabels[2] : 'OFF: REPEATER #5', rX - 70, rY - 16);
+      }
+
+      // RF Packet Path Animation
+      const pktColor = alr ? '#fbbf24' : '#00f0ff';
+      if (terrainMode === 'ridge') {
+        ctx.strokeStyle = alr ? 'rgba(251,191,36,0.65)' : 'rgba(0,240,255,0.5)';
+        ctx.lineWidth = 2.4;
+        ctx.beginPath(); ctx.moveTo(nX + 70, nY - 20); ctx.lineTo(rX - 20, rY - 18); ctx.lineTo(gX - 85, gY - 20); ctx.stroke();
+
+        const p1 = (phase * 2) % 1;
+        if (phase < 0.5) {
+          const px = (nX + 70) + (rX - 20 - (nX + 70)) * p1;
+          const py = (nY - 20) + (rY - 18 - (nY - 20)) * p1;
+          ctx.fillStyle = pktColor; ctx.beginPath(); ctx.arc(px, py, 6, 0, Math.PI * 2); ctx.fill();
+        } else {
+          const p2 = (phase - 0.5) * 2;
+          const px = (rX - 20) + (gX - 85 - (rX - 20)) * p2;
+          const py = (rY - 18) + (gY - 20 - (rY - 18)) * p2;
+          ctx.fillStyle = pktColor; ctx.beginPath(); ctx.arc(px, py, 6, 0, Math.PI * 2); ctx.fill();
+        }
+      } else if (terrainMode === 'blocked') {
+        ctx.strokeStyle = 'rgba(239,68,68,0.75)';
+        ctx.setLineDash([6, 5]);
+        ctx.beginPath(); ctx.moveTo(nX + 70, nY - 20); ctx.lineTo(485, 132); ctx.stroke();
+        ctx.setLineDash([]);
+        ctx.fillStyle = '#ef4444';
+        ctx.font = '800 18px Inter, sans-serif';
+        ctx.fillText('✖ LOS BLOCKED', 435, 125);
+      } else {
+        ctx.strokeStyle = alr ? 'rgba(251,191,36,0.65)' : 'rgba(0,240,255,0.5)';
+        ctx.lineWidth = 2.4;
+        ctx.beginPath(); ctx.moveTo(nX + 70, nY - 20); ctx.lineTo(gX - 85, gY - 20); ctx.stroke();
+        const px = (nX + 70) + (gX - 85 - (nX + 70)) * phase;
+        ctx.fillStyle = pktColor; ctx.beginPath(); ctx.arc(px, nY - 20, 6, 0, Math.PI * 2); ctx.fill();
+      }
+    }
+
+    function loop() {
+      phase = (phase + 0.008) % 1;
+      drawRidge();
+      requestAnimationFrame(loop);
+    }
+
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        curLang = btn.dataset.lang;
+        localStorage.setItem('inanna_lang', curLang);
+        renderAll();
+      });
+    });
+
+    renderAll();
+    loop();
+  </script>
+  <script src="../js/suite-nav.js?v=nav9"></script>
+</body>
+</html>
