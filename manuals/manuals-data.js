@@ -6,9 +6,9 @@
 
 window.MANUALS_UI = {
   en: {
-    portalBadge: 'INANNA COMPANY • OFFICIAL ENGINEERING & OPERATIONS DOCUMENTATION',
+    portalBadge: 'TEAM INANNA • OPEN-SOURCE ENGINEERING & OPERATIONS DOCUMENTATION',
     portalTitle: 'TERRA-SHIFT SCADA — Complete Manuals Suite',
-    portalSub: 'Authored & Certified by Fabio Maximiliano Medina Rojas (Higher Technician in Mechatronics / Técnico Superior en Mecatrónica) • Team INANNA COMPANY',
+    portalSub: 'Authored by Fabio Maximiliano Medina Rojas (Higher Technician in Mechatronics / Técnico Superior en Mecatrónica) • Contestant Team INANNA',
     backBtn: '← Back to Live SCADA',
     printOneBtn: '⬇ Print Active Manual (PDF)',
     tab1: '📘 Manual 01: Scientific & Mechatronic Engineering',
@@ -17,12 +17,12 @@ window.MANUALS_UI = {
     docCodeLbl: 'DOCUMENT ID',
     revLbl: 'REVISION',
     authorLbl: 'MECHATRONICS LEAD',
-    divLbl: 'DIVISION'
+    divLbl: 'DOMAIN'
   },
   es: {
-    portalBadge: 'INANNA COMPANY • DOCUMENTACIÓN OFICIAL DE INGENIERÍA Y OPERACIÓN',
+    portalBadge: 'EQUIPO INANNA • DOCUMENTACIÓN ABIERTA DE INGENIERÍA Y OPERACIÓN',
     portalTitle: 'TERRA-SHIFT SCADA — Suite Oficial de Manuales',
-    portalSub: 'Dirección Técnica: Fabio Maximiliano Medina Rojas (Técnico Superior en Mecatrónica) • Equipo INANNA COMPANY (Medina Rojas • Debia • Coria)',
+    portalSub: 'Dirección Técnica: Fabio Maximiliano Medina Rojas (Técnico Superior en Mecatrónica) • Equipo Concursante INANNA (Medina Rojas • Debia • Coria)',
     backBtn: '← Volver al SCADA en Vivo',
     printOneBtn: '⬇ Imprimir Manual Actual (PDF)',
     tab1: '📘 Manual 01: Ingeniería Científica y Mecatrónica',
@@ -31,12 +31,12 @@ window.MANUALS_UI = {
     docCodeLbl: 'CÓDIGO DOC.',
     revLbl: 'REVISIÓN',
     authorLbl: 'DIRECCIÓN MECATRÓNICA',
-    divLbl: 'DIVISIÓN'
+    divLbl: 'ÁREA'
   },
   pt: {
-    portalBadge: 'INANNA COMPANY • DOCUMENTAÇÃO OFICIAL DE ENGENHARIA E OPERAÇÃO',
+    portalBadge: 'EQUIPE INANNA • DOCUMENTAÇÃO ABERTA DE ENGENHARIA E OPERAÇÃO',
     portalTitle: 'TERRA-SHIFT SCADA — Suíte Oficial de Manuais',
-    portalSub: 'Direção Técnica: Fabio Maximiliano Medina Rojas (Técnico Superior em Mecatrônica) • Equipe INANNA COMPANY (Medina Rojas • Debia • Coria)',
+    portalSub: 'Direção Técnica: Fabio Maximiliano Medina Rojas (Técnico Superior em Mecatrônica) • Equipe Concursante INANNA (Medina Rojas • Debia • Coria)',
     backBtn: '← Voltar ao SCADA ao Vivo',
     printOneBtn: '⬇ Imprimir Manual Atual (PDF)',
     tab1: '📘 Manual 01: Engenharia Científica e Mecatrônica',
@@ -45,7 +45,7 @@ window.MANUALS_UI = {
     docCodeLbl: 'CÓDIGO DOC.',
     revLbl: 'REVISÃO',
     authorLbl: 'LIDERANÇA MECATRÔNICA',
-    divLbl: 'DIVISÃO'
+    divLbl: 'DOMÍNIO'
   }
 };
 
@@ -56,7 +56,7 @@ window.MANUALS_CONTENT = {
   m1: {
     docId: 'INANNA-ENG-TS2026-01',
     rev: 'Rev 2.0 — NASA Space Apps 2026',
-    division: 'LABS INANNA • AI INANNA • AUTOMATION INANNA',
+    division: 'OPEN EARTH SCIENCE • AGRONOMY • RURAL MECHATRONICS',
     en: `
       <h2>1. Purpose & Systems Engineering Scope</h2>
       <p>This manual establishes the complete mathematical, physical, agro-climatic, and mechatronic foundations of <strong>TERRA-SHIFT SCADA</strong>. It is intended for agricultural engineers, Earth-observation scientists, control-systems engineers, and technical judges evaluating scientific validity and hardware robustness.</p>
@@ -231,7 +231,7 @@ window.MANUALS_CONTENT = {
   m2: {
     docId: 'INANNA-USR-TS2026-02',
     rev: 'Rev 2.0 — Plug & Play Edition',
-    division: 'HOME INANNA • ACADEMY INANNA • SERVICE INANNA',
+    division: 'COMMUNITY GUIDE • FAMILY FARMERS & RURAL SCHOOLS',
     en: `
       <h2>Welcome! No Technical Experience Required</h2>
       <p>You do <strong>not</strong> need to know anything about satellites, electronics, or programming to use <strong>TERRA-SHIFT</strong>. Everything comes pre-configured from the factory so any farmer, family producer, or cooperative member can use it in <strong>under 5 minutes</strong>.</p>
@@ -316,7 +316,7 @@ window.MANUALS_CONTENT = {
       </div>
 
       <h2>Parte B — Instalación de la Caja Física en el Campo (Enchufar y Usar)</h2>
-      <p>Si contás con el kit físico de <strong>INANNA COMPANY</strong>, no hay que pelar cables ni contratar internet rural:</p>
+      <p>Si armás el nodo físico abierto del proyecto <strong>TERRA-SHIFT</strong>, no hay que pelar cables ni contratar internet rural:</p>
       <ol>
         <li><strong>Clavá la Estaca Solar en el Surco:</strong> Hundí el pinche metálico a la altura de las raíces ($20\\text{–}30\\text{ cm}$) y enroscá la ficha impermeable (tiene una sola posición, imposible equivocarse).</li>
         <li><strong>Enchufá el Tablero Central en el Galpón/Bomba:</strong> Conectalo a $220\\text{ V}$ o batería $12\\text{ V}/24\\text{ V}$. Ya viene hermanado de fábrica con la estaca solar: se comunican solos por aire <strong>sin router Wi-Fi y sin chip de celular</strong>.</li>
@@ -380,7 +380,7 @@ window.MANUALS_CONTENT = {
   m3: {
     docId: 'INANNA-MNT-TS2026-03',
     rev: 'Rev 2.0 — ISO 14224 / RCM / NAMUR NE43',
-    division: 'SERVICE INANNA • INDUSTRIES INANNA • AUTOMATION INANNA',
+    division: 'ELECTROMECHANICAL SAFETY • PREVENTIVE & PREDICTIVE CBM',
     en: `
       <h2>1. Industrial Mechatronic Maintenance Strategy (RCM &amp; TPM)</h2>
       <p>Designed under <strong>Reliability-Centered Maintenance (RCM)</strong> and <strong>ISO 14224</strong> standards by <strong>Fabio Maximiliano Medina Rojas (Higher Technician in Mechatronics)</strong>, TERRA-SHIFT integrates electromechanical pump maintenance, hydraulic network diagnostics, and industrial instrumentation metrology into four structured tiers: <strong>Preventive, Predictive (CBM), Corrective, and Metrological Calibration</strong>.</p>

@@ -1,8 +1,7 @@
-const CACHE_NAME = 'inanna-terrashift-v3';
+const CACHE_NAME = 'inanna-terrashift-v4';
 const ASSETS = [
   './',
   './index.html',
-  './inanna.html',
   './css/styles.css',
   './js/nasa-api.js',
   './js/crop-engine.js',

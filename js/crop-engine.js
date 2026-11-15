@@ -18,7 +18,6 @@ window.CROP_DATABASE = [
     frostLimitC: -5.5,
     waterReqMm: 780,
     minGwet: 0.48,
-    econUsdHa: 1180,
     adviceEn: 'Vulnerable to tassel heat-shock (>38°C) and mid-summer dry spells. Shift to late-December sowing or drought-tolerant hybrids.',
     adviceEs: 'Vulnerable a golpe de calor en floración (>38°C) y pulso seco estival. Migrar a siembra tardía o híbridos tolerantes.',
     advicePt: 'Vulnerável ao choque térmico no pendoamento (>38°C) e veranicos. Migrar para plantio tardio ou híbridos tolerantes à seca.'
@@ -35,7 +34,6 @@ window.CROP_DATABASE = [
     frostLimitC: -5.0,
     waterReqMm: 740,
     minGwet: 0.46,
-    econUsdHa: 1090,
     adviceEn: 'Declining rainfed stability as root-zone moisture (GWETROOT) drops below 0.45. Requires cover crops to cut soil evaporation.',
     adviceEs: 'Pierde estabilidad en secano cuando GWETROOT cae bajo 0.45. Requiere cultivos de servicio para retener humedad.',
     advicePt: 'Perde estabilidade em sequeiro quando GWETROOT cai abaixo de 0.45. Requer plantas de cobertura para reter umidade no solo.'
@@ -52,7 +50,6 @@ window.CROP_DATABASE = [
     frostLimitC: -4.5,
     waterReqMm: 470,
     minGwet: 0.31,
-    econUsdHa: 980,
     adviceEn: 'Top C4 drought-resilient replacement for stressed maize plots; maintains stomatal efficiency up to 42°C.',
     adviceEs: 'Reemplazo C4 líder para lotes donde el maíz sufre estrés hídrico; mantiene eficiencia estomática hasta 42°C.',
     advicePt: 'Substituto C4 líder para áreas onde o milho sofre estresse hídrico; mantém eficiência estomática até 42°C.'
@@ -69,7 +66,6 @@ window.CROP_DATABASE = [
     frostLimitC: -6.0,
     waterReqMm: 390,
     minGwet: 0.28,
-    econUsdHa: 1460,
     adviceEn: 'High-value winter/spring legume thriving on residual root-zone moisture + precision supplemental irrigation.',
     adviceEs: 'Legumbre invernal de alto valor que aprovecha humedad radicular residual + riego estratégico suplementario.',
     advicePt: 'Leguminosa de inverno de alto valor que aproveita a umidade radicular residual + irrigação suplementar de precisão.'
@@ -86,7 +82,6 @@ window.CROP_DATABASE = [
     frostLimitC: -4.0,
     waterReqMm: 620,
     minGwet: 0.40,
-    econUsdHa: 1620,
     adviceEn: 'Córdoba flagship crop; warming expands southern thermal envelope, provided pod-filling soil moisture is stabilized.',
     adviceEs: 'Cultivo emblema de Córdoba; el calentamiento desplaza su frontera al sur si se estabiliza la humedad en clavado.',
     advicePt: 'Cultura emblemática de Córdoba; o aquecimento expande sua fronteira ao sul desde que a umidade na formação de vagens seja estabilizada.'
@@ -103,7 +98,6 @@ window.CROP_DATABASE = [
     frostLimitC: -9.0,
     waterReqMm: 520,
     minGwet: 0.38,
-    econUsdHa: 890,
     adviceEn: 'Warmer winters reduce vernalization chill hours; switch to short-vernalization cultivars and monitor spring soil profile.',
     adviceEs: 'Inviernos más cálidos reducen horas de frío; migrar a ciclos cortos de bajo requerimiento de vernalización.',
     advicePt: 'Invernos mais quentes reduzem horas de frio; migrar para cultivares de ciclo curto e monitorar o perfil hídrico na primavera.'
@@ -120,7 +114,6 @@ window.CROP_DATABASE = [
     frostLimitC: -6.5,
     waterReqMm: 440,
     minGwet: 0.27,
-    econUsdHa: 4850,
     adviceEn: 'Booming Calamuchita specialty! Regulated Deficit Irrigation (RDI) via 4–20 mA probes maximizes polyphenol quality.',
     adviceEs: '¡Especialidad en auge en Calamuchita! El Riego Deficitario Controlado (4–20 mA) maximiza polifenoles y ahorro hídrico.',
     advicePt: 'Especialidade em expansão em Calamuchita! Irrigação com Déficit Controlado (4–20 mA) maximiza polifenóis e economia hídrica.'
@@ -137,7 +130,6 @@ window.CROP_DATABASE = [
     frostLimitC: -5.0,
     waterReqMm: 420,
     minGwet: 0.25,
-    econUsdHa: 3900,
     adviceEn: 'Expanding rapidly across semi-arid piedmonts as frost risk retreats and heat tolerance outperforms annual grains.',
     adviceEs: 'Fuerte expansión en piedemontes serranos al disminuir heladas severas y tolerar olas de calor extremas.',
     advicePt: 'Rápida expansão em encostas semiáridas com a redução de geadas severas e alta tolerância a ondas de calor.'
@@ -154,10 +146,9 @@ window.CROP_DATABASE = [
     frostLimitC: -6.0,
     waterReqMm: 410,
     minGwet: 0.22,
-    econUsdHa: 6400,
-    adviceEn: 'Premier 2035–2050 high-margin adaptation tree for drying corridors with high solar radiation (>20 MJ/m²/day).',
-    adviceEs: 'Frutal estrella 2035–2050 de altísima rentabilidad para corredores con creciente aridez y alta radiación solar.',
-    advicePt: 'Cultura de altíssima rentabilidade para 2035–2050 em corredores mais secos e com alta radiação solar (>20 MJ/m²/dia).'
+    adviceEn: 'Premier 2035–2050 drought-resilient adaptation tree for drying corridors with high solar radiation (>20 MJ/m²/day).',
+    adviceEs: 'Frutal estrella 2035–2050 de máxima tolerancia hídrica para corredores con creciente aridez y alta radiación solar.',
+    advicePt: 'Cultura de máxima tolerância hídrica para 2035–2050 em corredores mais secos e com alta radiação solar (>20 MJ/m²/dia).'
   },
   {
     id: 'lavender',
@@ -171,7 +162,6 @@ window.CROP_DATABASE = [
     frostLimitC: -7.5,
     waterReqMm: 360,
     minGwet: 0.24,
-    econUsdHa: 4200,
     adviceEn: 'Ideal smallholder diversification in Calamuchita rocky slopes; thrives in well-drained soils with minimal drip water.',
     adviceEs: 'Diversificación ideal para productores de Calamuchita en suelos pedregosos con mínimo consumo de riego por goteo.',
     advicePt: 'Diversificação ideal para pequenos produtores em encostas pedregosas com mínimo consumo de irrigação por gotejamento.'
@@ -247,7 +237,6 @@ class CropSuitabilityEngine {
         scoreTarget: sTarget.suitability,
         deltaVsHist,
         irrigationM3Ha: sTarget.irrigationM3Ha,
-        projectedRevUsdHa: Math.round(crop.econUsdHa * (sTarget.suitability / 85)),
         status: sTarget.suitability >= 74
           ? (deltaVsHist >= 0 ? 'emerging_winner' : 'resilient_viable')
           : (sTarget.suitability >= 54 ? 'adaptation_needed' : 'high_risk')

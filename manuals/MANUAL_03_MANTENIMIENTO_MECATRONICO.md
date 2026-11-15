@@ -2,8 +2,8 @@
 
 - **Código Documento:** `INANNA-MNT-TS2026-03` (Rev 2.0 — ISO 14224 / RCM / TPM / NAMUR NE43)
 - **Dirección Técnica Mecatrónica:** **Fabio Maximiliano Medina Rojas — Técnico Superior en Mecatrónica**
-- **Equipo de Ingeniería (INANNA COMPANY):** Fabio Maximiliano Medina Rojas • Agustín Alejandro Debia • Iván David Coria
-- **Divisiones:** `SERVICE INANNA` • `INDUSTRIES INANNA` • `AUTOMATION INANNA`
+- **Equipo Concursante (Team INANNA):** Fabio Maximiliano Medina Rojas • Agustín Alejandro Debia • Iván David Coria
+- **Área Técnica:** `Mantenimiento Preventivo, Predictivo (CBM) y Seguridad Electromecánica`
 - **Versión Web Trilingüe (EN | ES | PT):** [Abrir Manual de Mantenimiento Interactivo](https://inanna-company.github.io/terra-shift-scada/manuals/index.html?doc=m3)
 
 ---

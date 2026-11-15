@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>TERRA-SHIFT SCADA | INANNA COMPANY — 2026 NASA Space Apps Challenge</title>
+  <title>TERRA-SHIFT SCADA | Team INANNA — 2026 NASA Space Apps Challenge</title>
   <meta name="description" content="Orbital-to-Root Agricultural Climate Adaptation Decision Support & Routerless Rural IIoT SCADA powered by NASA Earth Observation Data (POWER, GIBS, MODIS, SMAP, CMIP6)." />
   <link rel="manifest" href="manifest.json" />
   <link rel="icon" type="image/jpeg" href="assets/inanna-isotipo.jpg" />
@@ -33,13 +33,13 @@
   <!-- Main Sticky Header -->
   <header class="main-header">
     <div class="brand-block">
-      <a href="inanna.html" class="inanna-monogram" aria-label="INANNA COMPANY Official Brand" title="INANNA COMPANY Ecosystem">
+      <a href="#sectionOrbital" class="inanna-monogram" aria-label="Team INANNA" title="TERRA-SHIFT SCADA — Team INANNA">
         <img src="assets/inanna-isotipo.jpg" alt="INANNA Monogram" />
       </a>
       <div class="brand-titles">
         <h1>TERRA-SHIFT SCADA</h1>
         <div id="brandSubtitle" class="brand-subtitle">
-          Orbital-to-Root Agricultural Adaptation &amp; Rural IIoT SCADA • <strong>INANNA COMPANY</strong>
+          Orbital-to-Root Agricultural Adaptation &amp; Rural IIoT SCADA • <strong>Team INANNA</strong>
         </div>
       </div>
     </div>
@@ -49,14 +49,13 @@
         <a href="#sectionOrbital" id="navOrbital" class="nav-pill active">1. Orbital Telemetry</a>
         <a href="#sectionShift" id="navShift" class="nav-pill">2. Crop Shift Matrix</a>
         <a href="#sectionPhenology" id="navPhenology" class="nav-pill">3. 12-Mo Calendar</a>
-        <a href="#sectionRoi" id="navRoi" class="nav-pill">4. Farm ROI &amp; Water</a>
+        <a href="#sectionRoi" id="navRoi" class="nav-pill">4. Water &amp; Climate Impact</a>
         <a href="#sectionScada" id="navScada" class="nav-pill">5. Ground IIoT SCADA</a>
-        <a href="inanna.html" id="navHub" class="nav-pill" style="border-color:rgba(168,85,247,0.55);color:#d8b4fe;">🚀 INANNA Hub &amp; Pitch</a>
         <a href="manuals/index.html" id="navManuals" class="nav-pill" style="border-color:rgba(16,185,129,0.5);color:#6ee7b7;">📚 Manuals (3)</a>
         <a href="presentation/deck_7_slides.html" target="_blank" id="navSlides" class="nav-pill" style="border-color:rgba(0,184,230,0.45);color:#00b8e6;">7-Slide Demo Deck ↗</a>
       </nav>
 
-      <button type="button" id="btnAutoDemo" class="btn" style="border-color:rgba(16,185,129,0.55);color:#6ee7b7;">▶ Auto-Demo Jury Tour</button>
+      <button type="button" id="btnAutoDemo" class="btn" style="border-color:rgba(16,185,129,0.65);color:#6ee7b7;font-weight:700;">🎙️ Guided Demo (Inanna Voice)</button>
 
       <!-- Trilingual Selector: English | Español | Português -->
       <div class="lang-switcher" role="group" aria-label="Language Selector">
@@ -71,10 +70,21 @@
 
   <main class="container">
 
-    <!-- Live Narrated Jury Auto-Demo Banner (Hidden until ▶ Auto-Demo clicked) -->
+    <!-- Live Narrated Jury Auto-Demo Banner (Inanna Official Neural Voice) -->
     <div id="autoDemoBanner" class="auto-demo-banner">
-      <div id="autoDemoMsg">Starting INANNA Live Jury Tour...</div>
-      <button type="button" class="btn btn-danger" onclick="window.inannaProSuite.toggleAutoDemo()" style="padding:4px 10px;font-size:0.74rem;">✕</button>
+      <div style="display:flex;align-items:center;gap:12px;flex:1;min-width:240px;">
+        <div id="inannaVoiceEq" class="voice-eq" aria-hidden="true">
+          <span></span><span></span><span></span><span></span><span></span>
+        </div>
+        <div id="autoDemoMsg">Starting Inanna Guided Voice Tour...</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+        <button type="button" id="demoBtnPrev" class="btn" onclick="window.inannaProSuite.stepDemoDelta(-1)" style="padding:4px 9px;font-size:0.74rem;">⏮ Prev</button>
+        <button type="button" id="demoBtnPause" class="btn" onclick="window.inannaProSuite.pauseOrResumeDemo()" style="padding:4px 9px;font-size:0.74rem;">⏸ Pause</button>
+        <button type="button" id="demoBtnNext" class="btn" onclick="window.inannaProSuite.stepDemoDelta(1)" style="padding:4px 9px;font-size:0.74rem;">⏭ Next</button>
+        <button type="button" id="demoBtnSilence" class="btn" onclick="window.inannaProSuite.silenceVoiceNow()" style="padding:4px 9px;font-size:0.74rem;border-color:rgba(245,158,11,0.5);color:#fcd34d;">🤫 Mute Voice</button>
+        <button type="button" class="btn btn-danger" onclick="window.inannaProSuite.toggleAutoDemo()" style="padding:4px 10px;font-size:0.74rem;" title="Close Tour">✕</button>
+      </div>
     </div>
 
     <!-- Executive Scenario Control Banner -->
@@ -241,26 +251,26 @@
       </div>
     </section>
 
-    <!-- SECTION 4: Farm-Scale Water, VFD Energy, Carbon & Payback Calculator -->
+    <!-- SECTION 4: Farm-Scale Water Conservation, Pump Energy & Climate Impact Simulator -->
     <section id="sectionRoi" class="panel">
       <div class="panel-header">
         <div>
-          <div id="roiTitle" class="panel-title">Farm-Scale Water, VFD Energy, Carbon &amp; Payback Calculator</div>
-          <div id="roiSub" class="panel-subtitle">Quantifies agronomic crop-shift revenue + INANNA 4–20 mA closed-loop drip &amp; VFD affinity-law savings</div>
+          <div id="roiTitle" class="panel-title">Farm-Scale Water Conservation, Pump Energy &amp; Climate Impact Simulator</div>
+          <div id="roiSub" class="panel-subtitle">Quantifies freshwater saved, VFD pump affinity-law efficiency (P ∝ N³), carbon reduction &amp; open-hardware sizing</div>
         </div>
-        <span class="badge badge-cyan">AUTOMATION &amp; INDUSTRIES INANNA</span>
+        <span class="badge badge-cyan">OPEN-SOURCE ENVIRONMENTAL IMPACT</span>
       </div>
 
       <div class="roi-controls-bar">
         <div class="field-group">
-          <label id="roiHaLbl" for="roiHaInput">Farm Area (Hectares)</label>
+          <label id="roiHaLbl" for="roiHaInput">Cultivated Area (Hectares)</label>
           <div style="display:flex;align-items:center;gap:12px;">
-            <input id="roiHaSlider" type="range" min="1" max="1000" step="1" value="45" />
-            <input id="roiHaInput" type="number" min="1" max="5000" value="45" style="width:92px;font-family:var(--font-mono);font-weight:700;" />
+            <input id="roiHaSlider" type="range" min="1" max="1000" step="1" value="50" />
+            <input id="roiHaInput" type="number" min="1" max="5000" value="50" style="width:92px;font-family:var(--font-mono);font-weight:700;" />
           </div>
         </div>
         <div class="field-group">
-          <label id="roiPumpLbl" for="roiPumpHp">Irrigation Pump Power (HP)</label>
+          <label id="roiPumpLbl" for="roiPumpHp">Irrigation Pump Motor (HP)</label>
           <select id="roiPumpHp">
             <option value="5">5 HP (3.7 kW — Smallholder / Orchard)</option>
             <option value="15" selected>15 HP (11.2 kW — Medium Farm / Vineyard)</option>
@@ -269,43 +279,43 @@
           </select>
         </div>
         <div class="field-group">
-          <label id="roiKwhLbl" for="roiKwhCost">Electricity Cost (USD/kWh)</label>
-          <input id="roiKwhCost" type="number" step="0.01" min="0.02" max="1.50" value="0.14" style="font-family:var(--font-mono);" />
+          <label id="roiKwhLbl" for="roiKwhCost">Annual Pumping Window (h/yr)</label>
+          <input id="roiKwhCost" type="number" step="50" min="100" max="4500" value="820" style="font-family:var(--font-mono);" />
         </div>
       </div>
 
       <div class="roi-kpi-grid">
         <div class="kpi-card ok">
-          <div id="roiKpiWaterLbl" class="kpi-label">Annual Water Saved</div>
+          <div id="roiKpiWaterLbl" class="kpi-label">Freshwater Conserved</div>
           <div id="roiValWater" class="kpi-value" style="font-size:1.18rem;">-- m³</div>
           <div id="roiSubWaterDyn" class="kpi-delta">--</div>
-          <div id="roiKpiWaterSub" class="kpi-delta" style="font-size:0.66rem;color:#64748b;">vs. open-loop / timer irrigation</div>
+          <div id="roiKpiWaterSub" class="kpi-delta" style="font-size:0.66rem;color:#64748b;">Closed-loop 4–20 mA + NASA GWETROOT</div>
         </div>
         <div class="kpi-card">
-          <div id="roiKpiEnergyLbl" class="kpi-label">VFD Pump Energy Saved</div>
+          <div id="roiKpiEnergyLbl" class="kpi-label">Pump Electricity Saved</div>
           <div id="roiValEnergy" class="kpi-value" style="font-size:1.18rem;">-- kWh</div>
           <div id="roiSubEnergyDyn" class="kpi-delta">--</div>
-          <div id="roiKpiEnergySub" class="kpi-delta" style="font-size:0.66rem;color:#64748b;">Affinity Laws (P ∝ N³) + Modbus</div>
+          <div id="roiKpiEnergySub" class="kpi-delta" style="font-size:0.66rem;color:#64748b;">VFD Affinity Laws (P ∝ N³) vs throttling</div>
         </div>
         <div class="kpi-card proj">
-          <div id="roiKpiCo2Lbl" class="kpi-label">Carbon Avoided</div>
+          <div id="roiKpiCo2Lbl" class="kpi-label">Emissions Avoided</div>
           <div id="roiValCo2" class="kpi-value" style="font-size:1.18rem;">-- tCO₂e</div>
-          <div id="roiKpiCo2Sub" class="kpi-delta">Pumping + soil moisture conservation</div>
+          <div id="roiKpiCo2Sub" class="kpi-delta">Reduced pumping + soil cover retention</div>
         </div>
         <div class="kpi-card ok">
-          <div id="roiKpiRevLbl" class="kpi-label">Annual Net Margin Gain</div>
-          <div id="roiValRev" class="kpi-value" style="font-size:1.18rem;">-- USD</div>
-          <div id="roiKpiRevSub" class="kpi-delta">Top resilient crop + water/kWh savings</div>
+          <div id="roiKpiRevLbl" class="kpi-label">Resilience Gain vs Maize</div>
+          <div id="roiValRev" class="kpi-value" style="font-size:1.18rem;">-- %</div>
+          <div id="roiKpiRevSub" class="kpi-delta">Suitability boost under target CMIP6</div>
         </div>
         <div class="kpi-card">
-          <div id="roiKpiKitLbl" class="kpi-label">Recommended INANNA Kit</div>
+          <div id="roiKpiKitLbl" class="kpi-label">Open-Hardware Mesh Sizing</div>
           <div id="roiValKit" class="kpi-value" style="font-size:1.05rem;">--</div>
           <div id="roiSubKitDyn" class="kpi-delta" style="font-size:0.67rem;">--</div>
         </div>
         <div class="kpi-card warn">
-          <div id="roiKpiPaybackLbl" class="kpi-label">Estimated Hardware Payback</div>
-          <div id="roiValPayback" class="kpi-value" style="font-size:1.18rem;">-- months</div>
-          <div class="kpi-delta">Turnkey Plug &amp; Play ROI</div>
+          <div id="roiKpiPaybackLbl" class="kpi-label">Root-Zone Moisture Reserve</div>
+          <div id="roiValPayback" class="kpi-value" style="font-size:1.18rem;">-- mm/yr</div>
+          <div class="kpi-delta">Saved aquifer water column</div>
         </div>
       </div>
     </section>
@@ -439,15 +449,15 @@
   <footer class="site-footer">
     <div class="footer-inner">
       <div>
-        <img src="assets/inanna-logo-horizontal.jpg" alt="INANNA COMPANY Official Logo" class="inanna-footer-logo" />
-        <h4 id="footTeamTitle">Team INANNA COMPANY — 2026 NASA Space Apps Challenge</h4>
+        <img src="assets/inanna-logo-horizontal.jpg" alt="Team INANNA Logo" class="inanna-footer-logo" />
+        <h4 id="footTeamTitle">Team INANNA — 2026 NASA Space Apps Challenge</h4>
         <p id="footEvent"><strong>Local Event:</strong> Santa Rosa de Calamuchita, Córdoba, Argentina</p>
         <p id="footChallenge"><strong>Challenge:</strong> Field Shift: Adapting Farms with NASA Data</p>
         <p id="footRoster" style="margin-top:6px;">
-          <strong>Engineering Roster:</strong> Fabio Maximiliano Medina Rojas (Lead / Higher Technician in Mechatronics), Agustín Alejandro Debia, Iván David Coria.
+          <strong>Contestant Team:</strong> Fabio Maximiliano Medina Rojas (Team Lead / Higher Technician in Mechatronics), Agustín Alejandro Debia, Iván David Coria.
         </p>
         <p style="margin-top:6px;color:#64748b;font-size:0.72rem;">
-          ROBOTICS • AUTOMATION • DESIGN • AI • HOME • LABS • ACADEMY • SUPPLY • SERVICE • INDUSTRIES • PROJECTS INANNA
+          OPEN-SOURCE HACKATHON PROJECT • EARTH OBSERVATION + RURAL MECHATRONICS
         </p>
       </div>
 

@@ -1,8 +1,8 @@
 # 📗 MANUAL 02 — Guía Rápida "Plug & Play" para Usuarios y Productores (Sin Conocimientos Técnicos)
 
 - **Código Documento:** `INANNA-USR-TS2026-02` (Rev 2.0)
-- **Autoría y Diseño de Producto:** **Fabio Maximiliano Medina Rojas (Técnico Superior en Mecatrónica)** • Equipo INANNA COMPANY
-- **Divisiones:** `HOME INANNA` • `ACADEMY INANNA` • `SERVICE INANNA`
+- **Autoría y Diseño:** **Fabio Maximiliano Medina Rojas (Técnico Superior en Mecatrónica)** • Equipo Concursante INANNA
+- **Área:** `Guía Comunitaria Abierta para Productores y Escuelas Rurales`
 - **Versión Web Trilingüe (EN | ES | PT):** [Abrir Guía Interactiva Plug & Play](https://inanna-company.github.io/terra-shift-scada/manuals/index.html?doc=m2)
 
 ---

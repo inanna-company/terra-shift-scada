@@ -1,6 +1,6 @@
 /**
  * TERRA-SHIFT SCADA — Industrial Rural Ground-Truth & Irrigation Control Module
- * Engineered by INANNA COMPANY (AUTOMATION INANNA / INDUSTRIES INANNA)
+ * Engineered by Team INANNA (Open-Source Hackathon Project — Santa Rosa de Calamuchita, AR)
  * Trilingual Support: English (EN) | Español (ES) | Português (PT)
  */
 

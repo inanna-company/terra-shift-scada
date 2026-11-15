@@ -13,7 +13,7 @@ const I18N = {
     apiQuerying: 'QUERYING NASA POWER...',
     apiLive: 'LIVE NASA POWER API (200 OK)',
     apiCache: 'CALIBRATED NASA OFFLINE CACHE',
-    subtitle: 'Orbital-to-Root Agricultural Adaptation & Rural IIoT SCADA • <strong>INANNA COMPANY</strong>',
+    subtitle: 'Orbital-to-Root Agricultural Adaptation & Rural IIoT SCADA • <strong>Team INANNA</strong>',
     navOrbital: '1. Orbital Telemetry',
     navShift: '2. Crop Shift Matrix',
     navScada: '3. Ground IIoT SCADA',
@@ -79,7 +79,7 @@ const I18N = {
     projShort: 'Proj',
     cardShift: 'Shift',
     cardIrrig: 'Irrig',
-    cardGross: 'Est. Gross',
+    cardGross: 'Heat Limit',
     scadaTitle: 'INANNA Industrial Ground-Truth & Irrigation SCADA (Offline-First Rural Architecture)',
     scadaSub: '4–20 mA Current Loop (NAMUR NE43) + AES-128 ESP-NOW Rural Mesh + Modbus RTU/TCP Gateway',
     btnWebSerial: '🔌 Link ESP32 USB (WebSerial)',
@@ -113,10 +113,10 @@ const I18N = {
     thRaw: 'Raw Int16',
     thEng: 'Engineering Value',
     historianTitle: 'Timestamped SCADA Alarm & Event Historian',
-    footTeamTitle: 'Team INANNA COMPANY — 2026 NASA Space Apps Challenge',
+    footTeamTitle: 'Team INANNA — 2026 NASA Space Apps Challenge',
     footEvent: '<strong>Local Event:</strong> Santa Rosa de Calamuchita, Córdoba, Argentina',
     footChallenge: '<strong>Challenge:</strong> Field Shift: Adapting Farms with NASA Data',
-    footRoster: '<strong>Engineering Roster:</strong> Fabio Maximiliano Medina Rojas (Founder & Lead Architect — Higher Technician in Mechatronics), Agustín Alejandro Debia, Iván David Coria.',
+    footRoster: '<strong>Contestant Team:</strong> Fabio Maximiliano Medina Rojas (Team Lead — Higher Technician in Mechatronics), Agustín Alejandro Debia, Iván David Coria.',
     footDataTitle: 'Official NASA & Space Agency Partner Data',
     footDataList: `
       <li>• <strong>NASA POWER API:</strong> Multi-decade Agroclimatology (T2M, PRECTOTCORR, GWETROOT, Solar)</li>
@@ -137,7 +137,7 @@ const I18N = {
     apiQuerying: 'CONSULTANDO NASA POWER...',
     apiLive: 'API NASA POWER EN VIVO (200 OK)',
     apiCache: 'CACHÉ OFFLINE NASA CALIBRADO',
-    subtitle: 'Adaptación Climática Agrícola Orbital-a-Raíz y SCADA Rural IIoT • <strong>INANNA COMPANY</strong>',
+    subtitle: 'Adaptación Climática Agrícola Orbital-a-Raíz y SCADA Rural IIoT • <strong>Equipo INANNA</strong>',
     navOrbital: '1. Telemetría Orbital',
     navShift: '2. Matriz de Cultivos',
     navScada: '3. SCADA Rural IIoT',
@@ -203,7 +203,7 @@ const I18N = {
     projShort: 'Proy',
     cardShift: 'Cambio',
     cardIrrig: 'Riego',
-    cardGross: 'Ingreso Est.',
+    cardGross: 'Tope Calor',
     scadaTitle: 'Consola Industrial SCADA de Campo e Irrigación INANNA (Arquitectura Rural Offline)',
     scadaSub: 'Lazo de Corriente 4–20 mA (NAMUR NE43) + Malla Rural ESP-NOW AES-128 + Gateway Modbus RTU/TCP',
     btnWebSerial: '🔌 Vincular ESP32 USB (WebSerial)',
@@ -237,10 +237,10 @@ const I18N = {
     thRaw: 'Entero Int16',
     thEng: 'Valor de Ingeniería',
     historianTitle: 'Historiador de Eventos y Alarmas SCADA con Estampa de Tiempo',
-    footTeamTitle: 'Equipo INANNA COMPANY — NASA Space Apps Challenge 2026',
+    footTeamTitle: 'Equipo INANNA — NASA Space Apps Challenge 2026',
     footEvent: '<strong>Sede Local:</strong> Santa Rosa de Calamuchita, Córdoba, Argentina',
     footChallenge: '<strong>Desafío:</strong> Field Shift: Adapting Farms with NASA Data',
-    footRoster: '<strong>Equipo de Ingeniería:</strong> Fabio Maximiliano Medina Rojas (Fundador y Arquitecto Líder — Técnico Superior en Mecatrónica), Agustín Alejandro Debia, Iván David Coria.',
+    footRoster: '<strong>Equipo Concursante:</strong> Fabio Maximiliano Medina Rojas (Líder Técnico — Técnico Superior en Mecatrónica), Agustín Alejandro Debia, Iván David Coria.',
     footDataTitle: 'Datos Oficiales de la NASA y Agencias Espaciales Socias',
     footDataList: `
       <li>• <strong>NASA POWER API:</strong> Agroclimatología multidecadal (T2M, PRECTOTCORR, GWETROOT, Radiación Solar)</li>
@@ -261,7 +261,7 @@ const I18N = {
     apiQuerying: 'CONSULTANDO NASA POWER...',
     apiLive: 'API NASA POWER AO VIVO (200 OK)',
     apiCache: 'CACHE OFFLINE NASA CALIBRADO',
-    subtitle: 'Adaptação Climática Agrícola Orbital-à-Raiz e SCADA Rural IIoT • <strong>INANNA COMPANY</strong>',
+    subtitle: 'Adaptação Climática Agrícola Orbital-à-Raiz e SCADA Rural IIoT • <strong>Equipe INANNA</strong>',
     navOrbital: '1. Telemetria Orbital',
     navShift: '2. Matriz de Culturas',
     navScada: '3. SCADA Rural IIoT',
@@ -327,7 +327,7 @@ const I18N = {
     projShort: 'Proj',
     cardShift: 'Variação',
     cardIrrig: 'Irrig',
-    cardGross: 'Receita Est.',
+    cardGross: 'Limite Calor',
     scadaTitle: 'Console Industrial SCADA de Campo e Irrigação INANNA (Arquitetura Rural Offline)',
     scadaSub: 'Laço de Corrente 4–20 mA (NAMUR NE43) + Rede Rural ESP-NOW AES-128 + Gateway Modbus RTU/TCP',
     btnWebSerial: '🔌 Conectar ESP32 USB (WebSerial)',
@@ -361,10 +361,10 @@ const I18N = {
     thRaw: 'Inteiro Int16',
     thEng: 'Valor de Engenharia',
     historianTitle: 'Historiador de Eventos e Alarmes SCADA com Carimbo de Tempo',
-    footTeamTitle: 'Equipe INANNA COMPANY — NASA Space Apps Challenge 2026',
+    footTeamTitle: 'Equipe INANNA — NASA Space Apps Challenge 2026',
     footEvent: '<strong>Evento Local:</strong> Santa Rosa de Calamuchita, Córdoba, Argentina',
     footChallenge: '<strong>Desafio:</strong> Field Shift: Adapting Farms with NASA Data',
-    footRoster: '<strong>Equipe de Engenharia:</strong> Fabio Maximiliano Medina Rojas (Fundador e Arquiteto Líder — Técnico Superior em Mecatrônica), Agustín Alejandro Debia, Iván David Coria.',
+    footRoster: '<strong>Equipe Concursante:</strong> Fabio Maximiliano Medina Rojas (Líder Técnico — Técnico Superior em Mecatrônica), Agustín Alejandro Debia, Iván David Coria.',
     footDataTitle: 'Dados Oficiais da NASA e Agências Espaciais Parceiras',
     footDataList: `
       <li>• <strong>NASA POWER API:</strong> Agroclimatologia multidecadal (T2M, PRECTOTCORR, GWETROOT, Radiação Solar)</li>
@@ -686,7 +686,7 @@ function renderCropCards(crops) {
         <div class="crop-meta">
           <span>${t.cardShift}: <strong>${deltaSign}</strong></span>
           <span>${t.cardIrrig}: <strong>${c.irrigationM3Ha} m³/ha</strong></span>
-          <span>${t.cardGross}: <strong>$${c.projectedRevUsdHa}/ha</strong></span>
+          <span>${t.cardGross}: <strong>${c.heatCritC}°C</strong></span>
         </div>
         <div class="crop-advice">${getCropLocalized(c, 'advice')}</div>
       </article>

@@ -2,8 +2,8 @@
 
 - **Código Documento:** `INANNA-ENG-TS2026-01` (Rev 2.0)
 - **Dirección Técnica Mecatrónica:** **Fabio Maximiliano Medina Rojas — Técnico Superior en Mecatrónica**
-- **Equipo de Ingeniería (INANNA COMPANY):** Fabio Maximiliano Medina Rojas • Agustín Alejandro Debia • Iván David Coria
-- **Divisiones:** `LABS INANNA` • `AI INANNA` • `AUTOMATION INANNA`
+- **Equipo Concursante (Team INANNA):** Fabio Maximiliano Medina Rojas • Agustín Alejandro Debia • Iván David Coria
+- **Área Técnica:** `Ciencia de Datos Orbitales NASA` • `Agronomía Climática` • `Mecatrónica Rural Abierta`
 - **Versión Interactiva Trilingüe (EN | ES | PT) con Fórmulas KaTeX:** [Abrir Portal Oficial de Manuales](https://inanna-company.github.io/terra-shift-scada/manuals/index.html?doc=m1)
 
 ---

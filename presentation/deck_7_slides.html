@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>TERRA-SHIFT SCADA — Official 7-Slide Demo Deck | INANNA COMPANY</title>
+  <title>TERRA-SHIFT SCADA — Official 7-Slide Demo Deck | Team INANNA</title>
   <link rel="icon" type="image/jpeg" href="../assets/inanna-isotipo.jpg" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
   <style>
@@ -180,6 +180,31 @@
       color: var(--muted);
       font-family: 'JetBrains Mono', monospace;
     }
+    .slide.narrating-slide {
+      border-color: var(--ok);
+      box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.55), 0 18px 50px rgba(0, 184, 230, 0.35);
+    }
+    .deck-eq {
+      display: none;
+      align-items: center;
+      gap: 3px;
+      height: 16px;
+    }
+    .deck-eq.speaking { display: inline-flex; }
+    .deck-eq span {
+      width: 3px;
+      height: 5px;
+      border-radius: 3px;
+      background: #10b981;
+      animation: deckEqAnim 0.68s ease-in-out infinite alternate;
+    }
+    .deck-eq span:nth-child(2) { animation-delay: 0.14s; }
+    .deck-eq span:nth-child(3) { animation-delay: 0.28s; }
+    .deck-eq span:nth-child(4) { animation-delay: 0.18s; }
+    @keyframes deckEqAnim {
+      0% { height: 4px; background: #00b8e6; }
+      100% { height: 16px; background: #10b981; }
+    }
     @page { size: 1280px 720px; margin: 0; }
     @media print {
       body { background: #080c12; padding: 0; gap: 0; }
@@ -198,6 +223,8 @@
       <button class="lang-pill" data-lang="es">ES</button>
       <button class="lang-pill" data-lang="pt">PT</button>
     </div>
+    <button id="tbVoice" class="action-btn" style="background:linear-gradient(135deg,#059669,#10b981);" onclick="toggleDeckNarration()">🎙️ Narrate 7 Slides (Inanna Voice)</button>
+    <span id="deckEq" class="deck-eq" aria-hidden="true"><span></span><span></span><span></span><span></span></span>
     <a id="tbBack" href="../index.html">← Back to Live App</a>
     <button id="tbPdf" class="action-btn" onclick="window.print()">⬇ Save as 7-Page PDF</button>
   </div>
@@ -208,6 +235,8 @@
     const DECK = {
       en: {
         tbTitle: '<strong>TERRA-SHIFT SCADA</strong> • Official 7-Slide Deck (Compliant ≤ 7 Slides)',
+        tbVoiceStart: '🎙️ Narrate 7 Slides (Inanna Voice)',
+        tbVoiceStop: '🤫 Stop Inanna Voice',
         tbBack: '← Back to Live App',
         tbPdf: '⬇ Save as 7-Page PDF',
         slides: [
@@ -215,7 +244,7 @@
             tag: '2026 NASA SPACE APPS CHALLENGE • FIELD SHIFT: ADAPTING FARMS WITH NASA DATA',
             hero: true,
             sub: '<strong>Orbital-to-Root Agricultural Climate Adaptation &amp; Routerless Rural IIoT SCADA</strong><br/>Transforming multi-decade NASA Earth observations into crop transition roadmaps and fault-safe precision irrigation.',
-            teamLbl: 'Team INANNA COMPANY',
+            teamLbl: 'Contestant Team INANNA',
             eventLbl: 'Local Event',
             footR: 'AI-ASSISTED LAYOUT DISCLOSURE (GEMINI) • ORIGINAL ARCHITECTURE'
           },
@@ -283,10 +312,10 @@
             lead: 'Live evaluation for Santa Rosa de Calamuchita (-32.069°, -64.536°) & Córdoba Agro-Belt under 2050 CMIP6 projections:',
             cols3: [
               { border: 'rgba(245,158,11,0.45)', h3: '<span style="color:#fcd34d;">Declining Rainfed Staples</span>', p: '<strong>Early Rainfed Maize & First-Crop Soybean</strong> lose 12–19% suitability under SSP5-8.5 due to January tassel heat-shock (&gt;40 °C) and declining root wetness.<br/><em>Action: Shift sowing windows + cover crops.</em>' },
-              { border: 'rgba(16,185,129,0.55)', h3: '<span style="color:#6ee7b7;">Broad-Acre Winners</span>', p: '<strong>Grain Sorghum & Kabuli Chickpea</strong> achieve <strong>84–98% suitability</strong>, slashing water demand to 390–470 mm while stabilizing cooperative export revenue.' },
-              { border: 'rgba(0,184,230,0.55)', h3: 'High-Margin Serrana Shift', p: '<strong>High-Altitude Malbec Vine, Super-Intensive Olive & Lavender</strong> thrive in Calamuchita slopes ($3,900–$4,850/ha gross) saving ~35% water via 4–20 mA drip.' }
+              { border: 'rgba(16,185,129,0.55)', h3: '<span style="color:#6ee7b7;">Broad-Acre Winners</span>', p: '<strong>Grain Sorghum & Kabuli Chickpea</strong> achieve <strong>84–98% suitability</strong>, slashing seasonal water demand to 390–470 mm while stabilizing regional food production.' },
+              { border: 'rgba(0,184,230,0.55)', h3: 'Resilient Serrana Shift', p: '<strong>High-Altitude Malbec Vine, Super-Intensive Olive & Lavender</strong> thrive on Calamuchita slopes, conserving ~38% freshwater via closed-loop 4–20 mA drip.' }
             ],
-            footL: 'DATA-DRIVEN REGIONAL TRANSITION • ECONOMIC & WATER VIABILITY'
+            footL: 'DATA-DRIVEN REGIONAL TRANSITION • AGRONOMIC & WATER RESILIENCE'
           },
           {
             tag: 'USER EXPERIENCE & SCALABLE IMPACT • READY FOR DEPLOYMENT TODAY',
@@ -298,15 +327,17 @@
                 '<strong>Interactive 4–20 mA & Modbus Simulator + WebSerial USB:</strong> Test NAMUR NE43 wire-cut protection and live PLC registers directly in the browser or plug in a real ESP32.',
                 '<strong>1-Click Printable PDF Plan (EN/ES/PT):</strong> Farmers take an offline transition & irrigation roadmap straight to the field.'
               ]},
-              { border: 'rgba(0,184,230,0.5)', h3: 'Vision & Impact Scale', p: '<div class="metric" style="color:#00b8e6;margin-bottom:8px;">35% Less Water • 0 Lock-In</div>Deploying pilot nodes with agricultural cooperatives and rural schools across Córdoba, empowering farmers across the Americas and semi-arid regions worldwide.<br/><br/><strong style="color:#fff;">Thank You! — Team INANNA COMPANY</strong>' }
+              { border: 'rgba(0,184,230,0.5)', h3: 'Open-Source Community Impact', p: '<div class="metric" style="color:#00b8e6;margin-bottom:8px;">38% Less Water • 100% Open</div>Sharing open hardware & software with agricultural cooperatives and rural technical schools across Córdoba, empowering farmers in semi-arid regions worldwide.<br/><br/><strong style="color:#fff;">Thank You! — Team INANNA</strong>' }
             ],
-            footL: 'TEAM INANNA COMPANY • MEDINA ROJAS | DEBIA | CORIA'
+            footL: 'TEAM INANNA • MEDINA ROJAS | DEBIA | CORIA'
           }
         ]
       },
 
       es: {
         tbTitle: '<strong>TERRA-SHIFT SCADA</strong> • Presentación Oficial de 7 Diapositivas',
+        tbVoiceStart: '🎙️ Narrar 7 Slides (Voz Inanna)',
+        tbVoiceStop: '🤫 Callar Voz Ya',
         tbBack: '← Volver a la Consola en Vivo',
         tbPdf: '⬇ Guardar PDF (7 Páginas)',
         slides: [
@@ -314,7 +345,7 @@
             tag: 'NASA SPACE APPS CHALLENGE 2026 • DESAFÍO FIELD SHIFT: ADAPTANDO GRANJAS CON DATOS NASA',
             hero: true,
             sub: '<strong>Adaptación Climática Agrícola Orbital-a-Raíz y SCADA Rural IIoT sin Internet</strong><br/>Transformando décadas de observación satelital de la NASA en hojas de ruta de transición de cultivos y riego industrial seguro.',
-            teamLbl: 'Equipo INANNA COMPANY',
+            teamLbl: 'Equipo Concursante INANNA',
             eventLbl: 'Sede Oficial',
             footR: 'DISEÑO ASISTIDO POR IA (GEMINI) • ARQUITECTURA ORIGINAL INANNA'
           },
@@ -382,10 +413,10 @@
             lead: 'Evaluación en vivo para Santa Rosa de Calamuchita (-32.069°, -64.536°) y cinturón agrícola de Córdoba hacia 2050:',
             cols3: [
               { border: 'rgba(245,158,11,0.45)', h3: '<span style="color:#fcd34d;">Cultivos en Riesgo en Secano</span>', p: '<strong>Maíz Temprano y Soja de Primera</strong> pierden 12–19% de aptitud en SSP5-8.5 por golpe de calor en enero (&gt;40 °C) y menor humedad radicular.' },
-              { border: 'rgba(16,185,129,0.55)', h3: '<span style="color:#6ee7b7;">Ganadores Extensivos</span>', p: '<strong>Sorgo Granífero y Garbanzo Kabuli</strong> alcanzan <strong>84–98% de aptitud</strong>, bajando la demanda hídrica a 390–470 mm y estabilizando ingresos.' },
-              { border: 'rgba(0,184,230,0.55)', h3: 'Reconversión Serrana Premium', p: '<strong>Vid Malbec de Altura, Olivo Superintensivo y Lavanda</strong> destacan en laderas de Calamuchita ($3.900–$4.850/ha) ahorrando ~35% de agua.' }
+              { border: 'rgba(16,185,129,0.55)', h3: '<span style="color:#6ee7b7;">Ganadores Extensivos</span>', p: '<strong>Sorgo Granífero y Garbanzo Kabuli</strong> alcanzan <strong>84–98% de aptitud</strong>, bajando la demanda hídrica a 390–470 mm y estabilizando cosechas.' },
+              { border: 'rgba(0,184,230,0.55)', h3: 'Reconversión Serrana Resiliente', p: '<strong>Vid Malbec de Altura, Olivo Superintensivo y Lavanda</strong> destacan en laderas de Calamuchita, ahorrando ~38% de agua con goteo 4–20 mA.' }
             ],
-            footL: 'TRANSICIÓN BASADA EN DATOS • VIABILIDAD HÍDRICA Y ECONÓMICA'
+            footL: 'TRANSICIÓN BASADA EN DATOS • RESILIENCIA HÍDRICA Y AGRONÓMICA'
           },
           {
             tag: 'EXPERIENCIA DE USUARIO E IMPACTO ESCALABLE • LISTO HOY MISMO',
@@ -397,15 +428,17 @@
                 '<strong>Simulador 4–20 mA y Modbus + USB WebSerial:</strong> Probá el corte de cable NAMUR NE43 en pantalla o enchufá un ESP32 físico.',
                 '<strong>Plan Agronómico PDF en 1 Clic (EN/ES/PT):</strong> Reporte listo para llevar impreso o en el celular al lote.'
               ]},
-              { border: 'rgba(0,184,230,0.5)', h3: 'Visión y Escala Regional', p: '<div class="metric" style="color:#00b8e6;margin-bottom:8px;">-35% Agua • 0 Dependencia</div>Despliegue de nodos piloto junto a cooperativas y escuelas agrotécnicas de Córdoba, llevando la ciencia de la NASA directo a la raíz.<br/><br/><strong style="color:#fff;">¡Muchas Gracias! — Equipo INANNA COMPANY</strong>' }
+              { border: 'rgba(0,184,230,0.5)', h3: 'Impacto Abierto y Comunitario', p: '<div class="metric" style="color:#00b8e6;margin-bottom:8px;">-38% Agua • 100% Abierto</div>Nodos piloto abiertos junto a productores familiares y escuelas agrotécnicas de Córdoba, llevando la ciencia de la NASA directo a la raíz.<br/><br/><strong style="color:#fff;">¡Muchas Gracias! — Equipo INANNA</strong>' }
             ],
-            footL: 'TEAM INANNA COMPANY • MEDINA ROJAS | DEBIA | CORIA'
+            footL: 'EQUIPO INANNA • MEDINA ROJAS | DEBIA | CORIA'
           }
         ]
       },
 
       pt: {
         tbTitle: '<strong>TERRA-SHIFT SCADA</strong> • Apresentação Oficial de 7 Slides',
+        tbVoiceStart: '🎙️ Narrar 7 Slides (Voz Inanna)',
+        tbVoiceStop: '🤫 Silenciar Voz',
         tbBack: '← Voltar ao Console ao Vivo',
         tbPdf: '⬇ Salvar PDF (7 Páginas)',
         slides: [
@@ -413,7 +446,7 @@
             tag: 'NASA SPACE APPS CHALLENGE 2026 • DESAFIO FIELD SHIFT: ADAPTANDO FAZENDAS COM DADOS NASA',
             hero: true,
             sub: '<strong>Adaptação Climática Agrícola Orbital-à-Raiz e SCADA Rural IIoT sem Roteador</strong><br/>Transformando décadas de observações terrestres da NASA em roteiros de transição de culturas e irrigação de precisão à prova de falhas.',
-            teamLbl: 'Equipe INANNA COMPANY',
+            teamLbl: 'Equipe Concursante INANNA',
             eventLbl: 'Evento Local',
             footR: 'LAYOUT ASSISTIDO POR IA (GEMINI) • ARQUITETURA ORIGINAL INANNA'
           },
@@ -482,9 +515,9 @@
             cols3: [
               { border: 'rgba(245,158,11,0.45)', h3: '<span style="color:#fcd34d;">Grãos Tradicionais em Declínio</span>', p: '<strong>Milho Precoce e Soja de 1ª Safra</strong> perdem 12–19% de aptidão em sequeiro sob SSP5-8.5 devido ao calor extremo em janeiro (&gt;40 °C).' },
               { border: 'rgba(16,185,129,0.55)', h3: '<span style="color:#6ee7b7;">Vencedores em Grandes Áreas</span>', p: '<strong>Sorgo Granífero e Grão-de-Bico Kabuli</strong> atingem <strong>84–98% de aptidão</strong>, reduzindo a demanda hídrica para 390–470 mm.' },
-              { border: 'rgba(0,184,230,0.55)', h3: 'Transição Serrana de Alta Margem', p: '<strong>Videira Malbec de Altitude, Oliveira Superintensiva e Lavanda</strong> prosperam em encostas ($3.900–$4.850/ha) economizando ~35% de água.' }
+              { border: 'rgba(0,184,230,0.55)', h3: 'Transição Serrana Resiliente', p: '<strong>Videira Malbec de Altitude, Oliveira Superintensiva e Lavanda</strong> prosperam em encostas, economizando ~38% de água doce via gotejamento 4–20 mA.' }
             ],
-            footL: 'TRANSIÇÃO ORIENTADA POR DADOS • VIABILIDADE HÍDRICA E ECONÔMICA'
+            footL: 'TRANSIÇÃO ORIENTADA POR DADOS • RESILIÊNCIA HÍDRICA E AGRONÔMICA'
           },
           {
             tag: 'EXPERIÊNCIA DO USUÁRIO E IMPACTO ESCALÁVEL • PRONTO PARA IMPLANTAÇÃO',
@@ -496,25 +529,80 @@
                 '<strong>Simulador 4–20 mA e Modbus + USB WebSerial:</strong> Teste a proteção contra cabo rompido NAMUR NE43 no navegador ou conecte um ESP32 real.',
                 '<strong>Plano Agronômico em PDF em 1 Clique (EN/ES/PT):</strong> Relatório pronto para levar ao campo offline.'
               ]},
-              { border: 'rgba(0,184,230,0.5)', h3: 'Visão e Escala de Impacto', p: '<div class="metric" style="color:#00b8e6;margin-bottom:8px;">-35% Água • 0 Lock-In</div>Implantação de nós-piloto com cooperativas agrícolas e escolas rurais, levando a ciência da Terra da NASA diretamente às raízes.<br/><br/><strong style="color:#fff;">Muito Obrigado! — Equipe INANNA COMPANY</strong>' }
+              { border: 'rgba(0,184,230,0.5)', h3: 'Impacto Aberto e Comunitário', p: '<div class="metric" style="color:#00b8e6;margin-bottom:8px;">-38% Água • 100% Aberto</div>Compartilhamento de nós-piloto abertos com agricultores familiares e escolas rurais, levando a ciência da Terra da NASA diretamente às raízes.<br/><br/><strong style="color:#fff;">Muito Obrigado! — Equipe INANNA</strong>' }
             ],
-            footL: 'TEAM INANNA COMPANY • MEDINA ROJAS | DEBIA | CORIA'
+            footL: 'EQUIPE INANNA • MEDINA ROJAS | DEBIA | CORIA'
           }
         ]
       }
     };
 
+    let activeLang = 'en';
+    let deckAudio = null;
+    let deckNarrating = false;
+    let deckTimer = null;
+
+    function stopDeckNarration() {
+      deckNarrating = false;
+      if (deckTimer) { clearTimeout(deckTimer); deckTimer = null; }
+      if (deckAudio) {
+        try { deckAudio.onended = null; deckAudio.pause(); deckAudio.currentTime = 0; } catch (_) {}
+        deckAudio = null;
+      }
+      document.getElementById('deckEq').classList.remove('speaking');
+      document.querySelectorAll('.slide').forEach(el => el.classList.remove('narrating-slide'));
+      const d = DECK[activeLang] || DECK.en;
+      document.getElementById('tbVoice').textContent = d.tbVoiceStart;
+    }
+
+    function playDeckSlide(idx) {
+      if (!deckNarrating || idx >= 7) {
+        stopDeckNarration();
+        return;
+      }
+      const slides = document.querySelectorAll('.slide');
+      slides.forEach((el, i) => el.classList.toggle('narrating-slide', i === idx));
+      if (slides[idx]) slides[idx].scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+      const audio = new Audio(`../assets/audio/slide_${activeLang}_${idx}.mp3`);
+      deckAudio = audio;
+      audio.onplay = () => document.getElementById('deckEq').classList.add('speaking');
+      audio.onended = () => {
+        document.getElementById('deckEq').classList.remove('speaking');
+        if (deckNarrating) {
+          deckTimer = setTimeout(() => playDeckSlide(idx + 1), 950);
+        }
+      };
+      audio.onerror = () => stopDeckNarration();
+      audio.play().catch(() => stopDeckNarration());
+    }
+
+    function toggleDeckNarration() {
+      if (deckNarrating) {
+        stopDeckNarration();
+        return;
+      }
+      deckNarrating = true;
+      const d = DECK[activeLang] || DECK.en;
+      document.getElementById('tbVoice').textContent = d.tbVoiceStop;
+      playDeckSlide(0);
+    }
+
     function renderDeck(lang) {
-      const d = DECK[lang] || DECK.en;
-      document.documentElement.lang = lang;
-      localStorage.setItem('inanna_lang', lang);
+      const wasNarrating = deckNarrating;
+      stopDeckNarration();
+      activeLang = DECK[lang] ? lang : 'en';
+      const d = DECK[activeLang];
+      document.documentElement.lang = activeLang;
+      localStorage.setItem('inanna_lang', activeLang);
       document.getElementById('tbTitle').innerHTML = d.tbTitle;
+      document.getElementById('tbVoice').textContent = d.tbVoiceStart;
       document.getElementById('tbBack').textContent = d.tbBack;
-      document.getElementById('tbBack').href = `../index.html?lang=${lang}`;
+      document.getElementById('tbBack').href = `../index.html?lang=${activeLang}`;
       document.getElementById('tbPdf').textContent = d.tbPdf;
 
       document.querySelectorAll('.lang-pill').forEach(b => {
-        b.classList.toggle('active', b.dataset.lang === lang);
+        b.classList.toggle('active', b.dataset.lang === activeLang);
       });
 
       const root = document.getElementById('slidesRoot');
@@ -529,8 +617,8 @@
               </div>
               <div style="display:flex;flex-direction:column;gap:18px;margin:auto 0;">
                 <div style="display:inline-flex;align-items:center;gap:16px;flex-wrap:wrap;">
-                  <img src="../assets/inanna-logo-horizontal.jpg" alt="INANNA COMPANY Official Brand" style="height:64px;border-radius:8px;border:1px solid rgba(0,184,230,0.48);box-shadow:0 0 22px rgba(0,184,230,0.22);" />
-                  <span style="font-family:'JetBrains Mono',monospace;color:#94a3b8;font-size:0.9rem;">AUTOMATION • AI • INDUSTRIES • LABS • SERVICE INANNA</span>
+                  <img src="../assets/inanna-logo-horizontal.jpg" alt="Team INANNA Official Brand" style="height:64px;border-radius:8px;border:1px solid rgba(0,184,230,0.48);box-shadow:0 0 22px rgba(0,184,230,0.22);" />
+                  <span style="font-family:'JetBrains Mono',monospace;color:#94a3b8;font-size:0.9rem;">OPEN-SOURCE HACKATHON TEAM • MECHATRONICS &amp; NASA EARTH SCIENCE</span>
                 </div>
                 <h1>TERRA-SHIFT SCADA</h1>
                 <p class="lead" style="font-size:1.3rem;color:#e2e8f0;">${s.sub}</p>
@@ -546,7 +634,7 @@
                 </div>
               </div>
               <div class="slide-foot">
-                <span>TEAM INANNA COMPANY • SANTA ROSA DE CALAMUCHITA</span>
+                <span>TEAM INANNA • SANTA ROSA DE CALAMUCHITA</span>
                 <span>${s.footR}</span>
               </div>
             </section>
@@ -584,6 +672,8 @@
           </section>
         `;
       }).join('');
+
+      if (wasNarrating) toggleDeckNarration();
     }
 
     const params = new URLSearchParams(window.location.search);

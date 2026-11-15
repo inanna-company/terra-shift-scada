@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * INANNA COMPANY (AUTOMATION INANNA / INDUSTRIES INANNA)
+ * TEAM INANNA — Open-Source Hackathon Engineering (Santa Rosa de Calamuchita, AR)
  * Project: TERRA-SHIFT SCADA — 2026 NASA Space Apps Challenge ("Field Shift")
  * Module:  Central Farm SCADA Gateway
  *          (ESP-NOW Concentrator + Modbus RTU RS485 + Modbus TCP:502 + NVS + AP)

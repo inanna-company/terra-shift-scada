@@ -1,19 +1,27 @@
 /**
- * TERRA-SHIFT SCADA — INANNA Pro Engineering, Phenology, ROI & Live Demo Suite
- * Engineered by Fabio Maximiliano Medina Rojas (Técnico Superior en Mecatrónica) & Team INANNA COMPANY
- * Divisions: AUTOMATION INANNA • AI INANNA • INDUSTRIES INANNA • LABS INANNA
- * Trilingual Support: English (EN) | Español (ES) | Português (PT)
+ * TERRA-SHIFT SCADA — Phenology, Environmental Impact, Mechatronic P&ID & Inanna Neural Voice Tour
+ * Open-Source Hackathon Project by Team INANNA (Santa Rosa de Calamuchita, Córdoba, Argentina)
+ * 2026 NASA Space Apps Challenge — "Field Shift: Adapting Farms with NASA Data"
+ *
+ * Neural Voice Engine ("Bóveda Web de Inanna"):
+ * - Español (AR): es-AR-ElenaNeural (Official Inanna V2 Voice)
+ * - English (US): en-US-JennyNeural
+ * - Português (BR): pt-BR-FranciscaNeural
  */
 
 const PRO_I18N = {
   en: {
     navPhenology: '3. 12-Mo Calendar',
-    navRoi: '4. Farm ROI & Water',
+    navRoi: '4. Water & Climate Impact',
     navScadaNew: '5. Ground IIoT SCADA',
-    navHub: '🚀 INANNA Hub & Pitch',
-    btnAutoDemoStart: '▶ Auto-Demo Jury Tour',
-    btnAutoDemoStop: '⏹ Stop Demo Tour',
-    demoStepPrefix: 'LIVE JURY TOUR',
+    btnAutoDemoStart: '🎙️ Guided Demo (Inanna Voice)',
+    btnAutoDemoStop: '⏹ Stop Inanna Tour',
+    demoStepPrefix: '🎙️ INANNA VOICE TOUR',
+    btnPrevStep: '⏮ Prev',
+    btnPauseStep: '⏸ Pause',
+    btnResumeStep: '▶ Resume',
+    btnNextStep: '⏭ Next',
+    btnSilenceNow: '🤫 Mute Voice',
     phenTitle: '12-Month Crop Phenology, Frost/Heat Risk & Irrigation Calendar',
     phenSub: 'Derived from NASA POWER monthly climatology scaled to selected CMIP6 horizon & hemisphere',
     phenCropLbl: 'Inspect Crop Calendar:',
@@ -33,51 +41,55 @@ const PRO_I18N = {
     riskHeat: '🔥 Heat Peak',
     riskDrip: '💧 Drip Active',
     riskOpt: '✓ Optimal',
-    roiTitle: 'Farm-Scale Water, VFD Energy, Carbon & Payback Calculator',
-    roiSub: 'Quantifies agronomic crop-shift revenue + INANNA 4–20 mA closed-loop drip & VFD affinity-law savings',
-    roiHaLbl: 'Farm Area (Hectares)',
-    roiPumpLbl: 'Irrigation Pump Power (HP)',
-    roiKwhLbl: 'Electricity Cost (USD/kWh)',
-    roiKpiWater: 'Annual Water Saved',
-    roiKpiWaterSub: 'vs. open-loop / timer irrigation',
-    roiKpiEnergy: 'VFD Pump Energy Saved',
-    roiKpiEnergySub: 'Affinity Laws (P ∝ N³) + Modbus',
-    roiKpiCo2: 'Carbon Avoided',
-    roiKpiCo2Sub: 'Pumping + soil moisture conservation',
-    roiKpiRev: 'Annual Net Margin Gain',
-    roiKpiRevSub: 'Top resilient crop + water/kWh savings',
-    roiKpiKit: 'Recommended INANNA Kit',
-    roiKpiPayback: 'Estimated Hardware Payback',
-    roiMonthsUnit: 'months',
+    roiTitle: 'Farm-Scale Water Conservation, Pump Energy & Climate Impact Simulator',
+    roiSub: 'Quantifies freshwater saved, VFD pump affinity-law efficiency (P ∝ N³), carbon reduction & open-hardware sizing',
+    roiHaLbl: 'Cultivated Area (Hectares)',
+    roiPumpLbl: 'Irrigation Pump Motor (HP)',
+    roiKwhLbl: 'Annual Pumping Window (h/yr)',
+    roiKpiWater: 'Freshwater Conserved',
+    roiKpiWaterSub: 'Closed-loop 4–20 mA + NASA GWETROOT',
+    roiKpiEnergy: 'Pump Electricity Saved',
+    roiKpiEnergySub: 'VFD Affinity Laws (P ∝ N³) vs throttling',
+    roiKpiCo2: 'Emissions Avoided',
+    roiKpiCo2Sub: 'Reduced pumping + soil cover retention',
+    roiKpiRev: 'Resilience Gain vs Maize',
+    roiKpiRevSub: 'Suitability boost under target CMIP6',
+    roiKpiKit: 'Open-Hardware Mesh Sizing',
+    roiKpiPayback: 'Root-Zone Moisture Reserve',
     roiPoolsEq: 'Olympic pools/yr',
-    roiBomGateway: '1× DIN-Rail ESP32 Gateway (Modbus/AP)',
-    roiBomNodes: 'Solar ESP-NOW 4–20 mA Nodes',
+    roiBomGateway: '1× Open ESP32 Gateway +',
+    roiBomNodes: 'Solar ESP-NOW Nodes',
     pidTitle: 'Interactive Mechatronic P&ID & 4–20 mA Kirchhoff Architecture Blueprint',
     pidSub: 'Live hardware state synchronized with the 4–20 mA NAMUR NE43 simulator above — test wire cuts & shorts!',
-    pidBadge: 'MECHATRONICS BLUEPRINT • IEC / NAMUR NE43',
+    pidBadge: 'OPEN MECHATRONICS • IEC / NAMUR NE43',
     pidOrbital: '1. NASA ORBITAL LAYER',
     pidLoop: '2. 24V DC 4–20 mA LOOP',
     pidMesh: '3. ESP-NOW AES-128 MESH',
     pidPlc: '4. GATEWAY & MODBUS',
     pidAct: '5. VFD PUMP & SAFETY RELAY',
-    soundOn: '🔔 SCADA Audio: ON',
-    soundOff: '🔕 SCADA Audio: MUTE',
+    soundOn: '🔔 Audio & Voice: ON',
+    soundOff: '🔕 Audio & Voice: MUTE',
     demoMsgs: [
-      'Step 1/5 — Querying NASA POWER 20-year record & projecting 2050 CMIP6 climate shift for Santa Rosa de Calamuchita...',
-      'Step 2/5 — Evaluating 10 crops & 12-month phenology: High-Altitude Malbec, Olive & Sorghum outperform stressed rainfed Maize.',
-      'Step 3/5 — Ground Probe NODE-01 detects dry root zone (6.80 mA = 17.5%) + NASA GWETROOT confirms deficit → VFD Drip Valve OPEN!',
-      'Step 4/5 — CRITICAL TEST: Simulating rodent-cut sensor wire (1.20 mA < 3.6 mA NAMUR NE43)! Safety Relay LOCKS pump & switches to NASA SMAP backup!',
-      'Step 5/5 — Technician repairs wire (12.00 mA = 50.0% Healthy) & sends SCADA Alarm ACK → System ARMED & saving 38% water!'
+      'Part 1/6 — Inanna: Querying 20 years of live NASA POWER, MODIS & SMAP satellite data over Santa Rosa de Calamuchita...',
+      'Part 2/6 — Inanna: Ranking 10 crops to 2050 & mapping the 12-month calendar — resilient vineyards, olive, chickpea & sorghum thrive.',
+      'Part 3/6 — Inanna: Simulating farm-scale impact — 38% freshwater conserved, 34% VFD pump energy saved & lower carbon footprint.',
+      'Part 4/6 — Inanna: Stepping into an offline rural plot — NODE-01 reads dry roots (6.80 mA = 17.5%) confirmed by NASA → Drip OPEN!',
+      'Part 5/6 — Inanna: CRITICAL TEST! Severed field cable (1.20 mA < 3.6 mA NAMUR NE43) → Safety Relay LOCKS pump & switches to NASA backup!',
+      'Part 6/6 — Inanna: Loop repaired (12.00 mA = 50.0%) + SCADA Alarm ACK → Open-hardware Modbus system ARMED. Team INANNA!'
     ]
   },
   es: {
     navPhenology: '3. Calendario 12M',
-    navRoi: '4. ROI, Agua y Energía',
+    navRoi: '4. Impacto Hídrico y Clima',
     navScadaNew: '5. SCADA Rural IIoT',
-    navHub: '🚀 Ecosistema INANNA y Pitch',
-    btnAutoDemoStart: '▶ Demo Guiada Jurado',
-    btnAutoDemoStop: '⏹ Detener Demo',
-    demoStepPrefix: 'TOUR EN VIVO PARA JURADO',
+    btnAutoDemoStart: '🎙️ Demo Guiada (Voz Inanna)',
+    btnAutoDemoStop: '⏹ Detener Demo Inanna',
+    demoStepPrefix: '🎙️ VOZ DE INANNA EN VIVO',
+    btnPrevStep: '⏮ Anterior',
+    btnPauseStep: '⏸ Pausar',
+    btnResumeStep: '▶ Continuar',
+    btnNextStep: '⏭ Siguiente',
+    btnSilenceNow: '🤫 Callar Voz Ya',
     phenTitle: 'Calendario Fenológico de 12 Meses, Riesgo de Helada/Calor y Riego',
     phenSub: 'Calculado con climatología mensual real NASA POWER escalada al horizonte CMIP6 y hemisferio del lote',
     phenCropLbl: 'Inspeccionar Cultivo:',
@@ -97,51 +109,55 @@ const PRO_I18N = {
     riskHeat: '🔥 Pico Térmico',
     riskDrip: '💧 Goteo Activo',
     riskOpt: '✓ Óptimo',
-    roiTitle: 'Calculadora de Impacto por Hectárea: Agua, Energía VFD, Huella CO₂ y Retorno (ROI)',
-    roiSub: 'Cuantifica ganancia por reconversión agrícola + ahorro hídrico por lazo 4–20 mA y leyes de afinidad en bombas VFD',
-    roiHaLbl: 'Superficie del Campo (ha)',
+    roiTitle: 'Simulador de Impacto Ambiental: Ahorro de Agua, Energía VFD y Huella de Carbono',
+    roiSub: 'Cuantifica agua dulce preservada, eficiencia eléctrica por leyes de afinidad (P ∝ N³) y dimensionamiento abierto de nodos',
+    roiHaLbl: 'Superficie Agrícola (ha)',
     roiPumpLbl: 'Potencia Bomba de Riego (HP)',
-    roiKwhLbl: 'Costo Eléctrico Rural (USD/kWh)',
-    roiKpiWater: 'Agua Anual Ahorrada',
-    roiKpiWaterSub: 'vs. riego por tiempo / lazo abierto',
-    roiKpiEnergy: 'Energía Bomba VFD Ahorrada',
-    roiKpiEnergySub: 'Leyes de Afinidad (P ∝ N³) + Modbus',
+    roiKwhLbl: 'Uso Anual de Bombeo (h/año)',
+    roiKpiWater: 'Agua Dulce Preservada',
+    roiKpiWaterSub: 'Lazo cerrado 4–20 mA + NASA GWETROOT',
+    roiKpiEnergy: 'Energía Eléctrica Ahorrada',
+    roiKpiEnergySub: 'Leyes de Afinidad VFD (P ∝ N³)',
     roiKpiCo2: 'Emisiones CO₂ Evitadas',
-    roiKpiCo2Sub: 'Bombeo eficiente + retención edáfica',
-    roiKpiRev: 'Mejora de Margen Anual',
-    roiKpiRevSub: 'Cultivo resiliente líder + ahorro agua/kWh',
-    roiKpiKit: 'Kit Industrial INANNA Sugerido',
-    roiKpiPayback: ' Amortización Estimada Hardware',
-    roiMonthsUnit: 'meses',
+    roiKpiCo2Sub: 'Menor bombeo + retención de humedad',
+    roiKpiRev: 'Ganancia de Resiliencia',
+    roiKpiRevSub: 'Mejora de aptitud vs. maíz en secano',
+    roiKpiKit: 'Topología Abierta de Campo',
+    roiKpiPayback: 'Reserva Hídrica Radicular',
     roiPoolsEq: 'piletas olímpicas/año',
-    roiBomGateway: '1× Gateway Riel DIN ESP32 (Modbus/AP)',
-    roiBomNodes: 'Nodos Solares ESP-NOW 4–20 mA',
+    roiBomGateway: '1× Gateway Abierto ESP32 +',
+    roiBomNodes: 'Nodos Solares ESP-NOW',
     pidTitle: 'Plano Mecatrónico P&ID Interactivo y Arquitectura Ley de Kirchhoff 4–20 mA',
     pidSub: 'Sincronizado en tiempo real con el simulador 4–20 mA NAMUR NE43 — ¡probá simular cable cortado o cortocircuito!',
-    pidBadge: 'INGENIERÍA MECATRÓNICA • IEC / NAMUR NE43',
+    pidBadge: 'MECATRÓNICA ABIERTA • IEC / NAMUR NE43',
     pidOrbital: '1. CAPA ORBITAL NASA',
     pidLoop: '2. LAZO 24V DC 4–20 mA',
     pidMesh: '3. MALLA ESP-NOW AES-128',
     pidPlc: '4. GATEWAY Y MODBUS',
     pidAct: '5. BOMBA VFD Y RELÉ SEGURO',
-    soundOn: '🔔 Audio SCADA: ACTIVO',
-    soundOff: '🔕 Audio SCADA: SILENCIO',
+    soundOn: '🔔 Voz Inanna: ACTIVA',
+    soundOff: '🔕 Voz Inanna: SILENCIO',
     demoMsgs: [
-      'Paso 1/5 — Consultando 20 años reales de NASA POWER y proyectando cambio climático CMIP6 2050 en Santa Rosa de Calamuchita...',
-      'Paso 2/5 — Evaluando 10 cultivos y fenología 12 meses: Vid Serrana, Olivo y Sorgo superan ampliamente al Maíz tradicional en estrés.',
-      'Paso 3/5 — Sonda NODE-01 detecta raíz seca (6.80 mA = 17.5%) + NASA GWETROOT confirma déficit → ¡Bomba VFD y Riego por Goteo ACTIVOS!',
-      'Paso 4/5 — PRUEBA CRÍTICA: ¡Roedor corta el cable en el campo (1.20 mA < 3.6 mA NAMUR NE43)! Relé Seguro BLOQUEA la bomba y pasa a respaldo NASA SMAP!',
-      'Paso 5/5 — Técnico repara el par trenzado (12.00 mA = 50.0% Sano) y ejecuta SCADA Alarm ACK → ¡Sistema ARMADO ahorrando 38% de agua!'
+      'Parte 1/6 — Inanna: Consultando en vivo 20 años de satélites NASA POWER, MODIS y SMAP sobre Santa Rosa de Calamuchita...',
+      'Parte 2/6 — Inanna: Proyectando 10 cultivos a 2050 y calendario de 12 meses — destacan vid serrana, olivo, garbanzo y sorgo.',
+      'Parte 3/6 — Inanna: Simulando impacto ambiental — 38% de ahorro de agua dulce, 34% menos energía en bombas VFD y menos CO₂.',
+      'Parte 4/6 — Inanna: Bajando al campo sin internet — NODE-01 detecta raíz seca (6.80 mA = 17.5%) validada con NASA → ¡Riego ACTIVO!',
+      'Parte 5/6 — Inanna: ¡PRUEBA CRÍTICA! Cable cortado en el lote (1.20 mA < 3.6 mA NAMUR NE43) → ¡Relé BLOQUEA bomba y usa respaldo NASA!',
+      'Parte 6/6 — Inanna: Lazo reparado (12.00 mA = 50.0%) + SCADA Alarm ACK → Sistema abierto Modbus ARMADO. ¡Equipo INANNA!'
     ]
   },
   pt: {
     navPhenology: '3. Calendário 12M',
-    navRoi: '4. ROI, Água e Energia',
+    navRoi: '4. Impacto Hídrico e Clima',
     navScadaNew: '5. SCADA Rural IIoT',
-    navHub: '🚀 Ecossistema INANNA e Pitch',
-    btnAutoDemoStart: '▶ Demo Guiada Júri',
-    btnAutoDemoStop: '⏹ Parar Demo',
-    demoStepPrefix: 'TOUR AO VIVO PARA O JÚRI',
+    btnAutoDemoStart: '🎙️ Demo Guiada (Voz Inanna)',
+    btnAutoDemoStop: '⏹ Parar Demo Inanna',
+    demoStepPrefix: '🎙️ VOZ DA INANNA AO VIVO',
+    btnPrevStep: '⏮ Anterior',
+    btnPauseStep: '⏸ Pausar',
+    btnResumeStep: '▶ Continuar',
+    btnNextStep: '⏭ Próximo',
+    btnSilenceNow: '🤫 Silenciar Voz',
     phenTitle: 'Calendário Fenológico de 12 Meses, Risco de Geada/Calor e Irrigação',
     phenSub: 'Calculado com climatologia mensal real NASA POWER ajustada ao horizonte CMIP6 e hemisfério da fazenda',
     phenCropLbl: 'Inspecionar Cultura:',
@@ -161,46 +177,73 @@ const PRO_I18N = {
     riskHeat: '🔥 Pico Térmico',
     riskDrip: '💧 Gotejo Ativo',
     riskOpt: '✓ Ideal',
-    roiTitle: 'Calculadora de Impacto da Fazenda: Água, Energia VFD, CO₂ e Payback (ROI)',
-    roiSub: 'Quantifica ganho de transição agrícola + economia hídrica em malha fechada 4–20 mA e leis de afinidade VFD',
-    roiHaLbl: 'Área da Fazenda (ha)',
+    roiTitle: 'Simulador de Impacto Ambiental: Economia de Água, Energia VFD e Carbono',
+    roiSub: 'Quantifica água doce preservada, eficiência energética por leis de afinidade (P ∝ N³) e arquitetura aberta de nós',
+    roiHaLbl: 'Área Agrícola (ha)',
     roiPumpLbl: 'Potência da Bomba (HP)',
-    roiKwhLbl: 'Tarifa Elétrica (USD/kWh)',
-    roiKpiWater: 'Água Economizada / Ano',
-    roiKpiWaterSub: 'vs. irrigação aberta / temporizador',
-    roiKpiEnergy: 'Energia VFD Economizada',
-    roiKpiEnergySub: 'Leis de Afinidade (P ∝ N³) + Modbus',
+    roiKwhLbl: 'Horas Anuais de Bombeamento (h/ano)',
+    roiKpiWater: 'Água Doce Preservada',
+    roiKpiWaterSub: 'Malha fechada 4–20 mA + NASA GWETROOT',
+    roiKpiEnergy: 'Energia Elétrica Poupada',
+    roiKpiEnergySub: 'Leis de Afinidade VFD (P ∝ N³)',
     roiKpiCo2: 'Carbono Evitado',
-    roiKpiCo2Sub: 'Bombeamento eficiente + solo úmido',
-    roiKpiRev: 'Ganho Líquido Anual',
-    roiKpiRevSub: 'Cultura resiliente líder + economia água/kWh',
-    roiKpiKit: 'Kit Industrial INANNA Sugerido',
-    roiKpiPayback: 'Payback Estimado do Hardware',
-    roiMonthsUnit: 'meses',
+    roiKpiCo2Sub: 'Menor bombeamento + umidade no solo',
+    roiKpiRev: 'Ganho de Resiliência',
+    roiKpiRevSub: 'Aumento de aptidão vs. milho sequeiro',
+    roiKpiKit: 'Topologia Aberta de Campo',
+    roiKpiPayback: 'Reserva Hídrica Radicular',
     roiPoolsEq: 'piscinas olímpicas/ano',
-    roiBomGateway: '1× Gateway Trilho DIN ESP32 (Modbus/AP)',
-    roiBomNodes: 'Nós Solares ESP-NOW 4–20 mA',
+    roiBomGateway: '1× Gateway Aberto ESP32 +',
+    roiBomNodes: 'Nós Solares ESP-NOW',
     pidTitle: 'Diagrama Mecatrônico P&ID Interativo e Arquitetura Lei de Kirchhoff 4–20 mA',
     pidSub: 'Sincronizado em tempo real com o simulador 4–20 mA NAMUR NE43 — teste cabo rompido e curto-circuito!',
-    pidBadge: 'ENGENHARIA MECATRÔNICA • IEC / NAMUR NE43',
+    pidBadge: 'MECATRÔNICA ABERTA • IEC / NAMUR NE43',
     pidOrbital: '1. CAMADA ORBITAL NASA',
     pidLoop: '2. LAÇO 24V DC 4–20 mA',
     pidMesh: '3. REDE ESP-NOW AES-128',
     pidPlc: '4. GATEWAY E MODBUS',
     pidAct: '5. BOMBA VFD E RELÉ SEGURO',
-    soundOn: '🔔 Áudio SCADA: ATIVO',
-    soundOff: '🔕 Áudio SCADA: MUDO',
+    soundOn: '🔔 Voz Inanna: ATIVA',
+    soundOff: '🔕 Voz Inanna: MUDO',
     demoMsgs: [
-      'Passo 1/5 — Consultando série histórica de 20 anos da NASA POWER e projetando cenário CMIP6 2050 para Santa Rosa de Calamuchita...',
-      'Passo 2/5 — Avaliando 10 culturas e fenologia de 12 meses: Videira Serrana, Oliveira e Sorgo superam o Milho em sequeiro.',
-      'Passo 3/5 — Sonda NODE-01 detecta raiz seca (6.80 mA = 17.5%) + NASA GWETROOT confirma déficit → Bomba VFD e Gotejamento ATIVOS!',
-      'Passo 4/5 — TESTE CRÍTICO: Cabo cortado no campo (1.20 mA < 3.6 mA NAMUR NE43)! Relé Seguro TRAVA a bomba e ativa backup orbital NASA SMAP!',
-      'Passo 5/5 — Técnico repara o cabo (12.00 mA = 50.0% Íntegro) e confirma SCADA Alarm ACK → Sistema ARMADO economizando 38% de água!'
+      'Parte 1/6 — Inanna: Consultando ao vivo 20 anos de satélites NASA POWER, MODIS e SMAP sobre Santa Rosa de Calamuchita...',
+      'Parte 2/6 — Inanna: Avaliando 10 culturas até 2050 e calendário de 12 meses — videira serrana, oliveira, grão-de-bico e sorgo prosperam.',
+      'Parte 3/6 — Inanna: Simulando impacto ambiental — 38% de economia de água doce, 34% menos energia VFD e menos emissões de CO₂.',
+      'Parte 4/6 — Inanna: No campo sem internet — NODE-01 detecta raiz seca (6.80 mA = 17.5%) confirmada pela NASA → Irrigação ATIVA!',
+      'Parte 5/6 — Inanna: TESTE CRÍTICO! Cabo rompido na lavoura (1.20 mA < 3.6 mA NAMUR NE43) → Relé TRAVA bomba e ativa backup NASA!',
+      'Parte 6/6 — Inanna: Laço reparado (12.00 mA = 50.0%) + SCADA Alarm ACK → Sistema aberto Modbus ARMADO. Equipe INANNA!'
     ]
   }
 };
 
-// Southern Hemisphere (Argentina) baseline phenology stage per month (0=Jan..11=Dec); automatically shifted +6 months when lat >= 0
+// Fallback TTS texts if MP3 cannot play for any reason
+const FALLBACK_TTS_SCRIPTS = {
+  es: [
+    'Hola jurado de NASA Space Apps. Soy Inanna. Aquí en vivo consultamos veinte años de satélites NASA POWER, MODIS y SMAP sobre Santa Rosa de Calamuchita, detectando calentamiento y caída de humedad en la raíz.',
+    'Con proyecciones climáticas a dos mil cincuenta, evaluamos diez cultivos y su calendario de doce meses. Donde el maíz tradicional sufre golpes de calor, prosperan la vid serrana, el olivo, el garbanzo y el sorgo.',
+    'En nuestro simulador ambiental por hectárea, el riego en lazo cerrado y bombas con variador de frecuencia ahorran treinta y ocho por ciento de agua dulce, treinta y cuatro por ciento de energía y reducen la huella de carbono.',
+    'Ahora bajemos al campo sin internet. Nuestros nodos solares ESP-NOW leen sondas industriales de cuatro a veinte miliamperios. Al detectar raíz seca en seis coma ocho miliamperios confirmada por la NASA, activamos el riego.',
+    'Atención jurado: simulamos un cable cortado en el lote. Un sensor común leería cero por ciento seco e inundaría el cultivo. Con norma industrial NAMUR NE43 enclavamos la bomba al instante y pasamos a respaldo satelital NASA.',
+    'Al reparar el lazo a doce miliamperios y confirmar la alarma, el sistema vuelve a operar en código abierto compatible con Modbus. Somos el equipo INANNA desde Calamuchita: ciencia de la NASA en órbita, precisión mecatrónica en la raíz.'
+  ],
+  en: [
+    'Hello NASA Space Apps Jury, I am Inanna. Right here, we query twenty years of live NASA POWER, MODIS, and SMAP satellite telemetry over Santa Rosa de Calamuchita, tracking rising heat and declining root-zone moisture.',
+    'Using twenty-fifty climate projections, we rank ten crops and map their twelve-month phenology calendar. Where traditional rainfed maize suffers heat shock, high-altitude vineyards, olive, chickpea, and sorghum thrive.',
+    'In our farm environmental impact simulator, closed-loop drip irrigation and variable-frequency pump drives conserve thirty-eight percent of freshwater, save thirty-four percent of energy, and cut carbon emissions.',
+    'Now let us step into an offline rural farm. Our solar ESP-NOW nodes read industrial four-to-twenty milliamp probes. Detecting dry roots at six point eight milliamps confirmed by NASA, we open precision drip irrigation.',
+    'Watch closely, judges: we simulate a severed field cable. Cheap sensors read zero percent dry and flood the farm. Using NAMUR NE43 live-zero diagnostics, we lock the safety relay instantly and switch to NASA orbital backup.',
+    'Once repaired to twelve milliamps and acknowledged, our open-hardware system rearms, ready for any Modbus controller. From Santa Rosa de Calamuchita, we are Team INANNA: NASA science in orbit, mechatronic precision at the root.'
+  ],
+  pt: [
+    'Olá júri do NASA Space Apps, eu sou a Inanna. Aqui consultamos ao vivo vinte anos de satélites NASA POWER, MODIS e SMAP sobre Santa Rosa de Calamuchita, detectando aquecimento e queda na umidade da raiz.',
+    'Com projeções climáticas para dois mil e cinquenta, avaliamos dez culturas e seu calendário de doze meses. Onde o milho tradicional sofre choque térmico, prosperam a videira serrana, a oliveira, o grão-de-bico e o sorgo.',
+    'Em nosso simulador de impacto ambiental, o gotejamento em malha fechada e inversores de frequência economizam trinta e oito por cento de água doce, trinta e quatro por cento de energia e reduzem emissões de carbono.',
+    'Agora vamos ao campo sem internet. Nossos nós solares ESP-NOW leem sondas industriais de quatro a vinte miliamperes. Ao detectar raiz seca em seis vírgula oito miliamperes confirmada pela NASA, ativamos a irrigação.',
+    'Atenção jurados: simulamos um cabo rompido na lavoura. Sensores comuns leriam zero por cento seco e inundariam o cultivo. Com o padrão NAMUR NE43, travamos a bomba na hora e ativamos o backup satelital da NASA.',
+    'Após reparar o cabo para doze miliamperes e confirmar o alarme, nosso sistema aberto rearma pronto para Modbus. De Santa Rosa de Calamuchita, somos a Equipe INANNA: ciência da NASA em órbita, precisão mecatrônica na raiz.'
+  ]
+};
+
 const CROP_STAGE_SH = {
   maize:     ['flo',  'fill', 'harv', 'harv', 'dorm', 'dorm', 'dorm', 'dorm', 'dorm', 'sow',  'veg',  'veg'],
   soybean:   ['flo',  'fill', 'fill', 'harv', 'dorm', 'dorm', 'dorm', 'dorm', 'dorm', 'dorm', 'sow',  'veg'],
@@ -214,31 +257,124 @@ const CROP_STAGE_SH = {
   lavender:  ['harv', 'harv', 'veg',  'dorm', 'dorm', 'dorm', 'dorm', 'veg',  'sow',  'veg',  'flo',  'flo']
 };
 
-// Monthly Kc evapotranspiration profile per stage
-const STAGE_KC = {
-  dorm: 0.25,
-  sow:  0.45,
-  veg:  0.78,
-  flo:  1.15,
-  fill: 0.95,
-  harv: 0.50
-};
+const STAGE_KC = { dorm: 0.25, sow: 0.45, veg: 0.78, flo: 1.15, fill: 0.95, harv: 0.50 };
 
 class InannaProSuite {
   constructor() {
     this.phenChart = null;
-    this.selectedCropId = null; // null = follow Top #1 crop until user overrides
-    this.farmHa = 45;
+    this.selectedCropId = null;
+    this.farmHa = 50;
     this.pumpHp = 15;
-    this.kwhCost = 0.14;
+    this.pumpHoursYr = 820;
     this.audioEnabled = true;
     this.audioCtx = null;
-    this.demoTimer = null;
+
+    // Inanna Neural Voice Tour State
+    this.demoActive = false;
+    this.demoPaused = false;
     this.demoStep = 0;
+    this.currentAudio = null;
+    this.advanceTimeout = null;
   }
 
   getLang() {
     return (window.APP_STATE && window.APP_STATE.lang) || 'en';
+  }
+
+  stopAllSpeechImmediately() {
+    if (this.advanceTimeout) {
+      clearTimeout(this.advanceTimeout);
+      this.advanceTimeout = null;
+    }
+    if (this.currentAudio) {
+      try {
+        this.currentAudio.onended = null;
+        this.currentAudio.onerror = null;
+        this.currentAudio.pause();
+        this.currentAudio.currentTime = 0;
+      } catch (_) {}
+      this.currentAudio = null;
+    }
+    if ('speechSynthesis' in window) {
+      try { window.speechSynthesis.cancel(); } catch (_) {}
+    }
+    const eq = document.getElementById('inannaVoiceEq');
+    if (eq) eq.classList.remove('speaking');
+  }
+
+  /**
+   * Speaks with Inanna's real neural MP3 voice (es-AR-ElenaNeural / en-US-JennyNeural / pt-BR-FranciscaNeural),
+   * falling back to browser SpeechSynthesis (Elena / Laura / Helena / Jenny / Francisca) if offline & uncached.
+   */
+  speakInannaStep(stepIdx, onComplete) {
+    this.stopAllSpeechImmediately();
+    if (!this.audioEnabled) {
+      if (onComplete) {
+        this.advanceTimeout = setTimeout(onComplete, 5200);
+      }
+      return;
+    }
+
+    const lang = this.getLang();
+    const mp3Url = `assets/audio/demo_${lang}_${stepIdx}.mp3`;
+    const eq = document.getElementById('inannaVoiceEq');
+
+    const audio = new Audio(mp3Url);
+    this.currentAudio = audio;
+
+    audio.onplay = () => {
+      if (eq) eq.classList.add('speaking');
+    };
+
+    audio.onended = () => {
+      if (eq) eq.classList.remove('speaking');
+      if (this.demoActive && !this.demoPaused && onComplete) {
+        this.advanceTimeout = setTimeout(onComplete, 1350);
+      }
+    };
+
+    audio.onerror = () => {
+      this.speakWebSpeechFallback(lang, stepIdx, onComplete);
+    };
+
+    audio.play().catch(() => {
+      this.speakWebSpeechFallback(lang, stepIdx, onComplete);
+    });
+  }
+
+  speakWebSpeechFallback(lang, stepIdx, onComplete) {
+    const eq = document.getElementById('inannaVoiceEq');
+    if (!('speechSynthesis' in window)) {
+      if (onComplete) this.advanceTimeout = setTimeout(onComplete, 5500);
+      return;
+    }
+    const scripts = FALLBACK_TTS_SCRIPTS[lang] || FALLBACK_TTS_SCRIPTS.en;
+    const utter = new SpeechSynthesisUtterance(scripts[stepIdx] || '');
+    const voices = window.speechSynthesis.getVoices();
+
+    if (lang === 'es') {
+      utter.lang = 'es-AR';
+      utter.voice = voices.find(v => v.name.includes('Elena'))
+        || voices.find(v => v.name.includes('Laura') || v.name.includes('Helena') || v.name.includes('Sabina'))
+        || voices.find(v => v.lang.startsWith('es'));
+    } else if (lang === 'pt') {
+      utter.lang = 'pt-BR';
+      utter.voice = voices.find(v => v.name.includes('Francisca') || v.name.includes('Maria'))
+        || voices.find(v => v.lang.startsWith('pt'));
+    } else {
+      utter.lang = 'en-US';
+      utter.voice = voices.find(v => v.name.includes('Jenny') || v.name.includes('Aria') || v.name.includes('Zira'))
+        || voices.find(v => v.lang.startsWith('en'));
+    }
+
+    utter.onstart = () => { if (eq) eq.classList.add('speaking'); };
+    utter.onend = () => {
+      if (eq) eq.classList.remove('speaking');
+      if (this.demoActive && !this.demoPaused && onComplete) {
+        this.advanceTimeout = setTimeout(onComplete, 1350);
+      }
+    };
+    window.speechSynthesis.speak(utter);
   }
 
   playTone(type = 'beep') {
@@ -259,25 +395,25 @@ class InannaProSuite {
         osc.type = 'sawtooth';
         osc.frequency.setValueAtTime(880, now);
         osc.frequency.setValueAtTime(620, now + 0.14);
-        gain.gain.setValueAtTime(0.08, now);
-        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.34);
+        gain.gain.setValueAtTime(0.065, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.32);
         osc.start(now);
-        osc.stop(now + 0.35);
+        osc.stop(now + 0.33);
       } else if (type === 'ok') {
         osc.type = 'sine';
         osc.frequency.setValueAtTime(587.33, now);
         osc.frequency.setValueAtTime(880, now + 0.1);
-        gain.gain.setValueAtTime(0.06, now);
-        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.26);
+        gain.gain.setValueAtTime(0.05, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.24);
         osc.start(now);
-        osc.stop(now + 0.27);
+        osc.stop(now + 0.25);
       } else {
         osc.type = 'triangle';
         osc.frequency.setValueAtTime(740, now);
-        gain.gain.setValueAtTime(0.045, now);
-        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.14);
+        gain.gain.setValueAtTime(0.035, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.12);
         osc.start(now);
-        osc.stop(now + 0.15);
+        osc.stop(now + 0.13);
       }
     } catch (_) {}
   }
@@ -316,7 +452,7 @@ class InannaProSuite {
     const kwhInput = document.getElementById('roiKwhCost');
     if (kwhInput) {
       kwhInput.addEventListener('input', (e) => {
-        this.kwhCost = Math.max(0.02, Math.min(1.5, Number(e.target.value) || 0.14));
+        this.pumpHoursYr = Math.max(100, Math.min(4500, Number(e.target.value) || 820));
         this.renderRoiCalculator();
       });
     }
@@ -330,6 +466,7 @@ class InannaProSuite {
     if (btnAudio) {
       btnAudio.addEventListener('click', () => {
         this.audioEnabled = !this.audioEnabled;
+        if (!this.audioEnabled) this.stopAllSpeechImmediately();
         this.applyProTranslations();
         if (this.audioEnabled) this.playTone('ok');
       });
@@ -344,7 +481,6 @@ class InannaProSuite {
       navPhenology: p.navPhenology,
       navRoi: p.navRoi,
       navScada: p.navScadaNew,
-      navHub: p.navHub,
       phenTitle: p.phenTitle,
       phenSub: p.phenSub,
       phenCropLbl: p.phenCropLbl,
@@ -365,7 +501,10 @@ class InannaProSuite {
       roiKpiPaybackLbl: p.roiKpiPayback,
       pidTitle: p.pidTitle,
       pidSub: p.pidSub,
-      pidBadge: p.pidBadge
+      pidBadge: p.pidBadge,
+      demoBtnPrev: p.btnPrevStep,
+      demoBtnNext: p.btnNextStep,
+      demoBtnSilence: p.btnSilenceNow
     };
 
     for (const [id, text] of Object.entries(map)) {
@@ -373,12 +512,14 @@ class InannaProSuite {
       if (el) el.textContent = text;
     }
 
-    const hubLink = document.getElementById('navHub');
-    if (hubLink) hubLink.href = `inanna.html?lang=${lang}`;
+    const pauseBtn = document.getElementById('demoBtnPause');
+    if (pauseBtn) {
+      pauseBtn.textContent = this.demoPaused ? p.btnResumeStep : p.btnPauseStep;
+    }
 
     const btnDemo = document.getElementById('btnAutoDemo');
     if (btnDemo) {
-      btnDemo.textContent = this.demoTimer ? p.btnAutoDemoStop : p.btnAutoDemoStart;
+      btnDemo.textContent = this.demoActive ? p.btnAutoDemoStop : p.btnAutoDemoStart;
     }
 
     const btnAudio = document.getElementById('btnScadaAudio');
@@ -393,6 +534,11 @@ class InannaProSuite {
     this.renderPhenologyCalendar();
     this.renderRoiCalculator();
     this.renderPidBlueprint();
+
+    // If user switches language mid-demo, re-narrate current step in the newly chosen language!
+    if (this.demoActive && !this.demoPaused) {
+      this.executeDemoStep(this.demoStep);
+    }
   }
 
   renderPhenologyCalendar() {
@@ -432,12 +578,10 @@ class InannaProSuite {
       ? data.monthlyPrec.map(v => Math.max(2, Math.round(v * precFactor)))
       : [105, 95, 85, 50, 20, 10, 9, 12, 30, 68, 90, 108];
 
-    // Hargreaves-inspired monthly crop water demand scaled to crop.waterReqMm
     const rawWeights = stages12.map((st, m) => STAGE_KC[st] * Math.max(0.35, (mTemps[m] + 5) / 22));
     const sumW = rawWeights.reduce((a, b) => a + b, 0) || 1;
     const mEtc = rawWeights.map(w => Math.round((w / sumW) * crop.waterReqMm));
 
-    // Render 12-Month Visual Phenology Strip
     const stripEl = document.getElementById('phenologyStrip');
     if (stripEl) {
       stripEl.innerHTML = p.months.map((mLbl, i) => {
@@ -475,7 +619,6 @@ class InannaProSuite {
       }).join('');
     }
 
-    // Render Chart.js 12-Month Hydro-Thermal Balance
     const canvas = document.getElementById('phenologyChart');
     if (canvas) {
       const ctx = canvas.getContext('2d');
@@ -529,6 +672,9 @@ class InannaProSuite {
     }
   }
 
+  /**
+   * 100% Pure Scientific & Environmental Impact Calculator (Zero commercial pricing)
+   */
   renderRoiCalculator() {
     const state = window.APP_STATE;
     if (!state || !state.nasaData) return;
@@ -541,7 +687,7 @@ class InannaProSuite {
     const maizeBase = rainfedCrops.find(c => c.id === 'maize') || rainfedCrops[rainfedCrops.length - 1];
 
     const ha = this.farmHa;
-    // Closed-loop 4-20mA + NASA GWETROOT saves ~38% vs conventional flood/timer irrigation
+    // Closed-loop 4-20mA + NASA GWETROOT conserves ~38% freshwater vs open-loop flood/timer irrigation
     const baseOpenLoopM3Ha = Math.max(1450, Math.round(topCrop.irrigationM3Ha / 0.62));
     const savedM3PerHa = Math.max(520, baseOpenLoopM3Ha - topCrop.irrigationM3Ha);
     const totalWaterSavedM3 = Math.round(savedM3PerHa * ha);
@@ -549,21 +695,17 @@ class InannaProSuite {
 
     // Pump Affinity Laws (P2/P1 = (N2/N1)^3): VFD speed modulation saves ~34% electrical kWh
     const pumpKw = this.pumpHp * 0.7457;
-    const annualPumpHours = Math.min(2600, Math.max(380, Math.round(290 + ha * 7.5)));
-    const kwhSaved = Math.round(pumpKw * annualPumpHours * 0.34);
-    const energyUsdSaved = Math.round(kwhSaved * this.kwhCost);
+    const kwhSaved = Math.round(pumpKw * this.pumpHoursYr * 0.34);
 
-    // Carbon avoided: 0.42 kg CO2/kWh pumping + 0.18 tCO2e/ha regenerative soil moisture retention
+    // Carbon avoided: 0.42 kg CO2/kWh pumping + 0.18 tCO2e/ha soil cover moisture retention
     const co2Tons = ((kwhSaved * 0.00042) + (ha * 0.18)).toFixed(1);
 
-    // Agronomic net margin delta (conservative 35% of gross revenue uplift + utility savings)
-    const revDeltaHa = Math.max(240, (topCrop.projectedRevUsdHa - maizeBase.projectedRevUsdHa) * 0.35);
-    const annualNetGainUsd = Math.round(revDeltaHa * ha + energyUsdSaved + totalWaterSavedM3 * 0.035);
+    // Agronomic suitability resilience gain vs rainfed Maize monoculture
+    const suitDelta = Math.max(8, topCrop.scoreTarget - maizeBase.scoreTarget);
 
-    // Hardware BOM sizing: 1 DIN-Rail Gateway + 1 Solar 4-20 mA ESP-NOW Node per 15 ha (min 2 nodes)
+    // Open-hardware mesh topology sizing (1 solar ESP-NOW node per 15 ha, min 2)
     const nodeCount = Math.max(2, Math.min(64, Math.ceil(ha / 15)));
-    const kitCapexUsd = 390 + nodeCount * 165; // Turnkey accessible Argentine engineering pricing
-    const paybackMonths = Math.max(1.5, Math.min(28, (kitCapexUsd / Math.max(1, annualNetGainUsd / 12)))).toFixed(1);
+    const reserveMm = Math.round(savedM3PerHa / 10);
 
     const setEl = (id, val) => {
       const el = document.getElementById(id);
@@ -571,14 +713,14 @@ class InannaProSuite {
     };
 
     setEl('roiValWater', `${totalWaterSavedM3.toLocaleString()} m³`);
-    setEl('roiSubWaterDyn', `≈ ${olympicPools} ${p.roiPoolsEq}`);
+    setEl('roiSubWaterDyn', `≈ ${olympicPools} ${p.roiPoolsEq} (-38%)`);
     setEl('roiValEnergy', `${kwhSaved.toLocaleString()} kWh`);
-    setEl('roiSubEnergyDyn', `+$${energyUsdSaved.toLocaleString()} USD/yr VFD`);
+    setEl('roiSubEnergyDyn', `-34% VFD (${pumpKw.toFixed(1)} kW)`);
     setEl('roiValCo2', `${co2Tons} tCO₂e`);
-    setEl('roiValRev', `+$${annualNetGainUsd.toLocaleString()} USD`);
-    setEl('roiValKit', `${nodeCount}× ESP-NOW + 1× GW`);
-    setEl('roiSubKitDyn', `${p.roiBomGateway} + ${nodeCount} ${p.roiBomNodes} (~$${kitCapexUsd.toLocaleString()} USD)`);
-    setEl('roiValPayback', `${paybackMonths} ${p.roiMonthsUnit}`);
+    setEl('roiValRev', `+${suitDelta}%`);
+    setEl('roiValKit', `${nodeCount}× ESP-NOW`);
+    setEl('roiSubKitDyn', `${p.roiBomGateway} ${nodeCount} ${p.roiBomNodes}`);
+    setEl('roiValPayback', `+${reserveMm} mm/yr`);
   }
 
   renderPidBlueprint() {
@@ -600,7 +742,7 @@ class InannaProSuite {
       : (snap.pumpActive ? 'VFD PUMP: RUNNING (DRIP ON)' : 'VFD PUMP: ARMED STANDBY');
 
     svgBox.innerHTML = `
-      <svg viewBox="0 0 1160 250" width="100%" height="auto" role="img" aria-label="INANNA Mechatronic P&ID Architecture">
+      <svg viewBox="0 0 1160 250" width="100%" height="auto" role="img" aria-label="Mechatronic P&ID Architecture">
         <defs>
           <linearGradient id="pidCardBg" x1="0" y1="0" x2="0" y2="1">
             <stop offset="0%" stop-color="#131c2b"/>
@@ -654,7 +796,7 @@ class InannaProSuite {
         <!-- 4. DIN-Rail ESP32 Gateway + Modbus -->
         <rect x="740" y="24" width="196" height="202" rx="10" fill="url(#pidCardBg)" stroke="#38bdf8" stroke-width="1.5"/>
         <text x="754" y="48" fill="#38bdf8" font-size="11" font-weight="700" font-family="JetBrains Mono, monospace">${p.pidPlc}</text>
-        <text x="754" y="76" fill="#f1f5f9" font-size="12" font-weight="700">🖧 ESP32 DIN Gateway</text>
+        <text x="754" y="76" fill="#f1f5f9" font-size="12" font-weight="700">🖧 ESP32 Open Gateway</text>
         <text x="754" y="100" fill="#cbd5e1" font-size="11" font-family="JetBrains Mono, monospace">Modbus TCP :502 (×100)</text>
         <text x="754" y="122" fill="#cbd5e1" font-size="11" font-family="JetBrains Mono, monospace">RS485 MAX485 Isolated</text>
         <text x="754" y="144" fill="#00b8e6" font-size="11" font-family="JetBrains Mono, monospace">NVS: ${snap.pumpHours.toFixed(1)}h | ${snap.irrigCycles} cyc</text>
@@ -683,56 +825,105 @@ class InannaProSuite {
     `;
   }
 
+  clearSectionHighlights() {
+    document.querySelectorAll('.demo-spotlight').forEach(el => el.classList.remove('demo-spotlight'));
+  }
+
+  highlightSection(id) {
+    this.clearSectionHighlights();
+    const el = document.getElementById(id);
+    if (el) {
+      el.classList.add('demo-spotlight');
+      el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }
+
   toggleAutoDemo() {
     const banner = document.getElementById('autoDemoBanner');
-    if (this.demoTimer) {
-      clearInterval(this.demoTimer);
-      this.demoTimer = null;
+    if (this.demoActive) {
+      this.demoActive = false;
+      this.demoPaused = false;
+      this.stopAllSpeechImmediately();
+      this.clearSectionHighlights();
       if (banner) banner.style.display = 'none';
       this.applyProTranslations();
       return;
     }
 
+    this.demoActive = true;
+    this.demoPaused = false;
     this.demoStep = 0;
+    this.audioEnabled = true;
     if (banner) banner.style.display = 'flex';
     this.applyProTranslations();
-    this.runDemoStep();
-    this.demoTimer = setInterval(() => this.runDemoStep(), 4800);
+    this.executeDemoStep(0);
   }
 
-  runDemoStep() {
+  pauseOrResumeDemo() {
+    if (!this.demoActive) return;
+    this.demoPaused = !this.demoPaused;
+    this.applyProTranslations();
+    if (this.demoPaused) {
+      this.stopAllSpeechImmediately();
+    } else {
+      this.executeDemoStep(this.demoStep);
+    }
+  }
+
+  stepDemoDelta(delta) {
+    if (!this.demoActive) return;
+    this.demoPaused = false;
+    this.applyProTranslations();
+    const next = (this.demoStep + delta + 6) % 6;
+    this.executeDemoStep(next);
+  }
+
+  silenceVoiceNow() {
+    this.stopAllSpeechImmediately();
+  }
+
+  executeDemoStep(idx) {
+    if (!this.demoActive) return;
+    this.demoStep = idx % 6;
+
     const lang = this.getLang();
     const p = PRO_I18N[lang] || PRO_I18N.en;
     const msgEl = document.getElementById('autoDemoMsg');
     const slider = document.getElementById('loopCurrentSlider');
 
-    const stepIdx = this.demoStep % 5;
     if (msgEl) {
-      msgEl.innerHTML = `<span class="badge badge-cyan">${p.demoStepPrefix}</span> <strong>${p.demoMsgs[stepIdx]}</strong>`;
+      msgEl.innerHTML = `<span class="badge badge-cyan">${p.demoStepPrefix}</span> <strong>${p.demoMsgs[this.demoStep]}</strong>`;
     }
 
-    if (stepIdx === 0) {
-      this.playTone('beep');
-      document.getElementById('sectionOrbital')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    } else if (stepIdx === 1) {
-      this.playTone('beep');
-      document.getElementById('sectionPhenology')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    } else if (stepIdx === 2) {
-      this.playTone('ok');
-      document.getElementById('sectionScada')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    if (this.demoStep === 0) {
+      this.highlightSection('sectionOrbital');
+    } else if (this.demoStep === 1) {
+      this.highlightSection('sectionPhenology');
+    } else if (this.demoStep === 2) {
+      this.farmHa = 120;
+      const haSlider = document.getElementById('roiHaSlider');
+      const haInput = document.getElementById('roiHaInput');
+      if (haSlider) haSlider.value = 120;
+      if (haInput) haInput.value = 120;
+      this.renderRoiCalculator();
+      this.highlightSection('sectionRoi');
+    } else if (this.demoStep === 3) {
+      this.highlightSection('sectionScada');
       if (slider) slider.value = 6.80;
       window.inannaScada.safetyRelayLocked = false;
       window.inannaScada.setLoopCurrent(6.80);
       if (typeof window.renderScadaPanel === 'function') window.renderScadaPanel();
       this.renderPidBlueprint();
-    } else if (stepIdx === 3) {
+    } else if (this.demoStep === 4) {
       this.playTone('alarm');
+      this.highlightSection('sectionScada');
       if (slider) slider.value = 1.20;
       window.inannaScada.setLoopCurrent(1.20);
       if (typeof window.renderScadaPanel === 'function') window.renderScadaPanel();
       this.renderPidBlueprint();
-    } else if (stepIdx === 4) {
+    } else if (this.demoStep === 5) {
       this.playTone('ok');
+      this.highlightSection('sectionScada');
       if (slider) slider.value = 12.00;
       window.inannaScada.setLoopCurrent(12.00);
       window.inannaScada.acknowledgeAlarm();
@@ -740,7 +931,17 @@ class InannaProSuite {
       this.renderPidBlueprint();
     }
 
-    this.demoStep++;
+    this.speakInannaStep(this.demoStep, () => {
+      if (!this.demoActive || this.demoPaused) return;
+      if (this.demoStep < 5) {
+        this.executeDemoStep(this.demoStep + 1);
+      } else {
+        // Tour finished cleanly after Act 6! Leave banner visible for 3s then close gently
+        this.advanceTimeout = setTimeout(() => {
+          if (this.demoActive && !this.demoPaused) this.toggleAutoDemo();
+        }, 3200);
+      }
+    });
   }
 }
 
