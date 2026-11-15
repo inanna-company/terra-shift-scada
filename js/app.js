@@ -835,6 +835,10 @@ function applyTranslations() {
   if (videoLink) videoLink.href = `video/index.html?lang=${lang}`;
   const espLink = document.getElementById('navEsp32');
   if (espLink) espLink.href = `esp32/index.html?lang=${lang}`;
+  const loraEcoLink = document.getElementById('navLoraEco');
+  if (loraEcoLink) {
+    loraEcoLink.textContent = lang === 'es' ? '📡 6 Nodos LoRa' : (lang === 'pt' ? '📡 6 Nós LoRa' : '📡 6 LoRa Devices');
+  }
   const promoBtnEsp = document.getElementById('promoBtnEsp');
   if (promoBtnEsp) promoBtnEsp.href = `esp32/index.html?lang=${lang}`;
   const promoBtnFull = document.getElementById('promoBtnFull');

@@ -743,12 +743,14 @@
     }
 
     const params = new URLSearchParams(window.location.search);
-    const initLang = ['en', 'es', 'pt'].includes(params.get('lang')) ? params.get('lang') : 'en';
+    const savedDeckLang = params.get('lang') || localStorage.getItem('inanna_lang');
+    const initLang = ['en', 'es', 'pt'].includes(savedDeckLang) ? savedDeckLang : 'en';
     renderDeck(initLang);
 
     document.querySelectorAll('.lang-pill').forEach(btn => {
       btn.addEventListener('click', () => renderDeck(btn.dataset.lang));
     });
   </script>
+  <script src="../js/suite-nav.js?v=nav8"></script>
 </body>
 </html>

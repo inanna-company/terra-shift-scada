@@ -192,13 +192,13 @@
 <body>
 
   <header class="topbar">
-    <div class="brand">
+    <a href="../index.html" class="brand" id="brandHomeLink" style="text-decoration:none;">
       <img src="../assets/inanna-isotipo.jpg" alt="Team INANNA" />
       <div>
         <div class="brand-t1" id="hdrTitle">ESP32 FIRMWARE &amp; FIELD AP EMULATOR</div>
         <div class="brand-t2" id="hdrSub">TERRA-SHIFT SCADA • Team INANNA (Río Cuarto → Santa Rosa de Calamuchita)</div>
       </div>
-    </div>
+    </a>
     <div class="nav-actions">
       <div class="lang-group" role="group" aria-label="Language">
         <button class="lang-btn active" data-lang="en">EN</button>
@@ -208,20 +208,29 @@
       <button class="pill-btn primary" id="btnAutoCycle" onclick="toggleAutoCycle()">▶ Auto-Simulate Cycle</button>
       <a class="pill-btn video" id="lnkVideo" href="../video/index.html">🎬 30s Video</a>
       <a class="pill-btn" id="lnkDeck" href="../presentation/deck_7_slides.html">📊 7-Slide Deck</a>
+      <a class="pill-btn" id="lnkManuals" href="../manuals/index.html" style="border-color:rgba(16,185,129,0.5);color:#6ee7b7;">📚 Manuals (4)</a>
       <a class="pill-btn" id="lnkScada" href="../index.html">← NASA SCADA</a>
     </div>
   </header>
 
   <main class="workspace">
-    <!-- LEFT: EMULATED EMBEDDED ESP32 FIELD SERVER (192.168.4.1) -->
+    <!-- LEFT: EMULATED EMBEDDED ESP32 FIELD SERVER (192.168.4.1) WITH INTERNAL TABS -->
     <section class="esp-device-frame">
       <div class="ap-url-bar">
         <span><span class="ap-dot"></span><strong>http://192.168.4.1</strong> • SSID: <code>INANNA-TERRASHIFT-AP</code></span>
         <span id="apOfflineTag" style="color:#6ee7b7;">OFFLINE READY</span>
       </div>
       <h1 class="esp-h1" id="espCardTitle">ESP32 Field Concentrator</h1>
-      <div class="esp-sub" id="espCardSub">4–20 mA NAMUR NE43 Loop + NASA SMAP Root-Zone Fusion</div>
+      <div class="esp-sub" id="espCardSub">4–20 mA NAMUR NE43 Loop + Solar LoRa 915 MHz + NASA SMAP Fusion</div>
 
+      <!-- Internal 192.168.4.1 Embedded AP Tabs -->
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:12px;">
+        <button type="button" class="ide-tab active" id="apTabBtn1" onclick="switchApTab('scada')" style="text-align:center;padding:7px 4px;">📊 4–20mA SCADA</button>
+        <button type="button" class="ide-tab" id="apTabBtn2" onclick="switchApTab('lora')" style="text-align:center;padding:7px 4px;">📡 6 LoRa Nodes</button>
+        <button type="button" class="ide-tab" id="apTabBtn3" onclick="switchApTab('sys')" style="text-align:center;padding:7px 4px;">⚙️ AP &amp; .BIN</button>
+      </div>
+
+      <div id="apPaneScada">
       <div id="statusBanner" class="status-banner status-normal">STATUS: NORMAL OPERATION — OPTIMAL MOISTURE</div>
 
       <div class="metrics-grid">
@@ -272,6 +281,13 @@
         <button class="sim-btn" id="btnSimCut" onclick="setSimMode('cut')">✂️ Cut Wire (&lt;3.6 mA Fault)</button>
         <button class="sim-btn" id="btnSimAck" onclick="setSimMode('ack')">🔧 Repair + ACK (12.00 mA)</button>
       </div>
+      </div><!-- /#apPaneScada -->
+
+      <!-- Internal Tab 2: 6 Solar + LoRa 915 MHz Off-Grid Nodes -->
+      <div id="apPaneLora" style="display:none;"></div>
+
+      <!-- Internal Tab 3: AP Network, Modbus TCP & Pre-Compiled .BIN Downloads -->
+      <div id="apPaneSys" style="display:none;"></div>
     </section>
 
     <!-- RIGHT: ESP-NOW TOPOLOGY + LIVE C++ CODE EXECUTION + SERIAL & MODBUS -->
@@ -714,8 +730,147 @@
       ).join('');
 
       document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.dataset.lang === curLang));
+      const lnkMan = document.getElementById('lnkManuals');
+      if (lnkMan) {
+        lnkMan.textContent = curLang === 'es' ? '📚 Manuales (4)' : (curLang === 'pt' ? '📚 Manuais (4)' : '📚 Manuals (4)');
+        lnkMan.href = `../manuals/index.html?lang=${curLang}`;
+      }
+      const brandHome = document.getElementById('brandHomeLink');
+      if (brandHome) brandHome.href = `../index.html?lang=${curLang}`;
+
+      renderApSubTabs();
       renderCode();
       renderSerial();
+    }
+
+    let curApTab = 'scada';
+    const AP_EXTRA_I18N = {
+      en: {
+        t1: '📊 4–20mA SCADA',
+        t2: '📡 6 LoRa Nodes',
+        t3: '⚙️ AP & .BIN',
+        loraHdr: 'SOLAR + LORA 915 MHz OFF-GRID FLEET (15–30 km)',
+        loraBtnDoc: '📚 Open Full 6-Node Report →',
+        loraNodes: [
+          ['❄️ #1 Frost Sentinel (PT100 ×2)', '-1.8 °C / +2.4 °C', 'INVERSION ALERT'],
+          ['🚰 #2 Bi-Stable Latch Valve', '0.00 mA Hold • 22.4 m³/h', 'PULSE OK'],
+          ['🧪 #3 Soil NPK + EC + pH (RS485)', 'pH 6.7 • EC 1.4 dS/m', 'MODBUS OK'],
+          ['🌊 #4 Tank & Borehole Level', '14.20 mA (63.8%)', 'NAMUR OK'],
+          ['🏔️ #5 Hilltop Mesh + Cab OLED', 'RSSI -84 dBm • 28 km', 'RELAYING'],
+          ['🌾 #6 Silobag CO₂ Lance', '440 ppm CO₂ • 13.1% H', 'GRAIN SAFE']
+        ],
+        sysHdr: 'EMBEDDED AP, MODBUS TCP & PRE-COMPILED BINARIES',
+        sysRows: [
+          ['Wi-Fi Field AP', 'INANNA-TERRASHIFT-AP (192.168.4.1)'],
+          ['LoRa Transceiver', 'SX1276 915.0 MHz • SF10 • +17 dBm'],
+          ['Modbus TCP / RTU', 'Port 502 + RS485 MAX485 (×100 Int16)'],
+          ['Solar Autonomy', '5W Panel + LiFePO₄ + 15 µA Deep Sleep']
+        ],
+        dlGw: '⬇ Download Gateway .merged.bin',
+        dlNd: '⬇ Download Solar Node .merged.bin',
+        goScada: '🛰️ Return to Main NASA + SCADA Console'
+      },
+      es: {
+        t1: '📊 SCADA 4–20mA',
+        t2: '📡 6 Nodos LoRa',
+        t3: '⚙️ Red y .BIN',
+        loraHdr: 'FLOTA SOLAR + LORA 915 MHz SIN SEÑAL (15–30 km)',
+        loraBtnDoc: '📚 Abrir Informe Completo de los 6 Nodos →',
+        loraNodes: [
+          ['❄️ #1 Centinela Heladas (2× PT100)', '-1.8 °C / +2.4 °C', 'INVERSIÓN TÉRMICA'],
+          ['🚰 #2 Electroválvula Latch Biestable', '0.00 mA Retención • 22.4 m³/h', 'PULSO 50ms OK'],
+          ['🧪 #3 Salud Suelo NPK+EC+pH (RS485)', 'pH 6.7 • EC 1.4 dS/m', 'MODBUS OK'],
+          ['🌊 #4 Tanque Australiano y Pozo', '14.20 mA (63.8%)', 'NAMUR OK'],
+          ['🏔️ #5 Repetidora Cumbre + Chata OLED', 'RSSI -84 dBm • 28 km', 'RETRANSMITIENDO'],
+          ['🌾 #6 Lanza Silobolsa CO₂ (Río IV)', '440 ppm CO₂ • 13.1% H', 'GRANO SEGURO']
+        ],
+        sysHdr: 'RED LOCAL AP, MODBUS TCP Y BINARIOS COMPILADOS',
+        sysRows: [
+          ['Wi-Fi AP de Campo', 'INANNA-TERRASHIFT-AP (192.168.4.1)'],
+          ['Radio LoRa Largo Alcance', 'SX1276 915.0 MHz • SF10 • +17 dBm'],
+          ['Modbus TCP / RS485', 'Puerto 502 + MAX485 (×100 Entero 16b)'],
+          ['Autonomía Solar', 'Panel 5W + LiFePO₄ + Sueño 15 µA']
+        ],
+        dlGw: '⬇ Descargar Gateway .merged.bin',
+        dlNd: '⬇ Descargar Nodo Solar .merged.bin',
+        goScada: '🛰️ Volver a la Consola Principal NASA + SCADA'
+      },
+      pt: {
+        t1: '📊 SCADA 4–20mA',
+        t2: '📡 6 Nós LoRa',
+        t3: '⚙️ Rede e .BIN',
+        loraHdr: 'FROTA SOLAR + LORA 915 MHz SEM SINAL (15–30 km)',
+        loraBtnDoc: '📚 Abrir Relatório Completo dos 6 Nós →',
+        loraNodes: [
+          ['❄️ #1 Sentinela Geada (2× PT100)', '-1.8 °C / +2.4 °C', 'INVERSÃO TÉRMICA'],
+          ['🚰 #2 Válvula Latch Biestável', '0.00 mA Retenção • 22.4 m³/h', 'PULSO 50ms OK'],
+          ['🧪 #3 Solo NPK + EC + pH (RS485)', 'pH 6.7 • EC 1.4 dS/m', 'MODBUS OK'],
+          ['🌊 #4 Reservatório e Poço (4–20mA)', '14.20 mA (63.8%)', 'NAMUR OK'],
+          ['🏔️ #5 Repetidora Topo + Trator OLED', 'RSSI -84 dBm • 28 km', 'RETRANSMITINDO'],
+          ['🌾 #6 Lança Silobolsa CO₂', '440 ppm CO₂ • 13.1% U', 'GRÃO SEGURO']
+        ],
+        sysHdr: 'REDE LOCAL AP, MODBUS TCP E BINÁRIOS COMPILADOS',
+        sysRows: [
+          ['Wi-Fi AP de Campo', 'INANNA-TERRASHIFT-AP (192.168.4.1)'],
+          ['Rádio LoRa Longo Alcance', 'SX1276 915.0 MHz • SF10 • +17 dBm'],
+          ['Modbus TCP / RS485', 'Porta 502 + MAX485 (×100 Int16)'],
+          ['Autonomia Solar', 'Painel 5W + LiFePO₄ + Deep Sleep 15 µA']
+        ],
+        dlGw: '⬇ Baixar Gateway .merged.bin',
+        dlNd: '⬇ Baixar Nó Solar .merged.bin',
+        goScada: '🛰️ Voltar ao Console Principal NASA + SCADA'
+      }
+    };
+
+    function switchApTab(tab) {
+      curApTab = tab;
+      document.getElementById('apPaneScada').style.display = tab === 'scada' ? 'block' : 'none';
+      document.getElementById('apPaneLora').style.display = tab === 'lora' ? 'block' : 'none';
+      document.getElementById('apPaneSys').style.display = tab === 'sys' ? 'block' : 'none';
+      document.getElementById('apTabBtn1').classList.toggle('active', tab === 'scada');
+      document.getElementById('apTabBtn2').classList.toggle('active', tab === 'lora');
+      document.getElementById('apTabBtn3').classList.toggle('active', tab === 'sys');
+      if (tab === 'scada') drawOscilloscope();
+    }
+
+    function renderApSubTabs() {
+      const a = AP_EXTRA_I18N[curLang] || AP_EXTRA_I18N.en;
+      document.getElementById('apTabBtn1').textContent = a.t1;
+      document.getElementById('apTabBtn2').textContent = a.t2;
+      document.getElementById('apTabBtn3').textContent = a.t3;
+
+      document.getElementById('apPaneLora').innerHTML = `
+        <div class="status-banner status-normal" style="margin-bottom:10px;">${a.loraHdr}</div>
+        <div style="display:grid;gap:7px;margin-bottom:12px;">
+          ${a.loraNodes.map(n => `
+            <div style="background:#0d141d;border:1px solid var(--border);border-radius:9px;padding:8px 10px;display:flex;justify-content:space-between;align-items:center;gap:8px;">
+              <div>
+                <div style="font-size:0.78rem;font-weight:700;color:#f1f5f9;">${n[0]}</div>
+                <div style="font-family:'JetBrains Mono',monospace;font-size:0.71rem;color:#38bdf8;">${n[1]}</div>
+              </div>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;padding:3px 7px;border-radius:999px;background:rgba(34,197,94,0.14);color:#86efac;border:1px solid rgba(34,197,94,0.35);white-space:nowrap;">${n[2]}</span>
+            </div>
+          `).join('')}
+        </div>
+        <a href="../manuals/index.html?doc=m4&lang=${curLang}" class="pill-btn primary" style="display:flex;justify-content:center;width:100%;padding:9px;">${a.loraBtnDoc}</a>
+      `;
+
+      document.getElementById('apPaneSys').innerHTML = `
+        <div class="status-banner status-normal" style="margin-bottom:10px;">${a.sysHdr}</div>
+        <div style="display:grid;gap:7px;margin-bottom:12px;">
+          ${a.sysRows.map(r => `
+            <div style="background:#0d141d;border:1px solid var(--border);border-radius:9px;padding:8px 10px;">
+              <div style="font-size:0.68rem;color:var(--muted);font-weight:700;text-transform:uppercase;">${r[0]}</div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:0.76rem;color:#00b8e6;margin-top:2px;">${r[1]}</div>
+            </div>
+          `).join('')}
+        </div>
+        <div style="display:grid;gap:8px;">
+          <a href="../firmware/bin/gateway/esp32_gateway_scada_modbus.ino.merged.bin" download class="pill-btn primary" style="justify-content:center;padding:9px;">${a.dlGw}</a>
+          <a href="../firmware/bin/node/esp32_field_node_espnow_4_20ma.ino.merged.bin" download class="pill-btn" style="justify-content:center;padding:9px;border-color:rgba(16,185,129,0.5);color:#6ee7b7;">${a.dlNd}</a>
+          <a href="../index.html?lang=${curLang}" class="pill-btn video" style="justify-content:center;padding:9px;">${a.goScada}</a>
+        </div>
+      `;
     }
 
     function setSimMode(mode) {
@@ -873,7 +1028,7 @@
       requestAnimationFrame(animLoop);
     }
 
-    const urlLang = new URLSearchParams(window.location.search).get('lang');
+    const urlLang = new URLSearchParams(window.location.search).get('lang') || localStorage.getItem('inanna_lang');
     curLang = ['en', 'es', 'pt'].includes(urlLang) ? urlLang : 'en';
     pushSerial('nominal');
     renderUI();
@@ -884,5 +1039,6 @@
       btn.addEventListener('click', () => setLanguage(btn.dataset.lang));
     });
   </script>
+  <script src="../js/suite-nav.js?v=nav8"></script>
 </body>
 </html>

@@ -226,12 +226,13 @@
       document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.dataset.lang === activeLang));
     }
 
-    const qLang = new URLSearchParams(window.location.search).get('lang');
+    const qLang = new URLSearchParams(window.location.search).get('lang') || localStorage.getItem('inanna_lang');
     applyLang(['en', 'es', 'pt'].includes(qLang) ? qLang : 'en');
 
     document.querySelectorAll('.lang-btn').forEach(btn => {
       btn.addEventListener('click', () => applyLang(btn.dataset.lang));
     });
   </script>
+  <script src="../js/suite-nav.js?v=nav8"></script>
 </body>
 </html>

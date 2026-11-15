@@ -367,7 +367,12 @@
       });
     });
 
-    document.addEventListener('DOMContentLoaded', renderManualView);
+    document.addEventListener('DOMContentLoaded', () => {
+      const savedMLang = params.get('lang') || localStorage.getItem('inanna_lang');
+      if (['en', 'es', 'pt'].includes(savedMLang)) currentLang = savedMLang;
+      renderManualView();
+    });
   </script>
+  <script src="../js/suite-nav.js?v=nav8"></script>
 </body>
 </html>
