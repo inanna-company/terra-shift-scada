@@ -256,7 +256,7 @@
     const params = new URLSearchParams(window.location.search);
     let currentLang = ['en', 'es', 'pt'].includes(params.get('lang'))
       ? params.get('lang')
-      : (localStorage.getItem('inanna_lang') || 'es');
+      : (localStorage.getItem('inanna_lang') || 'en');
     if (!['en', 'es', 'pt'].includes(currentLang)) currentLang = 'en';
 
     let currentManual = ['m1', 'm2', 'm3'].includes(params.get('doc')) ? params.get('doc') : 'm1';
